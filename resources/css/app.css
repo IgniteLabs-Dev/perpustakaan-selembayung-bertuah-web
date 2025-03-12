@@ -1,2 +1,13 @@
 @import "tailwindcss";
 @source "../views";
+
+
+
+.bg-stripes {
+    background: repeating-linear-gradient(90deg,
+            #ffe1de 0px,
+            #ffe1de 50px,
+            #fff6f0 50px,
+            #fff6f0 100px);
+}
+
