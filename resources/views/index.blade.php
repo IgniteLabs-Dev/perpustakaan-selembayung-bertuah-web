@@ -60,18 +60,9 @@
         </div>
         <div class="flex justify-between items-start pt-2">
             @for ($i = 0; $i < 6; $i++)
-                <div class="p-4 border-2 border-gray-200 rounded-xl me-4 last:me-0">
-                    <img class="h-60 aspect-16/9 object-cover rounded-lg hover:h-63"
-                        src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
-                    <p class="text-xs mb-0 mt-2 text-gray-700">George Orwell</p>
-                    <h1 class="text-lg font-bold mb-1 mt-0 text-black">Seni bersikap Bodo Amat</h1>
-                    <hr class="text-gray-400">
-                    <div class="flex items-center justify-between pt-2 mt-[1px]">
-                        <p class="text-xs  text-black">Stok : 15</p>
-                        <button
-                            class=" cursor-pointer rounded-full outline-1  text-blue-700 hover:bg-blue-800  hover:text-white hover:shadow-sm focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-xs px-2 py-1 active:outline-0 active:outline-none">+
-                            Bookmark</button>
-                    </div>
+                <div class="w-1/6  mb-3 pe-3 [&:nth-child(6n)]:pe-0">
+
+                    <x-card-book />
                 </div>
             @endfor
 
@@ -84,20 +75,11 @@
                 <small class="text-black ">Lihat lainnya</small>
             </a>
         </div>
-        <div class="flex justify-between items-start pt-2">
+        <div class="flex justify-between items-start pt-2 ">
             @for ($i = 0; $i < 6; $i++)
-                <div class="p-4 border-2 border-gray-200 rounded-xl me-4 last:me-0">
-                    <img class="h-60 aspect-16/9 object-cover rounded-lg hover:h-63"
-                        src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
-                    <p class="text-xs mb-0 mt-2 text-gray-700">George Orwell</p>
-                    <h1 class="text-lg font-bold mb-1 mt-0 text-black">Seni bersikap Bodo Amat</h1>
-                    <hr class="text-gray-400">
-                    <div class="flex items-center justify-between pt-2 mt-[1px]">
-                        <p class="text-xs  text-black">Stok : 15</p>
-                        <button
-                            class=" cursor-pointer rounded-full outline-1  text-blue-700 hover:bg-blue-800  hover:text-white hover:shadow-sm focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-xs px-2 py-1 active:outline-0 active:outline-none">+
-                            Bookmark</button>
-                    </div>
+                <div class="w-1/6  mb-3 pe-3 [&:nth-child(6n)]:pe-0">
+
+                    <x-card-book />
                 </div>
             @endfor
 
