@@ -19,3 +19,6 @@ Route::get('/', function () {
 Route::get('/kategori', function () {
     return view('kategori');
 });
+Route::get('/bookmark', function () {
+    return view('bookmark');
+});
