@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Livewire\LoginComp;
 use App\Livewire\UsersAdminComp;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('login', [LoginController::class, 'loginPage'])->name('login');
+Route::get('register', [LoginController::class, 'registerPage'])->name('register');
+Route::post('/registerProses', [LoginController::class, 'registerProses'])->name('register.proses');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/loginStore', [LoginController::class, 'loginStore'])->name('login.proses');
+
+
 Route::get('/', function () {
     return view('index');
 });
@@ -25,11 +34,6 @@ Route::get('/bookmark', function () {
     return view('bookmark');
 });
 
-Route::get('/login', function () {
-    return view('livewire.login-comp');
-});
-Route::get('/manajemen-user', UsersAdminComp::class)->name('manajemen-user');
-Route::get('/logout', function () {
-    session()->flush();
-    return redirect()->route('login')->with('success', 'Logout berhasil!');
-})->name('logout');
+
+
+Route::get('/manajemen-user', UsersAdminComp::class)->name('admin-manajemen-user');
