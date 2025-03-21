@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\LoginComp;
+use App\Livewire\UsersAdminComp;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +24,12 @@ Route::get('/kategori', function () {
 Route::get('/bookmark', function () {
     return view('bookmark');
 });
+
+Route::get('/login', function () {
+    return view('livewire.login-comp');
+});
+Route::get('/manajemen-user', UsersAdminComp::class)->name('manajemen-user');
+Route::get('/logout', function () {
+    session()->flush();
+    return redirect()->route('login')->with('success', 'Logout berhasil!');
+})->name('logout');
