@@ -1,4 +1,4 @@
-<div class="hidden md:flex flex-col w-64 bg-gray-50">
+<div class="hidden md:flex z-20 flex-col w-64 bg-gray-50">
     <div class="flex items-center justify-center h-16 bg-gray-50">
         <div class="flex items-start  flex-col">
             <p class="font-medium text-[11px]  mb-0">ADMIN PERPUSTAKAAN</p>

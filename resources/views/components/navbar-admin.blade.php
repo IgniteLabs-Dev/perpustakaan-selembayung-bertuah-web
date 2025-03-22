@@ -10,7 +10,7 @@
 @endphp
 
 
-<div class="flex items-center justify-between py-4 bg-white border-b border-gray-200 top-0 ">
+<div class="flex fixed w-full z-10 left-0 items-center justify-between py-4 bg-white border-b border-gray-200 top-0 ">
     <div class="flex items-center px-4">
         <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
             class="text-xl p-2 bg-gray-200 rounded-lg md:hidden active:bg-gray-300 active:scale-110">

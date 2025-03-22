@@ -21,7 +21,7 @@
         <x-sidebar />
         <div class="flex flex-col flex-1 overflow-y-auto">
             <x-navbar-admin />
-            <div class="p-4">
+            <div class="px-4 pt-0 pb-10 mt-20">
                 @yield('content')
             </div>
         </div>

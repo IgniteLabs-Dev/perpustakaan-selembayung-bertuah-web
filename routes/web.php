@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Livewire\AdminUsersComp;
 use App\Livewire\LoginComp;
 use App\Livewire\UsersAdminComp;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,4 @@ Route::get('/bookmark', function () {
 
 
 
-Route::get('/manajemen-user', UsersAdminComp::class)->name('admin-manajemen-user');
+Route::get('/manajemen-user', AdminUsersComp::class)->name('admin-manajemen-user');
