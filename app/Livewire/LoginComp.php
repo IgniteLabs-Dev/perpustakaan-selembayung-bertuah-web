@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginComp extends Component
 {
@@ -45,7 +46,7 @@ class LoginComp extends Component
 
         $cookie = $this->getCookieWithToken($token);
 
-        return redirect()->route('manajemen-user')->withCookie($cookie);
+        return redirect()->route('admin-manajemen-user')->withCookie($cookie);
     }
 
     protected function getCookieWithToken($token)

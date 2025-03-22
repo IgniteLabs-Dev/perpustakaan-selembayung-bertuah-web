@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Cookie;
 class LoginController extends Controller
 {
     public function loginPage(Request $request)
@@ -112,7 +112,7 @@ class LoginController extends Controller
         $cookie = $this->getCookieWithToken($token);
 
         // Mengembalikan response dengan cookie
-        return redirect()->route('admin.dashboard')->withCookie($cookie);
+        return redirect()->route('admin-manajemen-user')->withCookie($cookie);
     }
 
     public function logout(Request $request)

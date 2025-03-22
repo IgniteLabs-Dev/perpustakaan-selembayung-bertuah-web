@@ -17,6 +17,12 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
+    'guards' => [
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -36,13 +42,9 @@ return [
     */
 
 
-    'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
-    ],
     'guards' => [
-        'api' => [
-            'driver' => 'jwt',
+        'web' => [
+            'driver' => 'session',
             'provider' => 'users',
         ],
     ],
@@ -63,6 +65,8 @@ return [
     | Supported: "database", "eloquent"
     |
     */
+
+
 
     'providers' => [
         'users' => [

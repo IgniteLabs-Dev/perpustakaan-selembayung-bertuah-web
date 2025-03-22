@@ -16,7 +16,7 @@
     <div class="flex justify-center items-center min-h-screen">
         <div class="w-full max-w-md mt-10 p-6">
             <div class="bg-white rounded-2xl shadow-md p-6">
-                <form action="{{ route('register.proses') }}" method="POST">
+                <form action="{{ route('login.proses') }}" method="POST">
                     @csrf
                     <div class="flex flex-col gap-4">
                         @if (session('error'))
@@ -24,13 +24,8 @@
                                 {{ session('error') }}
                             </div>
                         @endif
-                        <h2 class="text-center text-2xl font-bold">Register</h2>
-                        <input required
-                            class="border-1 border-gray-200 bg-gray-50 shadow-sm rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            name="name" type="text" placeholder="Nama Lengkap">
-                        @error('name')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
+                        <h2 class="text-center text-2xl font-bold">Login</h2>
+                  
                         <input required
                             class="border-1 border-gray-200 bg-gray-50 shadow-sm rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                             name="email" type="email" placeholder="E-Mail">

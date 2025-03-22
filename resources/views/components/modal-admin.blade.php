@@ -14,11 +14,11 @@
                     <div class="mb-3 mt-3">
 
                         <small class="ps-5 text-gray-500">ADMIN</small>
-                        <a href="{{ route('manajemen-user') }}" class="mb-3">
+                        <a href="{{ route('admin-manajemen-user') }}" class="mb-3">
 
-                            <a href="{{ route('manajemen-user') }}"
+                            <a href="{{ route('admin-manajemen-user') }}"
                                 class="flex items-center ps-5 px-4 py-2 rounded-md   
-                            {{ request()->routeIs('manajemen-user') ? 'bg-blue-100 text-blue-500 text-lg  ' : 'bg-transparent text-gray-700 border-r-0' }}
+                            {{ request()->routeIs('admin-manajemen-user') ? 'bg-blue-100 text-blue-500 text-lg  ' : 'bg-transparent text-gray-700 border-r-0' }}
                             hover:bg-blue-200">
 
                                 <i class='bx bx-layer'></i>
