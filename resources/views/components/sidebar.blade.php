@@ -9,27 +9,28 @@
     <div class="flex flex-col flex-1 overflow-y-auto">
 
         <nav class="flex-1   bg-gray-50">
-            <div class=" mt-3">
+            <small class="ps-5 text-gray-500 mt-3 ">ADMIN</small>
 
-                <small class="ps-5 text-gray-500">ADMIN</small>
+            <div class="px-2 py-[1px]">
+
                 <a href="{{ route('admin-manajemen-user') }}" class="mb-3">
 
                     <a href="{{ route('admin-manajemen-user') }}"
-                        class="flex items-center ps-5 px-4 py-2   
+                        class="flex items-center ps-5 px-4 py-2   rounded-lg
                     {{ request()->routeIs('admin-manajemen-user') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
-                    hover:brightness-90">
+                    hover:brightness-90 hover:bg-[#26537b] hover:text-white">
 
                         <i class="fa-solid fa-user"></i>
                         <span class="ms-2">Manajemen User</span>
                     </a>
                 </a>
             </div>
-            <div class="">
+            <div class="px-2 py-[1px]">
 
                 <a href="{{ route('admin-manajemen-buku') }}" class="mb-3">
 
                     <a href="{{ route('admin-manajemen-buku') }}"
-                        class="flex items-center ps-5 px-4 py-2   
+                        class="flex items-center ps-5 px-4 py-2   rounded-lg
                     {{ request()->routeIs('admin-manajemen-buku') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
                     hover:brightness-90 hover:bg-[#26537b] hover:text-white">
 
@@ -38,12 +39,12 @@
                     </a>
                 </a>
             </div>
-            <div class="">
+            <div class="px-2 py-[1px]">
 
                 <a href="{{ route('admin-manajemen-penulis') }}" class="mb-3">
 
                     <a href="{{ route('admin-manajemen-penulis') }}"
-                        class="flex items-center ps-5 px-4 py-2   
+                        class="flex items-center ps-5 px-4 py-2   rounded-lg
                     {{ request()->routeIs('admin-manajemen-penulis') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
                     hover:brightness-90 hover:bg-[#26537b] hover:text-white">
 
@@ -52,12 +53,12 @@
                     </a>
                 </a>
             </div>
-            <div class="">
+            <div class="px-2 py-[1px] ">
 
-                <a href="{{ route('admin-manajemen-kategori') }}" class="mb-3">
+                <a href="{{ route('admin-manajemen-kategori') }}" class="mb-3 ">
 
                     <a href="{{ route('admin-manajemen-kategori') }}"
-                        class="flex items-center ps-5 px-4 py-2   
+                        class="flex items-center ps-5 px-4 py-2 rounded-lg
                     {{ request()->routeIs('admin-manajemen-kategori') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
                     hover:brightness-90 hover:bg-[#26537b] hover:text-white">
 

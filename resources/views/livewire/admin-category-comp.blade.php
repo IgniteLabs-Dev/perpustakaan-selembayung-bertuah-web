@@ -14,7 +14,7 @@
                 <button @click="$dispatch('open-modal')" type="button"
                     class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
                     <i class="fa-solid fa-plus me-2"></i>
-                    Tambah Pengguna
+                    Tambah Kategori
                 </button>
             </div>
         </div>
@@ -121,7 +121,7 @@
                     <div
                         class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
                         <h3 class="text-lg font-semibold text-white">
-                            Tambah Pengguna
+                            Tambah Kategori
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
@@ -148,7 +148,7 @@
                                     @if ($editId == null)
                                         <button type="button" wire:click="store"
                                             class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                            Tambah Pengguna
+                                            Tambah Kategori
                                         </button>
                                     @else
                                         <button type="button" wire:click="storeEdit"
