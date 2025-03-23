@@ -55,13 +55,14 @@ class AdminUsersComp extends Component
         $data->point = 0;
         $data->semester = $this->semester;
         if ($data->save()) {
+            $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Disimpan!')
                 ->position('top-end')
                 ->toast()
                 ->success()
                 ->show();
 
-            $this->dispatch('close-modal');
+
             $this->resetInput();
         } else {
             LivewireAlert::title('Data Gagal Disimpan!')
@@ -103,13 +104,14 @@ class AdminUsersComp extends Component
         $data->role = $this->role;
         $data->semester = $this->semester;
         if ($data->save()) {
+            $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Diubah!')
                 ->position('top-end')
                 ->toast()
                 ->success()
                 ->show();
 
-            $this->dispatch('close-modal');
+
             $this->resetInput();
         } else {
             LivewireAlert::title('Data Gagal Diubah!')
@@ -142,10 +144,10 @@ class AdminUsersComp extends Component
                 ->show();
         } else {
             LivewireAlert::title('Data gagal dihapus!')
-            ->position('top-end')
-            ->toast()
-            ->error()
-            ->show();
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
         }
     }
 }

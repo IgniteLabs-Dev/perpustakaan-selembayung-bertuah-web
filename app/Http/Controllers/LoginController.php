@@ -27,9 +27,10 @@ class LoginController extends Controller
     {
 
         $token = $request->bearerToken() ?? $request->cookie('token');
+       
         if ($token) {
 
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin-manajemen-buku');
         } else {
             return view('pages.register');
         }

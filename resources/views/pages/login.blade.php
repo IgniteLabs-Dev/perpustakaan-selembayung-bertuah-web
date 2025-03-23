@@ -25,10 +25,9 @@
                             </div>
                         @endif
                         <h2 class="text-center text-2xl font-bold">Login</h2>
-                  
                         <input required
                             class="border-1 border-gray-200 bg-gray-50 shadow-sm rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            name="email" type="email" placeholder="E-Mail">
+                            name="email" type="email"  placeholder="E-Mail">
                         @error('email')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror

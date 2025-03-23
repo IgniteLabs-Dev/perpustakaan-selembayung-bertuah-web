@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('author_id')->constrained('authors');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->string('cover', 2000)->nullable();
+            $table->string('deskripsi', 2000)->nullable();
+            $table->string('publisher')->nullable();
             $table->date('realese_date')->nullable();
             $table->bigInteger('stock');
             $table->enum('status', ['available', 'borrowed']);
-            $table->enum('type', ['fiction', 'non-fiction']);
+            $table->enum('type', ['literasi', 'paketan']);
             $table->timestamps();
         });
     }

@@ -9,18 +9,60 @@
     <div class="flex flex-col flex-1 overflow-y-auto">
 
         <nav class="flex-1   bg-gray-50">
-            <div class="mb-3 mt-3">
+            <div class=" mt-3">
 
                 <small class="ps-5 text-gray-500">ADMIN</small>
                 <a href="{{ route('admin-manajemen-user') }}" class="mb-3">
 
                     <a href="{{ route('admin-manajemen-user') }}"
-                        class="flex items-center ps-5 px-4 py-2  border-blue-500 
-                    {{ request()->routeIs('admin-manajemen-user') ? 'bg-blue-100 text-blue-500 border-r-3' : 'bg-transparent text-gray-700 border-r-0' }}
-                    hover:bg-blue-200">
+                        class="flex items-center ps-5 px-4 py-2   
+                    {{ request()->routeIs('admin-manajemen-user') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
+                    hover:brightness-90">
 
-                        <i class='bx bx-layer'></i>
+                        <i class="fa-solid fa-user"></i>
                         <span class="ms-2">Manajemen User</span>
+                    </a>
+                </a>
+            </div>
+            <div class="">
+
+                <a href="{{ route('admin-manajemen-buku') }}" class="mb-3">
+
+                    <a href="{{ route('admin-manajemen-buku') }}"
+                        class="flex items-center ps-5 px-4 py-2   
+                    {{ request()->routeIs('admin-manajemen-buku') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
+                    hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+
+                        <i class="fa-solid fa-book"></i>
+                        <span class="ms-2">Manajemen Buku</span>
+                    </a>
+                </a>
+            </div>
+            <div class="">
+
+                <a href="{{ route('admin-manajemen-penulis') }}" class="mb-3">
+
+                    <a href="{{ route('admin-manajemen-penulis') }}"
+                        class="flex items-center ps-5 px-4 py-2   
+                    {{ request()->routeIs('admin-manajemen-penulis') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
+                    hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+
+                        <i class="fa-solid fa-feather-pointed"></i>
+                        <span class="ms-2">Manajemen Penulis</span>
+                    </a>
+                </a>
+            </div>
+            <div class="">
+
+                <a href="{{ route('admin-manajemen-kategori') }}" class="mb-3">
+
+                    <a href="{{ route('admin-manajemen-kategori') }}"
+                        class="flex items-center ps-5 px-4 py-2   
+                    {{ request()->routeIs('admin-manajemen-kategori') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
+                    hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+
+                        <i class="fa-solid fa-tags"></i>
+                        <span class="ms-2">Manajemen Kategori</span>
                     </a>
                 </a>
             </div>
