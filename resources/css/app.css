@@ -11,4 +11,11 @@
             #fff6f0 100px);
 }
 
+.bg-primary {
+    background-color: #164f81;
+}
+.bg-primary-hover {
+    background-color: #094ebe;
+}
+
 
