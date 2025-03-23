@@ -8,7 +8,7 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 
 class AdminUsersComp extends Component
 {
-    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir;
+    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId;
 
     public function render()
     {
@@ -45,7 +45,7 @@ class AdminUsersComp extends Component
                 ->show();
 
             $this->dispatch('close-modal');
-            $this->resetInputFields();
+            $this->resetInput();
         } else {
             LivewireAlert::title('Data Gagal Disimpan!')
                 ->position('top-end')
@@ -57,6 +57,7 @@ class AdminUsersComp extends Component
 
     public function edit($id)
     {
+        $this->editId= $id;
         $data = User::find($id);
         $this->name = $data->name;
         $this->email = $data->email;
@@ -65,8 +66,44 @@ class AdminUsersComp extends Component
         $this->semester = $data->semester;
         $this->tanggal_lahir = $data->tanggal_lahir;
     }
-    public function resetInputFields()
+    public function storeEdit(){
+        $this->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'tanggal_lahir' => 'required',
+            'kelas' => 'required',
+            'role' => 'required',
+            'semester' => 'required|numeric',
+        ]);
+
+        $id = $this->editId;
+        $data = User::find($id);
+        $data->name = $this->name;
+        $data->email = $this->email;
+        $data->tanggal_lahir = $this->tanggal_lahir;
+        $data->kelas = $this->kelas;
+        $data->role = $this->role;
+        $data->semester = $this->semester;
+        if ($data->save()) {
+            LivewireAlert::title('Data Berhasil Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->success()
+                ->show();
+
+            $this->dispatch('close-modal');
+            $this->resetInput();
+        } else {
+            LivewireAlert::title('Data Gagal Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
+        }
+    }
+    public function resetInput()
     {
+     
         $this->name = '';
         $this->email = '';
         $this->password = '';
@@ -74,5 +111,6 @@ class AdminUsersComp extends Component
         $this->role = '';
         $this->semester = '';
         $this->tanggal_lahir = '';
+        $this->editId = '';
     }
 }

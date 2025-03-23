@@ -4,7 +4,7 @@
             <h1 class="text-2xl font-semibold text-gray-900">Data Pengguna</h1>
         </div>
         <div class="flex justify-end">
-            <button @click="$dispatch('open-modal')" type="button"
+            <button @click="$dispatch('open-modal')" type="button" wire:click="resetInput"
                 class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
                 <i class="fa-solid fa-plus me-2"></i>
                 Tambah Pengguna
@@ -100,7 +100,7 @@
         </div>
 
         <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden">
-            <div x-show="open" @click.outside="open = false" x-transition:enter="transition ease-out duration-300"
+            <div x-show="open" x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 transform scale-90"
                 x-transition:enter-end="opacity-100 transform scale-100"
                 x-transition:leave="transition ease-in duration-200"
@@ -114,7 +114,7 @@
                         <h3 class="text-lg font-semibold text-white">
                             Tambah Pengguna
                         </h3>
-                        <button type="button" @click="open = false"
+                        <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 14 14">
@@ -166,10 +166,17 @@
                                         ]" />
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-end justify-start flex">
-                                    <button type="button" wire:click="store"
-                                        class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                        Tambah Pengguna
-                                    </button>
+                                    @if ($editId == null)
+                                        <button type="button" wire:click="store"
+                                            class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                            Tambah Pengguna
+                                        </button>
+                                    @else
+                                        <button type="button" wire:click="storeEdit"
+                                            class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                            Simpan Perubahan
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
