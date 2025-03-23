@@ -1,7 +1,16 @@
 @import "tailwindcss";
 @source "../views";
 
-
+:root {
+    --primary: #164f81;
+    --secondary: #f8f9fa;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+}
 
 .bg-stripes {
     background: repeating-linear-gradient(90deg,
@@ -14,8 +23,7 @@
 .bg-primary {
     background-color: #164f81;
 }
-.bg-primary-hover {
-    background-color: #094ebe;
+
+.text-primary {
+    color: #164f81;
 }
-
-

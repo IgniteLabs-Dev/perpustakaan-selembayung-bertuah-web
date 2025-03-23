@@ -1,14 +1,22 @@
 <div>
     <div class="flex justify-between mb-3 mt-5">
-        <div class="div">
+        <div class="div items-center">
             <h1 class="text-2xl font-semibold text-gray-900">Data Pengguna</h1>
         </div>
-        <div class="flex justify-end">
-            <button @click="$dispatch('open-modal')" type="button" wire:click="resetInput"
-                class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                <i class="fa-solid fa-plus me-2"></i>
-                Tambah Pengguna
-            </button>
+        <div class="flex justify-end items-center gap-2">
+            <div class="div">
+                <input wire:model.live="search" type="text"
+                    class="bg-white w-full  p-2 placeholder:italic  outline-slate-300 outline-1  rounded-lg focus:outline-slate-300"
+                    placeholder="Masukkan Pencarian">
+            </div>
+            <div class="div">
+
+                <button @click="$dispatch('open-modal')" type="button" wire:click="resetInput"
+                    class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Tambah Pengguna
+                </button>
+            </div>
         </div>
     </div>
 
@@ -50,7 +58,7 @@
                 @forelse ($data as  $item)
                     <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
                         <td scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">
-                            {{ $loop->iteration }}
+                            {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
                         </td>
                         <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
                             {{ $item->name }}
@@ -87,6 +95,10 @@
 
             </tbody>
         </table>
+    </div>
+
+    <div class="mt-3 ">
+        {{ $data->links('vendor.livewire.tailwind') }}
     </div>
 
 

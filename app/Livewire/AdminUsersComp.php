@@ -5,15 +5,31 @@ namespace App\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+use Livewire\WithPagination;
 
 class AdminUsersComp extends Component
 {
+    use WithPagination;
     public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId;
+    public $search;
 
     public function render()
     {
-        $data = User::all();
+        $data = User::when($this->search, function ($query) {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%')
+                ->orWhere('kelas', 'like', '%' . $this->search . '%')
+                ->orWhere('role', 'like', '%' . $this->search . '%')
+                ->orWhere('semester', 'like', '%' . $this->search . '%');
+        })
+            ->orderby('created_at', 'desc')
+            ->paginate('10');
+
         return view('livewire.admin-users-comp', compact('data'))->extends('layouts.master-admin');
+    }
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
 
     public function store()
@@ -57,7 +73,7 @@ class AdminUsersComp extends Component
 
     public function edit($id)
     {
-        $this->editId= $id;
+        $this->editId = $id;
         $data = User::find($id);
         $this->name = $data->name;
         $this->email = $data->email;
@@ -66,7 +82,8 @@ class AdminUsersComp extends Component
         $this->semester = $data->semester;
         $this->tanggal_lahir = $data->tanggal_lahir;
     }
-    public function storeEdit(){
+    public function storeEdit()
+    {
         $this->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -103,7 +120,7 @@ class AdminUsersComp extends Component
     }
     public function resetInput()
     {
-     
+
         $this->name = '';
         $this->email = '';
         $this->password = '';
