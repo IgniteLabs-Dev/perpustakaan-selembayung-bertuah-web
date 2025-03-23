@@ -12,6 +12,7 @@ class AdminUsersComp extends Component
     use WithPagination;
     public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId;
     public $search;
+    public $confirmDelete;
 
     public function render()
     {
@@ -129,5 +130,22 @@ class AdminUsersComp extends Component
         $this->semester = '';
         $this->tanggal_lahir = '';
         $this->editId = '';
+    }
+    public function delete($id)
+    {
+        $data = User::where('id', $id)->first();
+        if ($data->delete()) {
+            LivewireAlert::title('Data berhasil dihapus!')
+                ->position('top-end')
+                ->toast()
+                ->success()
+                ->show();
+        } else {
+            LivewireAlert::title('Data gagal dihapus!')
+            ->position('top-end')
+            ->toast()
+            ->error()
+            ->show();
+        }
     }
 }

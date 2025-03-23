@@ -11,7 +11,7 @@
             </div>
             <div class="div">
 
-                <button @click="$dispatch('open-modal')" type="button" wire:click="resetInput"
+                <button @click="$dispatch('open-modal')" type="button"
                     class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
                     <i class="fa-solid fa-plus me-2"></i>
                     Tambah Pengguna
@@ -24,31 +24,31 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
             <thead class="text-xs text-white uppercase bg-[#164f81]  ">
                 <tr>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 text-center">
                         No
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 ">
                         Nama
                     </th>
                     <th scope="col" class="px-6 py-4">
                         Email
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 text-center">
                         Tanggal Lahir
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 text-center">
                         Kelas
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 text-center">
                         Role
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 text-center">
                         Point
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 text-center">
                         Semester
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" class="px-6 py-4 text-center">
                         Aksi
                     </th>
                 </tr>
@@ -57,38 +57,70 @@
 
                 @forelse ($data as  $item)
                     <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
-                        <td scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">
+                        <td scope="row" class="px-6 py-3 text-center font-normal text-gray-900 whitespace-nowrap">
                             {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
+                        <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->name }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
+                        <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->email }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
-                            {{ $item->tanggal_lahir }}
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                            {{ \Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('d F Y') }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->kelas }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->role }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->point }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->semester }}
                         </td>
-                        <td class="px-6 py-3 text-gray-900 font-medium whitespace-nowrap">
-                            <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
-                                type="button" class="cursor-pointer hover:text-blue-500 hover:scale-110 rounded-full">
-                                <i class="fa-solid fa-pencil"></i>
-                            </button>
+                        <td class="px-6 flex py-3 text-center text-gray-900 font-normal gap-1 ">
+
+                            @if ($confirmDelete != null && $confirmDelete == $item->id)
+                                <div class="flex flex-col">
+
+                                    <small class="text-[13px]">Apa anda yakin?</small>
+                                    <div class="div">
+                                        <button wire:click="$set('confirmDelete', null)"
+                                            class=" px-2 text-[10px] text-white  cursor-pointer bg-blue-500 hover:text-white-500 hover:bg-blue-600 rounded-full p-1">
+                                            Batal
+                                        </button>
+                                        <button wire:click="delete({{ $item->id }})"
+                                            class=" px-2 text-[10px] text-white cursor-pointer bg-red-500 hover:text-white-500 hover:bg-red-600 rounded-full p-1">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="div">
+
+                                    <button wire:click="$set('confirmDelete', {{ $item->id }})" type="button"
+                                        class="cursor-pointer hover:brightness:95 text-red-500 hover:scale-120 rounded-full">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="div">
+
+                                    <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
+                                        type="button"
+                                        class="cursor-pointer hover:brightness:95 text-blue-500 hover:scale-120 rounded-full">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @empty
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
+                    </tr>
                 @endforelse
 
 
@@ -138,9 +170,9 @@
                     </div>
                     <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
 
-                        <span wire:loading class="loader scale-150 my-5"></span>
+                        <span wire:loading class="loader scale-50  my-5"></span>
 
-                        <div class="block">
+                        <div class="block" wire:loading.class="hidden">
                             <div class="flex flex-wrap">
                                 <div class=" w-1/2  odd:pe-2 items-start">
                                     <x-input symbol="*" typeWire="defer" inputId="name" label="Name"
@@ -160,8 +192,9 @@
                                             type="number" wireModel="semester" placeholder="Masukkan Semester" />
                                     </div>
                                 </div>
+
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-input symbol="" typeWire="defer" inputId="password" label="Password"
+                                    <x-input symbol="‎" typeWire="defer" inputId="password" label="Password"
                                         type="password" wireModel="password" placeholder="Masukkan Password" />
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
