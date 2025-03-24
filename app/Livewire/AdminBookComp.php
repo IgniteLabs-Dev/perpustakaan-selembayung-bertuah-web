@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Book;
+use App\Models\BookAuthors;
+use App\Models\BookCategories;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\WithPagination;
@@ -13,8 +15,11 @@ class AdminBookComp extends Component
     public $search;
     public $cover, $title, $deskripsi, $author, $publisher, $category_id, $realese_date, $stock, $status, $type;
     public $editId;
+    public $showId;
     public $confirmDelete;
     public $zoomImage;
+    public $categoriesShow = null;
+    public $authorsShow = null;
 
 
     public function render()
@@ -74,6 +79,7 @@ class AdminBookComp extends Component
 
     public function edit($id)
     {
+        $this->showId = null;
         $this->editId = $id;
         $data = Book::find($id);
         $this->title = $data->title;
@@ -83,6 +89,28 @@ class AdminBookComp extends Component
         $this->stock = $data->stock;
         $this->status = $data->status;
         $this->type = $data->type;
+
+
+    }
+    public function show($id)
+    {
+        $this->editId = null;
+        $this->showId = $id;
+        $data = Book::find($id);
+        $this->title = $data->title;
+        $this->deskripsi = $data->deskripsi;
+        $this->publisher = $data->publisher;
+        $this->realese_date = $data->realese_date;
+        $this->stock = $data->stock;
+        $this->status = $data->status;
+        $this->type = $data->type;
+
+        $dataCategory = BookCategories::where('book_id', $data->id)->get();
+        $this->categoriesShow = $dataCategory->pluck('category.name');
+
+        $dataAuthors = BookAuthors::where('book_id', $data->id)->get();
+        $this->authorsShow = $dataAuthors->pluck('author.name');
+  
     }
     public function storeEdit()
     {
@@ -134,6 +162,7 @@ class AdminBookComp extends Component
         $this->type = '';
         $this->status = '';
         $this->editId = '';
+        $this->showId = '';
         $this->zoomImage = '';
     }
     public function delete($id)

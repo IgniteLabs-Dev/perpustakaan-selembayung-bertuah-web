@@ -151,6 +151,11 @@
                                 </div>
                             @else
                                 <div class="flex flex-col gap-1">
+                                    <button wire:click="show({{ $item->id }})" @click="$dispatch('open-modal')"
+                                        type="button"
+                                        class=" border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120    transition duration-100 ease-in-out">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
                                     <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
                                         type="button"
                                         class=" border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120    transition duration-100 ease-in-out">
@@ -230,19 +235,20 @@
                                         <div class="flex ">
                                             <div class="w-1/2 ps-3">
                                                 <div class=" w-full mt-1   items-start">
-                                                    <x-input symbol="*" typeWire="defer" inputId="title"
-                                                        label="Judul" type="text" wireModel="title"
-                                                        placeholder="Masukkan Judul" />
+                                                    <x-input :attribute="$showId ? 'readonly' : ''" symbol="*" typeWire="defer"
+                                                        inputId="title" label="Judul" type="text"
+                                                        wireModel="title" placeholder="Masukkan Judul" />
                                                 </div>
                                                 <div class="w-full flex">
                                                     <div class=" w-1/2 mt-1 pe-2  items-start">
-                                                        <x-input symbol="*" typeWire="defer" inputId="stock"
-                                                            label="Stok" type="text" wireModel="stock"
-                                                            placeholder="Masukkan Stok" />
+                                                        <x-input :attribute="$showId ? 'readonly' : ''" symbol="*" typeWire="defer"
+                                                            inputId="stock" label="Stok" type="text"
+                                                            wireModel="stock" placeholder="Masukkan Stok" />
                                                     </div>
                                                     <div class=" w-1/2 mt-1   items-start">
-                                                        <x-select symbol="*" selectId="type" label="Tipe"
-                                                            wireModel="type" placeholder="Tipe" :options="[
+                                                        <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="type"
+                                                            label="Tipe" wireModel="type" placeholder="Tipe"
+                                                            :options="[
                                                                 'literasi' => 'Literasi',
                                                                 'paketan' => 'Paketan',
                                                             ]" />
@@ -251,21 +257,21 @@
                                             </div>
                                             <div class="w-1/2 ps-2 items-end flex  flex-col justify-between">
                                                 <div class=" w-full mt-1   items-start">
-                                                    <x-input symbol="*" typeWire="defer" inputId="publisher"
-                                                        label="Penerbit" type="text" wireModel="publisher"
-                                                        placeholder="Masukkan Penerbit" />
+                                                    <x-input :attribute="$showId ? 'readonly' : ''" symbol="*" typeWire="defer"
+                                                        inputId="publisher" label="Penerbit" type="text"
+                                                        wireModel="publisher" placeholder="Masukkan Penerbit" />
                                                 </div>
                                                 <div class="w-full flex">
 
                                                     <div class=" w-1/2 mt-1   items-start">
-                                                        <x-input symbol="‎" typeWire="defer"
+                                                        <x-input :attribute="$showId ? 'readonly' : ''" symbol="‎" typeWire="defer"
                                                             inputId="realese_date" label="Tanggal Rilis"
                                                             type="date" wireModel="realese_date"
                                                             placeholder="Masukkan Tanggal Rilis" />
                                                     </div>
                                                     <div class=" w-1/2 mt-1  ps-2 items-start">
-                                                        <x-select symbol="*" selectId="status" label="Status"
-                                                            wireModel="status" placeholder="Status"
+                                                        <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="status"
+                                                            label="Status" wireModel="status" placeholder="Status"
                                                             :options="[
                                                                 'available' => 'Tersedia',
                                                                 'borrowed' => 'Tidak Tersedia',
@@ -277,29 +283,77 @@
 
                                             </div>
                                         </div>
+                                        <div class="flex flex-wrap ps-3 w-full flex-col">
+                                            <label class="text-sm text-gray-500">Kategori<span
+                                                    class="text-red-500 text-lg">*</span></label>
+                                            <div class="flex flex-wrap w-full gap-1">
+                                                @if ($categoriesShow != null)
+
+                                                    @forelse ($categoriesShow as $category)
+                                                        <div
+                                                            class=" bg-gray-200 px-2 flex items-center  text-gray-800 text-xs rounded-full">
+                                                            {{ $category }} @if ($showId == null)
+                                                                <i
+                                                                    class="fa-solid ms-1 fa-xmark cursor-pointer text-red-500"></i>
+                                                            @endif
+
+                                                        </div>
+                                                    @empty
+                                                    @endforelse
+                                                @endif
+
+
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-wrap ps-3 w-full flex-col">
+                                            <label class="text-sm text-gray-500">Penulis<span
+                                                    class="text-red-500 text-lg">*</span></label>
+                                            <div class="flex flex-wrap w-full gap-1">
+                                                @if ($authorsShow != null)
+
+                                                    @forelse ($authorsShow as $category)
+                                                        <div
+                                                            class="border-1  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
+                                                            {{ $category }} @if ($showId == null)
+                                                                <i
+                                                                    class="fa-solid ms-1 fa-xmark cursor-pointer text-red-500"></i>
+                                                            @endif
+
+                                                        </div>
+                                                    @empty
+                                                    @endforelse
+                                                @endif
+
+
+                                            </div>
+                                        </div>
                                         <div class=" w-full mt-1 ps-3 items-start">
                                             <label class="text-sm text-gray-500">Deskripsi<span
                                                     class="text-red-500 text-lg">‎</span></label>
-                                            <textarea wire:model.defer="deskripsi" class="w-full rounded-lg focus:outline-gray-300  bg-gray-200 p-2 text-sm"
+                                            <textarea :attribute="$showId ? 'disabled' : ''" wire:model.defer="deskripsi"
+                                                class="w-full rounded-lg focus:outline-gray-300 readonly:bg-gray-300 read-only:focus:outline-0 bg-gray-200 p-2 text-sm"
                                                 name="" id="" cols="30" rows="5"></textarea>
                                             @error($deskripsi)
                                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="w-full  items-end justify-end mt-auto flex ">
-                                        @if ($editId == null)
-                                            <button type="button" wire:click="store"
-                                                class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                                Tambah Buku
-                                            </button>
-                                        @else
-                                            <button type="button" wire:click="storeEdit"
-                                                class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                                Simpan Perubahan
-                                            </button>
-                                        @endif
-                                    </div>
+                                    @if ($showId == null)
+
+                                        <div class="w-full  items-end justify-end mt-auto flex ">
+                                            @if ($editId == null)
+                                                <button type="button" wire:click="store"
+                                                    class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                                    Tambah Buku
+                                                </button>
+                                            @else
+                                                <button type="button" wire:click="storeEdit"
+                                                    class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                                    Simpan Perubahan
+                                                </button>
+                                            @endif
+                                        </div>
+                                    @endif
 
                                 </div>
 
