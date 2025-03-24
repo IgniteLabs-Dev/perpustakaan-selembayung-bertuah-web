@@ -14,6 +14,8 @@ class AdminBookComp extends Component
     public $cover, $title, $deskripsi, $author, $publisher, $category_id, $realese_date, $stock, $status, $type;
     public $editId;
     public $confirmDelete;
+    public $zoomImage;
+
 
     public function render()
     {
@@ -74,13 +76,13 @@ class AdminBookComp extends Component
     {
         $this->editId = $id;
         $data = Book::find($id);
-      $data->title = $this->title;
-        $data->deskripsi = $this->deskripsi;
-        $data->publisher = $this->publisher;
-        $data->realese_date = $this->realese_date;
-        $data->stock = $this->stock;
-        $data->status = $this->status;
-        $data->type = $this->type;
+        $this->title = $data->title;
+        $this->deskripsi = $data->deskripsi;
+        $this->publisher = $data->publisher;
+        $this->realese_date = $data->realese_date;
+        $this->stock = $data->stock;
+        $this->status = $data->status;
+        $this->type = $data->type;
     }
     public function storeEdit()
     {
@@ -130,7 +132,9 @@ class AdminBookComp extends Component
         $this->realese_date = '';
         $this->stock = '';
         $this->type = '';
+        $this->status = '';
         $this->editId = '';
+        $this->zoomImage = '';
     }
     public function delete($id)
     {
