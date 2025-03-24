@@ -222,9 +222,9 @@
                     </div>
                     <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
 
-                        <span wire:loading class="loader scale-50  my-5"></span>
+                        {{-- <span wire:loading class="loader scale-50  my-5" ></span>wire:loading.class="hidden" --}}
 
-                        <div class="block" wire:loading.class="hidden">
+                        <div class="block">
                             <div class="flex flex-wrap">
                                 <div class="w-1/3">
                                     <img class=" rounded-xl" src="{{ $item->cover }}" alt="">
@@ -292,7 +292,7 @@
                                                     @forelse ($categoriesShow as $category)
                                                         <div
                                                             class=" bg-gray-200 px-2 flex items-center  text-gray-800 text-xs rounded-full">
-                                                            {{ $category }} @if ($showId == null)
+                                                            {{ $category->category->name }} @if ($showId == null)
                                                                 <i
                                                                     class="fa-solid ms-1 fa-xmark cursor-pointer text-red-500"></i>
                                                             @endif
@@ -311,17 +311,57 @@
                                             <div class="flex flex-wrap w-full gap-1">
                                                 @if ($authorsShow != null)
 
-                                                    @forelse ($authorsShow as $category)
+                                                    @forelse ($authorsShow as $author)
                                                         <div
-                                                            class="border-1  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
-                                                            {{ $category }} @if ($showId == null)
-                                                                <i
-                                                                    class="fa-solid ms-1 fa-xmark cursor-pointer text-red-500"></i>
-                                                            @endif
+                                                            class="px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full
+                                                    @if (in_array($author->author->id, $authorsDelete)) bg-red-200 text-red-500 @else bg-gray-200 @endif">
+                                                            {{ $author->author->name }}
 
+                                                            @if ($showId == null)
+                                                                @if (in_array($author->author->id, $authorsDelete))
+                                                                    <i wire:click="removeToDelete({{ $author->author->id }})"
+                                                                        class="fa-solid fa-plus text-green-500 ms-1 cursor-pointer"></i>
+                                                                @else
+                                                                    <i wire:click="addToDelete({{ $author->author->id }})"
+                                                                        class="fa-solid fa-xmark text-red-500 ms-1 cursor-pointer"></i>
+                                                                @endif
+                                                            @endif
                                                         </div>
+
                                                     @empty
                                                     @endforelse
+
+                                                    <div
+                                                        class="border-1 w-fit min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
+
+                                                        <div wire:ignore class="w-full flex items-center"
+                                                            x-data="selectComponent">
+                                                            <select name="authorsNew[]" multiple
+                                                                wire:model.defer="authorsNew"
+                                                                class="p-0 w-fit min-w-[130px] border-0 outlin-0"
+                                                                id="select-example">
+                                                                <option value="">Pilih Penulis</option>
+                                                                @forelse ($authorsData as $author)
+                                                                    <option value="{{ $author->id }}">
+                                                                        {{ $author->name }}</option>
+                                                                @empty
+
+                                                                    <option disabled>Author Tidak Ada
+                                                                    <option>
+                                                                @endforelse
+
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    {{-- @if ($showId == null)
+                                                        <div
+                                                            class="border-1  p-1 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
+                                                            <i
+                                                                class="fa-solid  fa-plus cursor-pointer text-gray-800 "></i>
+
+                                                        </div>
+                                                    @endif --}}
                                                 @endif
 
 
@@ -340,7 +380,7 @@
                                     </div>
                                     @if ($showId == null)
 
-                                        <div class="w-full  items-end justify-end mt-auto flex ">
+                                        <div class="w-full  items-end justify-end mt-auto flex pt-2">
                                             @if ($editId == null)
                                                 <button type="button" wire:click="store"
                                                     class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
@@ -372,5 +412,37 @@
             <img class="h-dvh rounded-lg " src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
         </div>
     </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('selectComponent', () => ({
+                init() {
 
+                    new TomSelect("#select-example", {
+                        create: false, // Prevents creating new options
+                        searchField: ['text'], // Allow searching by text
+                        placeholder: 'Cari Nama Penulis',
+                        maxOptions: 3, // Limit the number of options shown in dropdown
+                        plugins: [
+                            'dropdown_input'
+                        ] // Adds input in dropdown for easier searching
+                    });
+
+                }
+            }))
+        })
+    </script>
+    <style>
+        .ts-control {
+            padding: 0;
+            border: 0;
+        }
+
+        .plugin-dropdown_input.focus.dropdown-active .ts-control {
+            border: 0;
+        }
+
+        .plugin-dropdown_input.focus.dropdown-active .ts-control:focus {
+            border: 0;
+        }
+    </style>
 </div>

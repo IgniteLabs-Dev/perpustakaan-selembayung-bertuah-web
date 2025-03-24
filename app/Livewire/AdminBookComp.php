@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\BookAuthors;
 use App\Models\BookCategories;
@@ -20,6 +21,9 @@ class AdminBookComp extends Component
     public $zoomImage;
     public $categoriesShow = null;
     public $authorsShow = null;
+    public $authorsData = null;
+    public $authorsNew = [];
+    public $authorsDelete = [];
 
 
     public function render()
@@ -32,12 +36,32 @@ class AdminBookComp extends Component
         })
             ->orderby('created_at', 'desc')
             ->paginate('10');
+        // if ($this->editId != null) {
+        //     $this->authorsNotShow = $this->authorsShow->pluck('author_id')->diff($this->authorsDelete);
+        //     $this->authorsData = Author::whereNotIn('id', $this->authorsNotShow)->get();
+        // }
+
         return view('livewire.admin-book-comp', compact('data'))->extends('layouts.master-admin');
     }
     public function updatedSearch()
     {
         $this->resetPage();
     }
+
+
+    public function addToDelete($id)
+    {
+        if (!in_array($id, $this->authorsDelete)) {
+            $this->authorsDelete[] = $id;
+        }
+    }
+    public function removeToDelete($id)
+    {
+        if (($key = array_search($id, $this->authorsDelete)) !== false) {
+            unset($this->authorsDelete[$key]);
+        }
+    }
+
 
     public function store()
     {
@@ -89,8 +113,11 @@ class AdminBookComp extends Component
         $this->stock = $data->stock;
         $this->status = $data->status;
         $this->type = $data->type;
+        $this->categoriesShow = BookCategories::where('book_id', $data->id)->get();
 
-
+        $this->authorsShow = BookAuthors::where('book_id', $data->id)->get();
+        $authorsNotShow = $this->authorsShow->pluck('author_id')->diff($this->authorsDelete);
+        $this->authorsData = Author::whereNotIn('id', $authorsNotShow)->get();
     }
     public function show($id)
     {
@@ -105,13 +132,12 @@ class AdminBookComp extends Component
         $this->status = $data->status;
         $this->type = $data->type;
 
-        $dataCategory = BookCategories::where('book_id', $data->id)->get();
-        $this->categoriesShow = $dataCategory->pluck('category.name');
+        $this->categoriesShow = BookCategories::where('book_id', $data->id)->get();
 
-        $dataAuthors = BookAuthors::where('book_id', $data->id)->get();
-        $this->authorsShow = $dataAuthors->pluck('author.name');
-  
+        $this->authorsShow = BookAuthors::where('book_id', $data->id)->get();
     }
+
+
     public function storeEdit()
     {
         $this->validate([
@@ -133,8 +159,19 @@ class AdminBookComp extends Component
         $data->stock = $this->stock;
         $data->status = $this->status;
         $data->type = $this->type;
-
+        
         if ($data->save()) {
+            foreach ($this->authorsNew as $authorIdNew) {
+                $authorsData = new BookAuthors();
+                $authorsData->book_id = $id;
+                $authorsData->author_id = $authorIdNew;
+                $authorsData->save();
+            }
+            foreach ($this->authorsDelete as $authorIdDelete) {
+                $authorsDelete = BookAuthors::where('book_id', $id)->where('author_id', $authorIdDelete)->first();
+                $authorsDelete->delete();
+                
+            }
             $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Diubah!')
                 ->position('top-end')
@@ -164,6 +201,11 @@ class AdminBookComp extends Component
         $this->editId = '';
         $this->showId = '';
         $this->zoomImage = '';
+        $this->categoriesShow = null;
+        $this->authorsShow = null;
+        $this->authorsNew = [];
+        $this->authorsDelete = [];
+
     }
     public function delete($id)
     {
