@@ -71,9 +71,10 @@
                         </td>
 
                         <td class="px-6 py-3 align-top    text-gray-900 font-normal ">
-                            <div class="relative cursor-pointer group w-[80px] " @click="$dispatch('open-modal2')">
-                                <img class="rounded-md w-full h-full object-cover" src="{{ $item->cover }}"
-                                    alt="">
+                            <div
+                                class="relative cursor-pointer group w-[80px] "@click="$dispatch('open-modal2', { image: '{{ asset('images/books/') }}/{{ $item->cover }}' })">
+                                <img class="rounded-md w-full h-full object-cover"
+                                    src="{{ asset('images/books/' . $item->cover) }}" alt="{{ $item->title }}">
                                 <div
                                     class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md">
 
@@ -226,10 +227,14 @@
 
                         <div class="block">
                             <div class="flex flex-wrap">
-                                <div class="w-1/3">
-                                    <img class=" rounded-xl" src="{{ $item->cover }}" alt="">
+                                <div class="w-1/3 flex flex-col h-full">
+
+                                    <img class=" rounded-xl h-full" src="{{ asset('images/books/' . $item->cover) }}"
+                                        alt="{{ $item->title }}">
+
+
                                 </div>
-                                <div class="w-2/3 flex flex-col justify-between">
+                                <div class="w-2/3 flex flex-col justify-between  h-full">
                                     <div class="div">
 
                                         <div class="flex ">
@@ -338,7 +343,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="flex flex-wrap ps-3 mt-1 w-full flex-col">
+                                        <div class="flex flex-wrap ps-3 mt-0 w-full flex-col">
                                             <label class="text-sm text-gray-500">Penulis<span
                                                     class="text-red-500 text-lg">‎</span></label>
                                             <div class="flex flex-wrap w-full gap-1 items-center">
@@ -408,9 +413,24 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    @if ($showId == null)
 
-                                        <div class="w-full  items-end justify-end mt-auto flex pt-2">
+
+                                </div>
+                                @if ($showId == null)
+
+                                    <div class="w-full  items-end justify-between mt-auto flex ">
+                                        <div class="div">
+
+                                            <label class="text-sm text-gray-500 ">Cover<span
+                                                    class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
+                                                    1MB))</span></label>
+                                            <input
+                                                class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
+                                                aria-describedby="file_input_help" id="file_input" type="file">
+
+                                        </div>
+                                        <div class="div">
+
                                             @if ($editId == null)
                                                 <button type="button" wire:click="store"
                                                     class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
@@ -423,10 +443,8 @@
                                                 </button>
                                             @endif
                                         </div>
-                                    @endif
-
-                                </div>
-
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -434,12 +452,13 @@
             </div>
         </div>
     </div>
-    <div x-data="{ openSecond: false }" x-cloak x-show="openSecond" x-on:open-modal2.window="openSecond = true"
+    <div x-data="{ openSecond: false, zoomImage: '' }" x-cloak x-show="openSecond"
+        x-on:open-modal2.window="openSecond = true; zoomImage = $event.detail.image"
         x-on:close-modal2.window="openSecond = false"
         class="fixed inset-0 z-20 flex items-center justify-center bg-black/50">
-        <div class="  justify-center flex p-5 shadow-lg  " @click.away="openSecond = false">
 
-            <img class="h-dvh rounded-lg " src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
+        <div class="justify-center flex p-5 shadow-lg" @click.away="openSecond = false">
+            <img class="h-dvh rounded-lg" :src="zoomImage" alt="">
         </div>
     </div>
     <script>

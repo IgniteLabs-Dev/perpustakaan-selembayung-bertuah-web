@@ -9,17 +9,19 @@ use App\Models\BookCategories;
 use App\Models\Category;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class AdminBookComp extends Component
 {
     use WithPagination;
+    use WithFileUploads;
     public $search;
     public $cover, $title, $deskripsi, $author, $publisher, $category_id, $realese_date, $stock, $status, $type;
     public $editId;
     public $showId;
     public $confirmDelete;
-    public $zoomImage;
+    // public $zoomImage;
     
     public $authorsShow = null;
     public $authorsData = null;
@@ -257,7 +259,7 @@ class AdminBookComp extends Component
         $this->status = '';
         $this->editId = '';
         $this->showId = '';
-        $this->zoomImage = '';
+        // $this->zoomImage = '';
         $this->authorsShow = null;
         $this->authorsAdd = [];
         $this->authorsDelete = [];
