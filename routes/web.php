@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Livewire\AdminAuthorComp;
 use App\Livewire\AdminBookComp;
 use App\Livewire\AdminCategoryComp;
+use App\Livewire\AdminLoanTransactionComp;
 use App\Livewire\AdminUsersComp;
 use App\Livewire\LoginComp;
 use App\Livewire\UsersAdminComp;
@@ -44,3 +45,4 @@ Route::get('/manajemen-user', AdminUsersComp::class)->name('admin-manajemen-user
 Route::get('/manajemen-buku', AdminBookComp::class)->name('admin-manajemen-buku');
 Route::get('/manajemen-kategori', AdminCategoryComp::class)->name('admin-manajemen-kategori');
 Route::get('/manajemen-penulis', AdminAuthorComp::class)->name('admin-manajemen-penulis');
+Route::get('/manajemen-peminjaman', AdminLoanTransactionComp::class)->name('admin-manajemen-peminjaman');

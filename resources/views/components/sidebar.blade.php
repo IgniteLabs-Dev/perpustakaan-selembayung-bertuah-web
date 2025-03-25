@@ -67,6 +67,20 @@
                     </a>
                 </a>
             </div>
+            <div class="px-2 py-[1px] ">
+
+                <a href="{{ route('admin-manajemen-peminjaman') }}" class="mb-3 ">
+
+                    <a href="{{ route('admin-manajemen-peminjaman') }}"
+                        class="flex items-center ps-5 px-4 py-2 rounded-lg
+                    {{ request()->routeIs('admin-manajemen-peminjaman') ? 'bg-[#26537b]  text-white 3' : 'bg-transparent text-gray-700 border-r-0' }}
+                    hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+
+                        <i class="fa-solid fa-address-book"></i>
+                        <span class="ms-2">Manajemen Peminjaman</span>
+                    </a>
+                </a>
+            </div>
 
         </nav>
     </div>
