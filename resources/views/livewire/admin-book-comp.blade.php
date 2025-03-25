@@ -285,30 +285,64 @@
                                         </div>
                                         <div class="flex flex-wrap ps-3 w-full flex-col">
                                             <label class="text-sm text-gray-500">Kategori<span
-                                                    class="text-red-500 text-lg">*</span></label>
-                                            <div class="flex flex-wrap w-full gap-1">
+                                                    class="text-red-500 text-lg">‎</span></label>
+                                            <div class="flex flex-wrap w-full gap-1 items-center">
                                                 @if ($categoriesShow != null)
 
                                                     @forelse ($categoriesShow as $category)
                                                         <div
-                                                            class=" bg-gray-200 px-2 flex items-center  text-gray-800 text-xs rounded-full">
-                                                            {{ $category->category->name }} @if ($showId == null)
-                                                                <i
-                                                                    class="fa-solid ms-1 fa-xmark cursor-pointer text-red-500"></i>
+                                                            class="px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full
+                                                    @if (in_array($category->category->id, $categoriesDelete)) bg-red-200 text-red-500 @else bg-gray-200 @endif">
+                                                            {{ $category->category->name }}
+                                                            @if ($showId == null)
+                                                                @if (in_array($category->category->id, $categoriesDelete))
+                                                                    <i wire:click="removeToDeleteCategory({{ $category->category->id }})"
+                                                                        class="fa-solid fa-plus text-gray-800 ms-1 cursor-pointer"></i>
+                                                                @else
+                                                                    <i wire:click="addToDeleteCategory({{ $category->category->id }})"
+                                                                        class="fa-solid fa-xmark text-red-500 ms-1 cursor-pointer"></i>
+                                                                @endif
                                                             @endif
 
                                                         </div>
                                                     @empty
                                                     @endforelse
+                                                    @if ($showId == null)
+
+                                                        <div
+                                                            class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
+
+                                                            <div wire:ignore class=" flex items-center"
+                                                                x-data="selectComponent">
+                                                                <select name="categoriesAdd[]" multiple
+                                                                    wire:model.defer="categoriesAdd"
+                                                                    class="p-0   min-w-[130px] border-0 outlin-0"
+                                                                    id="select-categories">
+                                                                    <option value="">Pilih Penulis</option>
+                                                                    @forelse ($categoriesData as $category)
+                                                                        <option value="{{ $category->id }}">
+                                                                            {{ $category->name }}</option>
+                                                                    @empty
+
+                                                                        <option disabled>Kategori Tidak Ada
+                                                                        <option>
+                                                                    @endforelse
+
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 @endif
 
 
                                             </div>
                                         </div>
-                                        <div class="flex flex-wrap ps-3 w-full flex-col">
+                                        <div class="flex flex-wrap ps-3 mt-1 w-full flex-col">
                                             <label class="text-sm text-gray-500">Penulis<span
-                                                    class="text-red-500 text-lg">*</span></label>
+                                                    class="text-red-500 text-lg">‎</span></label>
                                             <div class="flex flex-wrap w-full gap-1 items-center">
+
                                                 @if ($authorsShow != null)
 
                                                     @forelse ($authorsShow as $author)
@@ -319,10 +353,11 @@
 
                                                             @if ($showId == null)
                                                                 @if (in_array($author->author->id, $authorsDelete))
-                                                                    <i wire:click="removeToDelete({{ $author->author->id }})"
-                                                                        class="fa-solid fa-plus text-green-500 ms-1 cursor-pointer"></i>
+                                                                    <i data-tooltip-target="tooltip-cancel-remove-author"
+                                                                        wire:click="removeToDeleteAuthor({{ $author->author->id }})"
+                                                                        class="fa-solid fa-plus text-gray-800 ms-1 cursor-pointer"></i>
                                                                 @else
-                                                                    <i wire:click="addToDelete({{ $author->author->id }})"
+                                                                    <i wire:click="addToDeleteAuthor({{ $author->author->id }})"
                                                                         class="fa-solid fa-xmark text-red-500 ms-1 cursor-pointer"></i>
                                                                 @endif
                                                             @endif
@@ -330,44 +365,39 @@
 
                                                     @empty
                                                     @endforelse
+                                                    @if ($showId == null)
 
-                                                    <div
-                                                        class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
-
-                                                        <div wire:ignore class=" flex items-center"
-                                                            x-data="selectComponent">
-                                                            <select name="authorsAdd[]" multiple
-                                                                wire:model.defer="authorsAdd"
-                                                                class="p-0   min-w-[130px] border-0 outlin-0"
-                                                                id="select-example">
-                                                                <option value="">Pilih Penulis</option>
-                                                                @forelse ($authorsData as $author)
-                                                                    <option value="{{ $author->id }}">
-                                                                        {{ $author->name }}</option>
-                                                                @empty
-
-                                                                    <option disabled>Author Tidak Ada
-                                                                    <option>
-                                                                @endforelse
-
-                                                            </select>
-
-                                                        </div>
-                                                    </div>
-                                                    {{-- @if ($showId == null)
                                                         <div
-                                                            class="border-1  p-1 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
-                                                            <i
-                                                                class="fa-solid  fa-plus cursor-pointer text-gray-800 "></i>
+                                                            class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
 
+                                                            <div wire:ignore class=" flex items-center"
+                                                                x-data="selectComponent">
+                                                                <select name="authorsAdd[]" multiple
+                                                                    wire:model.defer="authorsAdd"
+                                                                    class="p-0   min-w-[130px] border-0 outlin-0"
+                                                                    id="select-authors">
+                                                                    <option value="">Pilih Penulis</option>
+                                                                    @forelse ($authorsData as $author)
+                                                                        <option value="{{ $author->id }}">
+                                                                            {{ $author->name }}</option>
+                                                                    @empty
+
+                                                                        <option disabled>Author Tidak Ada
+                                                                        <option>
+                                                                    @endforelse
+
+                                                                </select>
+
+                                                            </div>
                                                         </div>
-                                                    @endif --}}
+                                                    @endif
+
                                                 @endif
 
 
                                             </div>
                                         </div>
-                                        <div class=" w-full mt-1 ps-3 items-start">
+                                        <div class=" w-full mt-0 ps-3 items-start">
                                             <label class="text-sm text-gray-500">Deskripsi<span
                                                     class="text-red-500 text-lg">‎</span></label>
                                             <textarea :attribute="$showId ? 'disabled' : ''" wire:model.defer="deskripsi"
@@ -416,25 +446,24 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('selectComponent', () => ({
                 init() {
-                    const tomSelect = new TomSelect("#select-example", {
+                    this.initTomSelect("#select-authors", 'Cari atau Tambah Penulis');
+                    this.initTomSelect("#select-categories", 'Cari atau Tambah Kategori');
+                },
+                initTomSelect(selector, placeholder) {
+                    new TomSelect(selector, {
                         create: true,
                         createOnBlur: true,
-                        createFilter: function(input) {
-                            return input.length >= 2;
-                        },
+                        createFilter: input => input.length >= 1,
                         searchField: ['text'],
-                        placeholder: 'Cari atau Tambah Nama Penulis',
+                        placeholder: placeholder,
                         maxOptions: 3,
-                        plugins: [
-                            'dropdown_input',
-                            'remove_button'
-                        ],
-                 
+                        plugins: ['dropdown_input', 'remove_button']
                     });
                 }
-            }))
-        })
+            }));
+        });
     </script>
+
     <style>
         .ts-control {
             padding: 0;
@@ -447,6 +476,7 @@
 
         .plugin-dropdown_input.focus.dropdown-active .ts-control:focus {
             border: 0;
+            outline: none;
         }
 
         .ts-control:not(.rtl) {
