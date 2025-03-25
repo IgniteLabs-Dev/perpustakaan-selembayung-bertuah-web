@@ -308,7 +308,7 @@
                                         <div class="flex flex-wrap ps-3 w-full flex-col">
                                             <label class="text-sm text-gray-500">Penulis<span
                                                     class="text-red-500 text-lg">*</span></label>
-                                            <div class="flex flex-wrap w-full gap-1">
+                                            <div class="flex flex-wrap w-full gap-1 items-center">
                                                 @if ($authorsShow != null)
 
                                                     @forelse ($authorsShow as $author)
@@ -332,13 +332,13 @@
                                                     @endforelse
 
                                                     <div
-                                                        class="border-1 w-fit min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
+                                                        class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
 
-                                                        <div wire:ignore class="w-full flex items-center"
+                                                        <div wire:ignore class=" flex items-center"
                                                             x-data="selectComponent">
-                                                            <select name="authorsNew[]" multiple
-                                                                wire:model.defer="authorsNew"
-                                                                class="p-0 w-fit min-w-[130px] border-0 outlin-0"
+                                                            <select name="authorsAdd[]" multiple
+                                                                wire:model.defer="authorsAdd"
+                                                                class="p-0   min-w-[130px] border-0 outlin-0"
                                                                 id="select-example">
                                                                 <option value="">Pilih Penulis</option>
                                                                 @forelse ($authorsData as $author)
@@ -416,17 +416,21 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('selectComponent', () => ({
                 init() {
-
-                    new TomSelect("#select-example", {
-                        create: false, // Prevents creating new options
-                        searchField: ['text'], // Allow searching by text
-                        placeholder: 'Cari Nama Penulis',
-                        maxOptions: 3, // Limit the number of options shown in dropdown
+                    const tomSelect = new TomSelect("#select-example", {
+                        create: true,
+                        createOnBlur: true,
+                        createFilter: function(input) {
+                            return input.length >= 2;
+                        },
+                        searchField: ['text'],
+                        placeholder: 'Cari atau Tambah Nama Penulis',
+                        maxOptions: 3,
                         plugins: [
-                            'dropdown_input'
-                        ] // Adds input in dropdown for easier searching
+                            'dropdown_input',
+                            'remove_button'
+                        ],
+                 
                     });
-
                 }
             }))
         })
@@ -443,6 +447,10 @@
 
         .plugin-dropdown_input.focus.dropdown-active .ts-control:focus {
             border: 0;
+        }
+
+        .ts-control:not(.rtl) {
+            padding-right: 0 !important;
         }
     </style>
 </div>

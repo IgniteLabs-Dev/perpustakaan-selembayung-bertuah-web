@@ -22,8 +22,10 @@ class AdminBookComp extends Component
     public $categoriesShow = null;
     public $authorsShow = null;
     public $authorsData = null;
-    public $authorsNew = [];
+    public $authorsAdd = [];
     public $authorsDelete = [];
+    public $authorsNew = [];
+
 
 
     public function render()
@@ -62,6 +64,11 @@ class AdminBookComp extends Component
         }
     }
 
+    public function addNewAuthor($authorName)
+    {
+        $this->authorsCreate[] = $authorName;
+        dd($this->authorsCreate);
+    }
 
     public function store()
     {
@@ -159,18 +166,31 @@ class AdminBookComp extends Component
         $data->stock = $this->stock;
         $data->status = $this->status;
         $data->type = $this->type;
-        
+     
+
         if ($data->save()) {
-            foreach ($this->authorsNew as $authorIdNew) {
-                $authorsData = new BookAuthors();
-                $authorsData->book_id = $id;
-                $authorsData->author_id = $authorIdNew;
-                $authorsData->save();
+            foreach ($this->authorsAdd as $authorIdNew) {
+                if (ctype_digit($authorIdNew)) {
+                    
+                    $authorsData = new BookAuthors();
+                    $authorsData->book_id = $id;
+                    $authorsData->author_id = $authorIdNew;
+                    $authorsData->save();
+                }else{
+                    $authorsDataCreate = new Author();
+                    $authorsDataCreate->name = $authorIdNew;
+                    $authorsDataCreate->save();
+
+                    $authorsData = new BookAuthors();
+                    $authorsData->book_id = $id;
+                    $authorsData->author_id = $authorsDataCreate->id;
+                    $authorsData->save();
+
+                }
             }
             foreach ($this->authorsDelete as $authorIdDelete) {
                 $authorsDelete = BookAuthors::where('book_id', $id)->where('author_id', $authorIdDelete)->first();
                 $authorsDelete->delete();
-                
             }
             $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Diubah!')
@@ -203,9 +223,8 @@ class AdminBookComp extends Component
         $this->zoomImage = '';
         $this->categoriesShow = null;
         $this->authorsShow = null;
-        $this->authorsNew = [];
+        $this->authorsAdd = [];
         $this->authorsDelete = [];
-
     }
     public function delete($id)
     {
