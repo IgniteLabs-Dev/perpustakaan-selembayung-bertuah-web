@@ -232,8 +232,8 @@
                                         <img class=" rounded-xl h-full" src="{{ $image_baru->temporaryUrl() }}">
                                     @elseif( $editId != null || $showId != null)
                                         <img class=" rounded-xl h-full"
-                                            src="{{ asset('images/books/' . $item->cover) }}"
-                                            alt="{{ $item->title }}">
+                                            src="{{ asset('images/books/' . $cover) }}"
+                                            alt="">
                                     @endif
                                     <div class="div">
 
@@ -349,7 +349,6 @@
                                                                         <option value="{{ $category->id }}">
                                                                             {{ $category->name }}</option>
                                                                     @empty
-
                                                                         <option disabled>Kategori Tidak Ada
                                                                         <option>
                                                                     @endforelse

@@ -106,6 +106,72 @@ class AdminBookComp extends Component
         $data->status = $this->status;
         $data->type = $this->type;
 
+        foreach ($this->authorsAdd as $authorIdNew) {
+            if (ctype_digit($authorIdNew)) {
+
+                $authorsData = new BookAuthors();
+                $authorsData->book_id = $data->id;
+                $authorsData->author_id = $authorIdNew;
+                $authorsData->save();
+            } else {
+                $authorsDataCreate = new Author();
+                $authorsDataCreate->name = $authorIdNew;
+                $authorsDataCreate->save();
+
+                $authorsData = new BookAuthors();
+                $authorsData->book_id = $data->id;
+                $authorsData->author_id = $authorsDataCreate->id;
+                $authorsData->save();
+            }
+        }
+        foreach ($this->authorsDelete as $authorIdDelete) {
+            $authorsDelete = BookAuthors::where('book_id', $data->id)->where('author_id', $authorIdDelete)->first();
+            $authorsDelete->delete();
+        }
+
+        //kategori
+        foreach ($this->categoriesAdd as $categoryIdNew) {
+            if (ctype_digit($categoryIdNew)) {
+
+                $categoriesData = new BookCategories();
+                $categoriesData->book_id = $data->id;
+                $categoriesData->category_id = $categoryIdNew;
+                $categoriesData->save();
+            } else {
+                $categoriesDataCreate = new Category();
+                $categoriesDataCreate->name = $categoryIdNew;
+                $categoriesDataCreate->save();
+
+                $categoriesData = new BookCategories();
+                $categoriesData->book_id = $data->id;
+                $categoriesData->category_id = $categoriesDataCreate->id;
+                $categoriesData->save();
+            }
+        }
+        foreach ($this->categoriesDelete as $categoryIdDelete) {
+            $categoriesDelete = BookCategories::where('book_id', $data->id)->where('category_id', $categoryIdDelete)->first();
+            $categoriesDelete->delete();
+        }
+
+
+        $currentTimestamp = time();
+        if ($this->image_baru != null) {
+            $this->validate([
+                'image_baru' => 'mimes:png,jpg,jpeg,webp|max:1096', // 1MB Max
+            ]);
+
+            $gambarLama = $data->cover;
+            if ($gambarLama && Storage::disk('real_public')->exists('images/books/' . $gambarLama)) {
+                Storage::disk('real_public')->delete('images/books/' . $gambarLama);
+            }
+
+            $fileNameimage = 'cover' . '_' . $currentTimestamp . '.' . $this->image_baru->getClientOriginalExtension();
+            $filePath = $this->image_baru->storeAs(('images/books/'), $fileNameimage, 'real_public');
+            $data->cover = $fileNameimage;
+        }
+
+
+
         if ($data->save()) {
             $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Disimpan!')
@@ -129,6 +195,7 @@ class AdminBookComp extends Component
         $this->editId = $id;
         $data = Book::find($id);
         $this->title = $data->title;
+        $this->cover = $data->cover;
         $this->deskripsi = $data->deskripsi;
         $this->publisher = $data->publisher;
         $this->realese_date = $data->realese_date;
@@ -151,6 +218,7 @@ class AdminBookComp extends Component
         $this->showId = $id;
         $data = Book::find($id);
         $this->title = $data->title;
+        $this->cover = $data->cover;
         $this->deskripsi = $data->deskripsi;
         $this->publisher = $data->publisher;
         $this->realese_date = $data->realese_date;
@@ -286,8 +354,6 @@ class AdminBookComp extends Component
         $this->categoriesDelete = [];
         $this->categoriesNew = [];
         $this->image_baru = null;
-        
-
     }
     public function delete($id)
     {
