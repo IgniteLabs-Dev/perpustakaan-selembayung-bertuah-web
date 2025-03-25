@@ -228,10 +228,31 @@
                         <div class="block">
                             <div class="flex flex-wrap">
                                 <div class="w-1/3 flex flex-col h-full">
+                                    @if ($image_baru != null ) 
+                                        <img class=" rounded-xl h-full" src="{{ $image_baru->temporaryUrl() }}">
+                                    @elseif( $editId != null || $showId != null)
+                                        <img class=" rounded-xl h-full"
+                                            src="{{ asset('images/books/' . $item->cover) }}"
+                                            alt="{{ $item->title }}">
+                                    @endif
+                                    <div class="div">
 
-                                    <img class=" rounded-xl h-full" src="{{ asset('images/books/' . $item->cover) }}"
-                                        alt="{{ $item->title }}">
+                                        <label class="text-sm text-gray-500 ">Cover<span
+                                                class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
+                                                1MB))</span></label>
+                                        <input wire:model.defer="image_baru"
+                                            class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
+                                            aria-describedby="file_input_help" id="file_input" type="file">
 
+                                        <div class="text-red-500 font-italic text-sm" wire:loading wire:target="image_baru">
+                                            Uploading...
+                                        </div>
+
+                                        @error('image_baru')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+
+                                    </div>
 
                                 </div>
                                 <div class="w-2/3 flex flex-col justify-between  h-full">
@@ -418,17 +439,8 @@
                                 </div>
                                 @if ($showId == null)
 
-                                    <div class="w-full  items-end justify-between mt-auto flex ">
-                                        <div class="div">
+                                    <div class="w-full  items-end justify-end mt-auto flex ">
 
-                                            <label class="text-sm text-gray-500 ">Cover<span
-                                                    class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
-                                                    1MB))</span></label>
-                                            <input
-                                                class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
-                                                aria-describedby="file_input_help" id="file_input" type="file">
-
-                                        </div>
                                         <div class="div">
 
                                             @if ($editId == null)

@@ -11,6 +11,7 @@ use Livewire\Component;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Storage;
 
 class AdminBookComp extends Component
 {
@@ -22,19 +23,19 @@ class AdminBookComp extends Component
     public $showId;
     public $confirmDelete;
     // public $zoomImage;
-    
+
     public $authorsShow = null;
     public $authorsData = null;
     public $authorsAdd = [];
     public $authorsDelete = [];
     public $authorsNew = [];
-    
+
     public $categoriesShow = null;
     public $categoriesData = null;
     public $categoriesAdd = [];
     public $categoriesDelete = [];
     public $categoriesNew = [];
-
+    public $image_baru;
 
 
     public function render()
@@ -183,15 +184,15 @@ class AdminBookComp extends Component
         $data->stock = $this->stock;
         $data->status = $this->status;
         $data->type = $this->type;
-        
+
         foreach ($this->authorsAdd as $authorIdNew) {
             if (ctype_digit($authorIdNew)) {
-                
+
                 $authorsData = new BookAuthors();
                 $authorsData->book_id = $id;
                 $authorsData->author_id = $authorIdNew;
                 $authorsData->save();
-            }else{
+            } else {
                 $authorsDataCreate = new Author();
                 $authorsDataCreate->name = $authorIdNew;
                 $authorsDataCreate->save();
@@ -210,12 +211,12 @@ class AdminBookComp extends Component
         //kategori
         foreach ($this->categoriesAdd as $categoryIdNew) {
             if (ctype_digit($categoryIdNew)) {
-                
+
                 $categoriesData = new BookCategories();
                 $categoriesData->book_id = $id;
                 $categoriesData->category_id = $categoryIdNew;
                 $categoriesData->save();
-            }else{
+            } else {
                 $categoriesDataCreate = new Category();
                 $categoriesDataCreate->name = $categoryIdNew;
                 $categoriesDataCreate->save();
@@ -231,6 +232,22 @@ class AdminBookComp extends Component
             $categoriesDelete->delete();
         }
 
+
+        $currentTimestamp = time();
+        if ($this->image_baru != null) {
+            $this->validate([
+                'image_baru' => 'mimes:png,jpg,jpeg,webp|max:1096', // 1MB Max
+            ]);
+
+            $gambarLama = $data->cover;
+            if ($gambarLama && Storage::disk('real_public')->exists('images/books/' . $gambarLama)) {
+                Storage::disk('real_public')->delete('images/books/' . $gambarLama);
+            }
+
+            $fileNameimage = 'cover' . '_' . $currentTimestamp . '.' . $this->image_baru->getClientOriginalExtension();
+            $filePath = $this->image_baru->storeAs(('images/books/'), $fileNameimage, 'real_public');
+            $data->cover = $fileNameimage;
+        }
 
         if ($data->save()) {
             $this->dispatch('close-modal');
@@ -268,7 +285,9 @@ class AdminBookComp extends Component
         $this->categoriesAdd = [];
         $this->categoriesDelete = [];
         $this->categoriesNew = [];
+        $this->image_baru = null;
         
+
     }
     public function delete($id)
     {
