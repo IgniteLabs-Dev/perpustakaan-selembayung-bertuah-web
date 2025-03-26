@@ -16,6 +16,7 @@ class LoanTransaction extends Model
         'borrowed_at',
         'returned_at',
         'due_date',
+        'condition',
         'fine'
     ];
     public function user()

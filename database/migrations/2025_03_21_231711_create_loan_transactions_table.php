@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('book_id')->constrained('books');
             $table->enum('status', ['borrowed', 'returned']);
+            $table->enum('condition', ['baik', 'rusak', 'hilang']);
             $table->date('borrowed_at')->nullable();
             $table->date('returned_at')->nullable();
             $table->date('due_date')->nullable();

@@ -273,7 +273,7 @@
                                                     </div>
                                                     <div class=" w-1/2 mt-1   items-start">
                                                         <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="type"
-                                                            label="Tipe" wireModel="type" placeholder="Tipe"
+                                                            label="Tipe" wireModel="type" typeWire="defer" placeholder="Tipe"
                                                             :options="[
                                                                 'literasi' => 'Literasi',
                                                                 'paketan' => 'Paketan',
@@ -297,7 +297,7 @@
                                                     </div>
                                                     <div class=" w-1/2 mt-1  ps-2 items-start">
                                                         <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="status"
-                                                            label="Status" wireModel="status" placeholder="Status"
+                                                            label="Status" wireModel="status" typeWire="defer" placeholder="Status"
                                                             :options="[
                                                                 'available' => 'Tersedia',
                                                                 'borrowed' => 'Tidak Tersedia',

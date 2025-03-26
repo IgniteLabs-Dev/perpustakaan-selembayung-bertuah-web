@@ -43,7 +43,10 @@
                         Tanggal Pengembalian
                     </th>
                     <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
-                        Denda
+                        Kondisi
+                    </th>
+                    <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+                        Poin
                     </th>
                     <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
                         Status
@@ -67,16 +70,44 @@
                             {{ $item->book->title }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->borrowed_at }}
-                        </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->returned_at }}
+                            {{ \Carbon\Carbon::parse($item->borrowed_at)->translatedFormat('d F Y') }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ \Carbon\Carbon::parse($item->due_date)->translatedFormat('d F Y') }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->fine }}
+                            {{ $item->returned_at ? \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') : 'Belum Dikembalikan' }}
+                            <span
+                                class="text-xs {{ $item->returned_at
+                                    ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
+                                        ? 'text-green-600'
+                                        : 'text-red-600')
+                                    : '' }}">
+                                {{ $item->returned_at
+                                    ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
+                                        ? '(Tepat Waktu)'
+                                        : '(' . \Carbon\Carbon::parse($item->returned_at)->diffInDays($item->due_date) . ' Hari Terlambat)')
+                                    : '' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                            {{ Str::title($item->condition) }}
+                        </td>
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                            @if ($item->fine != null && $item->borrowed_at > $item->due_date)
+                                <div
+                                    class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
+                                    -{{ $item->fine }}
+                                </div>
+                            @elseif ($item->fine != null && $item->borrowed_at < $item->due_date)
+                                <div
+                                    class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
+                                    +{{ $item->fine }}
+                                </div>
+                            @else
+                                -
+                            @endif
+
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal ">
                             <div class="flex justify-center">
@@ -172,8 +203,8 @@
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                             </svg>
@@ -182,16 +213,50 @@
                     </div>
                     <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
 
-                        <span wire:loading class="loader scale-50  my-5"></span>
+                        {{-- <span wire:loading class="loader scale-50  my-5"></span>wire:loading.class="hidden" --}}
 
-                        <div class="block" wire:loading.class="hidden">
-                            <div class="flex flex-wrap">
-                                <div class=" w-full   items-start">
-                                    <x-input symbol="*" typeWire="defer" inputId="name" label="Name"
-                                        type="text" wireModel="name" placeholder="Masukkan Name" />
+                        <div class="block" >
+                            <div class="flex flex-wrap items-end">
+
+                                <div class=" w-1/2 even:ps-2   items-start">
+                                    <x-input symbol="*" typeWire="change" inputId="borrowed_at"
+                                        label="Tanggal Peminjaman" type="date" wireModel="borrowed_at"
+                                        placeholder="Masukkan Tanggal Peminjaman" />
+                                </div>
+                                <div class=" w-1/2 even:ps-2   items-start">
+                                    <x-input symbol="*" typeWire="change" inputId="due_date"
+                                        label="Tenggat waktu pengembalian" type="date" wireModel="due_date"
+                                        placeholder="Masukkan Tenggah Pengembalian" />
+                                </div>
+                                <div class=" w-1/2 even:ps-2   items-start">
+                                    <x-input symbol="*" typeWire="change" inputId="returned_at"
+                                        label="Tanggal Pengembalian" type="date" wireModel="returned_at"
+                                        placeholder="Masukkan Tanggal Pengembalian" />
+                                </div>
+                                <div class=" w-1/2 even:ps-2   items-start">
+                                    <x-select typeWire="change" symbol="*" selectId="status" label="Status"
+                                        wireModel="status" placeholder="Pilih Status" :options="[
+                                            'borrowed' => 'Dipinjam',
+                                            'returned' => 'Dikembalikan',
+                                        ]" />
+                                </div>
+                                <div class=" w-1/2 even:ps-2   items-start">
+                                    <x-select typeWire="change" symbol="*" selectId="condition" label="Kondisi"
+                                        wireModel="condition" placeholder="Pilih Kondisi" :options="[
+                                            'baik' => 'Baik',
+                                            'rusak' => 'Rusak',
+                                            'hilang' => 'Hilang',
+                                        ]" />
+                                </div>
+                           
+                                <div class=" w-1/2 even:ps-2   items-start">
+                                    <x-input symbol=" (akan terisi otomatis)" symbolSize="xs" attribute="disabled"
+                                        typeWire="defer" inputId="fine" label="Poin" type="text"
+                                        wireModel="fine"
+                                        placeholder="{{ $fine ? 'Poin akan muncul otomatis' : 'Buku belum dikembalikan' }}" />
                                 </div>
 
-                                <div class=" w-full mt-3  items-end justify-start flex">
+                                <div class=" w-full mt-3  items-end justify-center flex">
                                     @if ($editId == null)
                                         <button type="button" wire:click="store"
                                             class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">

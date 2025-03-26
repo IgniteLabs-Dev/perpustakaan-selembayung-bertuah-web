@@ -204,7 +204,7 @@
                                 </div>
 
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-select symbol="*" selectId="role" label="Role" wireModel="role"
+                                    <x-select typeWire="defer" symbol="*" selectId="role" label="Role" wireModel="role"
                                         placeholder="Role" :options="[
                                             'admin' => 'Admin',
                                             'siswa' => 'Siswa',

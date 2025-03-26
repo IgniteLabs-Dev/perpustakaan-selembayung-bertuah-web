@@ -1,6 +1,6 @@
 @if ($label != '')
     <label for="{{ $inputId }}" class="text-sm text-gray-500">{{ $label }}<span
-            class="text-red-500 text-lg">{{ $symbol }}</span></label>
+            class="text-red-500 text-{{ $symbolSize ?? 'lg' }}">{{ $symbol }}</span></label>
 @endif
 <input id="{{ $inputId }}" wire:model.{{ $typeWire }}="{{ $wireModel }}" type="{{ $type }}"
     {{ $attribute ?? '' }}
