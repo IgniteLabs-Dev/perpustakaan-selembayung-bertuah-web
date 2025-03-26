@@ -127,7 +127,7 @@
                             </div>
                         </td>
 
-                        <td class="px-6 flex py-3 text-center justify-center text-gray-900 font-normal gap-1 ">
+                        <td class="px-6 flex py-3 text-center justify-end text-gray-900 font-normal gap-1 ">
 
                             @if ($confirmDelete != null && $confirmDelete == $item->id)
                                 <div class="flex flex-col">
@@ -145,18 +145,23 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="div">
-
+                                <div class="flex gap-1 justify-end items-end">
+                                    @if ($item->status == 'borrowed')
+                                        <button wire:click="show({{ $item->id }})"
+                                            @click="$dispatch('open-modal')" type="button"
+                                            class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    @endif
                                     <button wire:click="$set('confirmDelete', {{ $item->id }})" type="button"
-                                        class="cursor-pointer hover:brightness:95 text-red-500 hover:scale-120 rounded-full">
+                                        class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
-                                </div>
-                                <div class="div">
+
 
                                     <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
                                         type="button"
-                                        class="cursor-pointer hover:brightness:95 text-blue-500 hover:scale-120 rounded-full">
+                                        class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
                                 </div>
@@ -226,14 +231,12 @@
                                     <div wire:ignore class=" flex items-center" x-data="selectComponent">
                                         <select wire:model.defer="user_id" class="tom-select   w-full"
                                             id="select-users">
-
                                             <option value="">Pilih Siswa</option>
                                             @forelse ($users as $user)
                                                 <option value="{{ $user->id }}">
                                                     {{ $user->name }}</option>
                                             @empty
-                                                <option disabled>Siswa Tidak Ada
-                                                <option>
+                                             
                                             @endforelse
 
                                         </select>
@@ -259,12 +262,6 @@
 
                                     </div>
                                 </div>
-
-                                {{-- <div class=" w-1/2 even:ps-2   items-start">
-                                    <x-input symbol="*" typeWire="change" inputId="user_id"
-                                        label="Tanggal Peminjaman" type="text" wireModel="user_id"
-                                        placeholder="Masukkan Tanggal Peminjaman" />
-                                </div> --}}
                                 <div class=" w-1/2 even:ps-2   items-start">
                                     <x-input symbol="*" typeWire="change" inputId="borrowed_at"
                                         label="Tanggal Peminjaman" type="date" wireModel="borrowed_at"
@@ -275,44 +272,43 @@
                                         label="Tenggat waktu pengembalian" type="date" wireModel="due_date"
                                         placeholder="Masukkan Tenggah Pengembalian" />
                                 </div>
-                                <div class=" w-1/2 even:ps-2   items-start">
-                                    <x-input symbol="*" typeWire="change" inputId="returned_at"
-                                        label="Tanggal Pengembalian" type="date" wireModel="returned_at"
-                                        placeholder="Masukkan Tanggal Pengembalian" />
-                                </div>
-                                <div class=" w-1/2 even:ps-2   items-start">
-                                    <x-select typeWire="change" symbol="*" selectId="status" label="Status"
-                                        wireModel="status" placeholder="Pilih Status" :options="[
-                                            'borrowed' => 'Dipinjam',
-                                            'returned' => 'Dikembalikan',
-                                        ]" />
-                                </div>
-                                <div class=" w-1/2 even:ps-2   items-start">
-                                    <x-select typeWire="change" symbol="*" selectId="condition" label="Kondisi"
-                                        wireModel="condition" placeholder="Pilih Kondisi" :options="[
-                                            'baik' => 'Baik',
-                                            'rusak' => 'Rusak',
-                                            'hilang' => 'Hilang',
-                                        ]" />
-                                </div>
+                                @if ($editId != null)
+                                    <div class=" w-1/2 even:ps-2   items-start">
+                                        <x-input symbol="*" typeWire="change" inputId="returned_at"
+                                            label="Tanggal Pengembalian" type="date" wireModel="returned_at"
+                                            placeholder="Masukkan Tanggal Pengembalian" />
+                                    </div>
+                                    <div class=" w-1/2 even:ps-2   items-start">
+                                        <x-select typeWire="change" symbol="*" selectId="status" label="Status"
+                                            wireModel="status" placeholder="Pilih Status" :options="[
+                                                'borrowed' => 'Dipinjam',
+                                                'returned' => 'Dikembalikan',
+                                            ]" />
+                                    </div>
+                                    <div class=" w-1/2 even:ps-2   items-start">
+                                        <x-select typeWire="change" symbol="*" selectId="condition"
+                                            label="Kondisi" wireModel="condition" placeholder="Pilih Kondisi"
+                                            :options="[
+                                                'baik' => 'Baik',
+                                                'rusak' => 'Rusak',
+                                                'hilang' => 'Hilang',
+                                            ]" />
+                                    </div>
 
-                                <div class=" w-1/2 even:ps-2   mt-auto">
-                                    {{-- <x-input symbol=" (akan terisi otomatis)" symbolSize="xs" attribute="disabled"
-                                        typeWire="defer" inputId="finePoint" label="Point" type="text"
-                                        wireModel="finePoint"
-                                        placeholder="{{ $finePoint ? 'Poin akan muncul otomatis' : 'Buku belum dikembalikan' }}" /> --}}
-                                    <label class="text-sm text-gray-500">Point :<span
-                                            class="text-red-500 text-lg">‎</span></label>
-                                    <input type="text" class="border-0   outline-0 p-0" disabled
-                                        wire:model.defer="finePoint">
-                                </div>
+                                    <div class=" w-1/2 even:ps-2   mt-auto">
+                                        <label class="text-sm text-gray-500">Point :<span
+                                                class="text-red-500 text-lg">‎</span></label>
+                                        <input type="text" class="border-0   outline-0 p-0" disabled
+                                            wire:model.defer="finePoint">
+                                    </div>
+                                @endif
 
 
                                 <div class=" w-full mt-3  items-end justify-center flex">
                                     @if ($editId == null)
-                                        <button type="button" wire:click="store"
+                                        <button type="button" wire:click="storeCreate"
                                             class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                            Tambah Kategori
+                                            Tambah Peminjaman
                                         </button>
                                     @else
                                         <button type="button" wire:click="storeEdit"

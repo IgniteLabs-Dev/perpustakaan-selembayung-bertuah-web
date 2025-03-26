@@ -130,8 +130,6 @@ class AdminLoanTransactionComp extends Component
         $data->fine = preg_replace('/[^0-9]/', '', $this->fine);
         $data->point = preg_replace('/[^0-9]/', '', $this->point);
 
-
-
         if ($data->save()) {
             LivewireAlert::title('Data Berhasil Diubah!')
                 ->position('top-end')
@@ -149,6 +147,43 @@ class AdminLoanTransactionComp extends Component
                 ->show();
         }
     }
+    public function storeCreate()
+    {
+        $this->validate([
+            'user_id' => 'required',
+            'book_id' => 'required',
+            'borrowed_at' => 'required',
+            'due_date' => 'required',
+        ]);
+
+        $data = new LoanTransaction();
+        $data->user_id = $this->user_id;
+        $data->book_id = $this->book_id;
+        $data->borrowed_at = $this->borrowed_at;
+        $data->due_date = $this->due_date;
+        $data->status = 'borrowed';
+       
+
+        if ($data->save()) {
+            LivewireAlert::title('Data Berhasil Ditambah!')
+                ->position('top-end')
+                ->toast()
+                ->success()
+                ->show();
+
+            $this->dispatch('close-modal');
+            $this->resetInput();
+        } else {
+            LivewireAlert::title('Data Gagal Ditambah!')
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
+        }
+    }
+
+
+
     public function delete($id)
     {
         $data = LoanTransaction::where('id', $id)->first();
