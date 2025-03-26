@@ -76,7 +76,7 @@
                             {{ \Carbon\Carbon::parse($item->due_date)->translatedFormat('d F Y') }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->returned_at ? \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') : 'Belum Dikembalikan' }}
+                            {{ $item->returned_at ? \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') : '-' }}
                             <span
                                 class="text-xs {{ $item->returned_at
                                     ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
@@ -91,18 +91,21 @@
                             </span>
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
+                            <span
+                                class="{{ $item->condition === 'hilang' ? 'text-red-500' : ($item->condition === 'rusak' ? 'text-orange-500' : 'text-[var(--primary)]') }}">
+                                {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
+                            </span>
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            @if ($item->fine != null && $item->fine > 0)
+                            @if ($item->fine > 0 && $item->point == 0)
                                 <div
                                     class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
                                     -{{ $item->fine }}
                                 </div>
-                            @elseif ($item->fine != null && $item->point > 0)
+                            @elseif ($item->point > 0 && $item->fine == 0)
                                 <div
                                     class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
-                                    +{{ $item->fine }}
+                                    +{{ $item->point }}
                                 </div>
                             @else
                                 -
@@ -114,7 +117,7 @@
 
                                 @if ($item->status == 'borrowed')
                                     <div
-                                        class=" text-xs px-3 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
+                                        class=" text-xs px-3 text-orange-500 bg-red-100 outline-1 outline-orange-500 rounded-full">
                                         Dipinjam</div>
                                 @else
                                     <div
@@ -294,10 +297,14 @@
                                 </div>
 
                                 <div class=" w-1/2 even:ps-2   mt-auto">
-                                    <x-input symbol=" (akan terisi otomatis)" symbolSize="xs" attribute="disabled"
+                                    {{-- <x-input symbol=" (akan terisi otomatis)" symbolSize="xs" attribute="disabled"
                                         typeWire="defer" inputId="finePoint" label="Point" type="text"
                                         wireModel="finePoint"
-                                        placeholder="{{ $finePoint ? 'Poin akan muncul otomatis' : 'Buku belum dikembalikan' }}" />
+                                        placeholder="{{ $finePoint ? 'Poin akan muncul otomatis' : 'Buku belum dikembalikan' }}" /> --}}
+                                    <label class="text-sm text-gray-500">Point :<span
+                                            class="text-red-500 text-lg">‎</span></label>
+                                    <input type="text" class="border-0   outline-0 p-0" disabled
+                                        wire:model.defer="finePoint">
                                 </div>
 
 

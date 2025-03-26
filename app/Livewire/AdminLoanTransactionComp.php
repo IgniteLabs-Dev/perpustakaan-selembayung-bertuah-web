@@ -95,12 +95,15 @@ class AdminLoanTransactionComp extends Component
                 $this->fine = 25; // Terlambat >3 hari → -25
                 $this->point = 0;
             }
-            $this->finePoint = max($this->fine, $this->point);
-            if ($this->finePoint === 10) {
-                $this->finePoint = '+' . $this->finePoint;
-            } else {
-                $this->finePoint = '-' . $this->finePoint;
-            }
+        } else {
+            $this->fine = 0;
+            $this->point = 0;
+        }
+        $this->finePoint = max($this->fine, $this->point);
+        if ($this->finePoint == 10) {
+            $this->finePoint = '+' . $this->finePoint;
+        } elseif ($this->finePoint != 0) {
+            $this->finePoint = '-' . $this->finePoint;
         }
     }
     public function storeEdit()
