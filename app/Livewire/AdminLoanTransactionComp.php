@@ -13,25 +13,18 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 class AdminLoanTransactionComp extends Component
 {
     use WithPagination;
-    public $user_id = 1, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine = 0;
+    public $user_id, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine, $point;
     public $search;
     public $confirmDelete;
     public $editId;
     public $users;
     public $books;
+    public $finePoint;
 
-    public function mount($id = null)
+    public function mount()
     {
-        if ($id) {
-            $record = LoanTransaction::findOrFail($id);
-            // Set properti sesuai record
-            $this->user_id = $record->user_id;
-            $this->book_id = $record->book_id;
-    
-            // Dispatch event untuk reinisialisasi
-            $this->dispatchBrowserEvent('reinitialize-select');
-        }
-    
+
+
         $this->users = User::all();
         $this->books = Book::all();
     }
@@ -49,9 +42,9 @@ class AdminLoanTransactionComp extends Component
             ->orderby('created_at', 'desc')
             ->paginate('10');
 
-        
 
-        $this->countFine();
+
+        $this->countFinePoint();
         return view('livewire.admin-loan-transaction-comp', compact('data'))->extends('layouts.master-admin');
     }
     public function updatedSearch()
@@ -70,6 +63,7 @@ class AdminLoanTransactionComp extends Component
         $this->due_date = '';
         $this->condition = '';
         $this->fine = '';
+        $this->point = '';
     }
     public function edit($id)
     {
@@ -83,19 +77,29 @@ class AdminLoanTransactionComp extends Component
         $this->due_date = $data->due_date;
         $this->condition = $data->condition;
     }
-    public function countFine()
+    public function countFinePoint()
     {
         if ($this->status === 'returned') {
             $returnedAt = Carbon::parse($this->returned_at);
             $dueDate = Carbon::parse($this->due_date);
             if ($this->condition === 'hilang') {
-                $this->fine = -25; // Hilang → 25
+                $this->fine = 25; // Hilang → -25
+                $this->point = 0;
             } elseif ($returnedAt <= $dueDate) {
-                $this->fine = +10; // Tepat waktu → 10
+                $this->fine = 0;
+                $this->point = 10; // Tepat waktu → +10
             } elseif ($returnedAt->diffInDays($dueDate) <= 3) {
-                $this->fine = -15; // Terlambat 1-3 hari → 15
+                $this->fine = 15; // Terlambat 1-3 hari → -15
+                $this->point = 0;
             } elseif ($returnedAt->diffInDays($dueDate) > 3) {
-                $this->fine = -25; // Terlambat >3 hari → 25
+                $this->fine = 25; // Terlambat >3 hari → -25
+                $this->point = 0;
+            }
+            $this->finePoint = max($this->fine, $this->point);
+            if ($this->finePoint === 10) {
+                $this->finePoint = '+' . $this->finePoint;
+            } else {
+                $this->finePoint = '-' . $this->finePoint;
             }
         }
     }
@@ -121,6 +125,7 @@ class AdminLoanTransactionComp extends Component
         $data->due_date = $this->due_date;
         $data->condition = $this->condition;
         $data->fine = preg_replace('/[^0-9]/', '', $this->fine);
+        $data->point = preg_replace('/[^0-9]/', '', $this->point);
 
 
 

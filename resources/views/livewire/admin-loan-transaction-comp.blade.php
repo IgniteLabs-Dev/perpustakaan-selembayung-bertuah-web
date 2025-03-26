@@ -91,15 +91,15 @@
                             </span>
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ Str::title($item->condition) }}
+                            {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            @if ($item->fine != null && $item->borrowed_at > $item->due_date)
+                            @if ($item->fine != null && $item->fine > 0)
                                 <div
                                     class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
                                     -{{ $item->fine }}
                                 </div>
-                            @elseif ($item->fine != null && $item->borrowed_at < $item->due_date)
+                            @elseif ($item->fine != null && $item->point > 0)
                                 <div
                                     class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
                                     +{{ $item->fine }}
@@ -217,35 +217,43 @@
 
                         <div class="block">
                             <div class="flex flex-wrap items-start">
-                                <div class="w-1/2 even:ps-2 items-start">
+                                <div class=" w-1/2 even:ps-2   items-start">
                                     <label class="text-sm text-gray-500">Siswa<span
-                                            class="text-red-500 text-lg"></span></label>
-                                    <div wire:ignore class="flex items-center" x-data="selectComponent">
-                                        <select wire:model.defer="user_id" class="tom-select w-full"
+                                            class="text-red-500 text-lg">*</span></label>
+                                    <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                                        <select wire:model.defer="user_id" class="tom-select   w-full"
                                             id="select-users">
+
                                             <option value="">Pilih Siswa</option>
                                             @forelse ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                <option value="{{ $user->id }}">
+                                                    {{ $user->name }}</option>
                                             @empty
-                                                <option disabled>Siswa Tidak Ada</option>
+                                                <option disabled>Siswa Tidak Ada
+                                                <option>
                                             @endforelse
+
                                         </select>
+
                                     </div>
                                 </div>
-
-                                <div class="w-1/2 even:ps-2 items-start">
+                                <div class=" w-1/2 even:ps-2   items-start">
                                     <label class="text-sm text-gray-500">Buku<span
-                                            class="text-red-500 text-lg"></span></label>
-                                    <div wire:ignore class="flex items-center" x-data="selectComponent">
-                                        <select wire:model.defer="book_id" class="tom-select w-full"
+                                            class="text-red-500 text-lg">*</span></label>
+                                    <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                                        <select wire:model.defer="book_id" class="tom-select   w-full"
                                             id="select-book">
                                             <option value="">Pilih Buku</option>
                                             @forelse ($books as $book)
-                                                <option value="{{ $book->id }}">{{ $book->title }}</option>
+                                                <option value="{{ $book->id }}">
+                                                    {{ $book->title }}</option>
                                             @empty
-                                                <option disabled>Buku Tidak Ada</option>
+                                                <option disabled>Buku Tidak Ada
+                                                <option>
                                             @endforelse
+
                                         </select>
+
                                     </div>
                                 </div>
 
@@ -287,9 +295,9 @@
 
                                 <div class=" w-1/2 even:ps-2   mt-auto">
                                     <x-input symbol=" (akan terisi otomatis)" symbolSize="xs" attribute="disabled"
-                                        typeWire="defer" inputId="fine" label="Poin" type="text"
-                                        wireModel="fine"
-                                        placeholder="{{ $fine ? 'Poin akan muncul otomatis' : 'Buku belum dikembalikan' }}" />
+                                        typeWire="defer" inputId="finePoint" label="Point" type="text"
+                                        wireModel="finePoint"
+                                        placeholder="{{ $finePoint ? 'Poin akan muncul otomatis' : 'Buku belum dikembalikan' }}" />
                                 </div>
 
 
@@ -328,32 +336,12 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('selectComponent', () => ({
-                tomSelects: {},
                 init() {
-                    this.initTomSelect("#select-users", 'Pilih Siswa', @entangle('user_id').defer);
-                    this.initTomSelect("#select-book", 'Pilih Buku', @entangle('book_id').defer);
-
-                    // Tambahkan event listener untuk Livewire
-                    Livewire.on('reinitialize-select', () => {
-                        this.destroyTomSelects();
-                        this.initTomSelect("#select-users", 'Pilih Siswa', @entangle('user_id')
-                            .defer);
-                        this.initTomSelect("#select-book", 'Pilih Buku', @entangle('book_id')
-                            .defer);
-                    });
+                    this.initTomSelect("#select-users", 'Tambah Penulis');
+                    this.initTomSelect("#select-book", 'Tambah Buku');
                 },
-
-                initTomSelect(selector, placeholder, entangleValue) {
-                    // Hancurkan Tom Select yang sudah ada jika ada
-                    let existingSelect = this.tomSelects[selector];
-                    if (existingSelect) {
-                        existingSelect.destroy();
-                    }
-
-                    let selectElement = document.querySelector(selector);
-                    if (!selectElement) return;
-
-                    let tomSelect = new TomSelect(selectElement, {
+                initTomSelect(selector, placeholder) {
+                    new TomSelect(selector, {
                         create: false,
                         searchField: ['text'],
                         placeholder: placeholder,
@@ -361,36 +349,8 @@
                         persist: false,
                         plugins: ['dropdown_input']
                     });
-
-                    // Simpan instance TomSelect
-                    this.tomSelects[selector] = tomSelect;
-
-                    // Set nilai awal jika ada
-                    if (entangleValue) {
-                        tomSelect.setValue(entangleValue);
-                    }
-                },
-
-                destroyTomSelects() {
-                    // Hancurkan semua instance Tom Select
-                    Object.values(this.tomSelects).forEach(select => {
-                        if (select) {
-                            select.destroy();
-                        }
-                    });
-                    this.tomSelects = {};
                 }
             }));
-        });
-
-        // Pastikan Tom Select diinisialisasi ulang setelah Livewire update
-        document.addEventListener('livewire:load', () => {
-            Livewire.hook('message.processed', (message, component) => {
-                if (component.name === 'edit-form') {
-                    const event = new Event('reinitialize-select');
-                    document.dispatchEvent(event);
-                }
-            });
         });
     </script>
 </div>

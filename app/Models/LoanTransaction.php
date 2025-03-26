@@ -17,7 +17,8 @@ class LoanTransaction extends Model
         'returned_at',
         'due_date',
         'condition',
-        'fine'
+        'fine',
+        'point'
     ];
     public function user()
     {

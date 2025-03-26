@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('returned_at')->nullable();
             $table->date('due_date')->nullable();
             $table->integer('fine')->nullable();
+            $table->integer('point')->nullable();
 
             $table->timestamps();
         });
