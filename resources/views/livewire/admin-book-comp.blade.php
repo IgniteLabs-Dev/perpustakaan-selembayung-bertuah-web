@@ -228,11 +228,10 @@
                         <div class="block">
                             <div class="flex flex-wrap">
                                 <div class="w-1/3 flex flex-col h-full">
-                                    @if ($image_baru != null ) 
+                                    @if ($image_baru != null)
                                         <img class=" rounded-xl h-full" src="{{ $image_baru->temporaryUrl() }}">
-                                    @elseif( $editId != null || $showId != null)
-                                        <img class=" rounded-xl h-full"
-                                            src="{{ asset('images/books/' . $cover) }}"
+                                    @elseif($editId != null || $showId != null)
+                                        <img class=" rounded-xl h-full" src="{{ asset('images/books/' . $cover) }}"
                                             alt="">
                                     @endif
                                     <div class="div">
@@ -244,7 +243,8 @@
                                             class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
                                             aria-describedby="file_input_help" id="file_input" type="file">
 
-                                        <div class="text-red-500 font-italic text-sm" wire:loading wire:target="image_baru">
+                                        <div class="text-red-500 font-italic text-sm" wire:loading
+                                            wire:target="image_baru">
                                             Uploading...
                                         </div>
 
@@ -273,8 +273,8 @@
                                                     </div>
                                                     <div class=" w-1/2 mt-1   items-start">
                                                         <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="type"
-                                                            label="Tipe" wireModel="type" typeWire="defer" placeholder="Tipe"
-                                                            :options="[
+                                                            label="Tipe" wireModel="type" typeWire="defer"
+                                                            placeholder="Tipe" :options="[
                                                                 'literasi' => 'Literasi',
                                                                 'paketan' => 'Paketan',
                                                             ]" />
@@ -297,8 +297,8 @@
                                                     </div>
                                                     <div class=" w-1/2 mt-1  ps-2 items-start">
                                                         <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="status"
-                                                            label="Status" wireModel="status" typeWire="defer" placeholder="Status"
-                                                            :options="[
+                                                            label="Status" wireModel="status" typeWire="defer"
+                                                            placeholder="Status" :options="[
                                                                 'available' => 'Tersedia',
                                                                 'borrowed' => 'Tidak Tersedia',
                                                             ]" />

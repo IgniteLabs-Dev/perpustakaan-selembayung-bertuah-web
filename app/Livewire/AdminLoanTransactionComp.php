@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Book;
 use App\Models\LoanTransaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,12 +13,28 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 class AdminLoanTransactionComp extends Component
 {
     use WithPagination;
-    public $user_id, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine = 0;
+    public $user_id = 1, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine = 0;
     public $search;
     public $confirmDelete;
     public $editId;
+    public $users;
+    public $books;
 
-
+    public function mount($id = null)
+    {
+        if ($id) {
+            $record = LoanTransaction::findOrFail($id);
+            // Set properti sesuai record
+            $this->user_id = $record->user_id;
+            $this->book_id = $record->book_id;
+    
+            // Dispatch event untuk reinisialisasi
+            $this->dispatchBrowserEvent('reinitialize-select');
+        }
+    
+        $this->users = User::all();
+        $this->books = Book::all();
+    }
 
     public function render()
     {
@@ -30,6 +48,9 @@ class AdminLoanTransactionComp extends Component
             })
             ->orderby('created_at', 'desc')
             ->paginate('10');
+
+        
+
         $this->countFine();
         return view('livewire.admin-loan-transaction-comp', compact('data'))->extends('layouts.master-admin');
     }

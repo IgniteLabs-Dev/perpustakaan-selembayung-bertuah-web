@@ -215,9 +215,45 @@
 
                         {{-- <span wire:loading class="loader scale-50  my-5"></span>wire:loading.class="hidden" --}}
 
-                        <div class="block" >
-                            <div class="flex flex-wrap items-end">
+                        <div class="block">
+                            <div class="flex flex-wrap items-start">
+                                <div class="w-1/2 even:ps-2 items-start">
+                                    <label class="text-sm text-gray-500">Siswa<span
+                                            class="text-red-500 text-lg"></span></label>
+                                    <div wire:ignore class="flex items-center" x-data="selectComponent">
+                                        <select wire:model.defer="user_id" class="tom-select w-full"
+                                            id="select-users">
+                                            <option value="">Pilih Siswa</option>
+                                            @forelse ($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @empty
+                                                <option disabled>Siswa Tidak Ada</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
 
+                                <div class="w-1/2 even:ps-2 items-start">
+                                    <label class="text-sm text-gray-500">Buku<span
+                                            class="text-red-500 text-lg"></span></label>
+                                    <div wire:ignore class="flex items-center" x-data="selectComponent">
+                                        <select wire:model.defer="book_id" class="tom-select w-full"
+                                            id="select-book">
+                                            <option value="">Pilih Buku</option>
+                                            @forelse ($books as $book)
+                                                <option value="{{ $book->id }}">{{ $book->title }}</option>
+                                            @empty
+                                                <option disabled>Buku Tidak Ada</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {{-- <div class=" w-1/2 even:ps-2   items-start">
+                                    <x-input symbol="*" typeWire="change" inputId="user_id"
+                                        label="Tanggal Peminjaman" type="text" wireModel="user_id"
+                                        placeholder="Masukkan Tanggal Peminjaman" />
+                                </div> --}}
                                 <div class=" w-1/2 even:ps-2   items-start">
                                     <x-input symbol="*" typeWire="change" inputId="borrowed_at"
                                         label="Tanggal Peminjaman" type="date" wireModel="borrowed_at"
@@ -248,13 +284,14 @@
                                             'hilang' => 'Hilang',
                                         ]" />
                                 </div>
-                           
-                                <div class=" w-1/2 even:ps-2   items-start">
+
+                                <div class=" w-1/2 even:ps-2   mt-auto">
                                     <x-input symbol=" (akan terisi otomatis)" symbolSize="xs" attribute="disabled"
                                         typeWire="defer" inputId="fine" label="Poin" type="text"
                                         wireModel="fine"
                                         placeholder="{{ $fine ? 'Poin akan muncul otomatis' : 'Buku belum dikembalikan' }}" />
                                 </div>
+
 
                                 <div class=" w-full mt-3  items-end justify-center flex">
                                     @if ($editId == null)
@@ -277,4 +314,83 @@
         </div>
     </div>
 
+    <style>
+        .ts-control,
+        .ts-wrapper.single.input-active .ts-control,
+        .ts-dropdown {
+            background: #e5e7eb;
+            width: 100%;
+            border: 1 solid #e5e7eb;
+            border-radius: 0.5rem;
+            outline: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('selectComponent', () => ({
+                tomSelects: {},
+                init() {
+                    this.initTomSelect("#select-users", 'Pilih Siswa', @entangle('user_id').defer);
+                    this.initTomSelect("#select-book", 'Pilih Buku', @entangle('book_id').defer);
+
+                    // Tambahkan event listener untuk Livewire
+                    Livewire.on('reinitialize-select', () => {
+                        this.destroyTomSelects();
+                        this.initTomSelect("#select-users", 'Pilih Siswa', @entangle('user_id')
+                            .defer);
+                        this.initTomSelect("#select-book", 'Pilih Buku', @entangle('book_id')
+                            .defer);
+                    });
+                },
+
+                initTomSelect(selector, placeholder, entangleValue) {
+                    // Hancurkan Tom Select yang sudah ada jika ada
+                    let existingSelect = this.tomSelects[selector];
+                    if (existingSelect) {
+                        existingSelect.destroy();
+                    }
+
+                    let selectElement = document.querySelector(selector);
+                    if (!selectElement) return;
+
+                    let tomSelect = new TomSelect(selectElement, {
+                        create: false,
+                        searchField: ['text'],
+                        placeholder: placeholder,
+                        maxOptions: 5,
+                        persist: false,
+                        plugins: ['dropdown_input']
+                    });
+
+                    // Simpan instance TomSelect
+                    this.tomSelects[selector] = tomSelect;
+
+                    // Set nilai awal jika ada
+                    if (entangleValue) {
+                        tomSelect.setValue(entangleValue);
+                    }
+                },
+
+                destroyTomSelects() {
+                    // Hancurkan semua instance Tom Select
+                    Object.values(this.tomSelects).forEach(select => {
+                        if (select) {
+                            select.destroy();
+                        }
+                    });
+                    this.tomSelects = {};
+                }
+            }));
+        });
+
+        // Pastikan Tom Select diinisialisasi ulang setelah Livewire update
+        document.addEventListener('livewire:load', () => {
+            Livewire.hook('message.processed', (message, component) => {
+                if (component.name === 'edit-form') {
+                    const event = new Event('reinitialize-select');
+                    document.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
 </div>
