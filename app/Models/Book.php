@@ -20,4 +20,10 @@ class Book extends Model
         return $this->hasMany(LoanTransaction::class);
     }
     
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+    
 }

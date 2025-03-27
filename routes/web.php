@@ -6,7 +6,9 @@ use App\Livewire\AdminBookComp;
 use App\Livewire\AdminCategoryComp;
 use App\Livewire\AdminLoanTransactionComp;
 use App\Livewire\AdminUsersComp;
+use App\Livewire\BookDetailComp;
 use App\Livewire\BookExplorerComp;
+use App\Livewire\BookmarkComp;
 use App\Livewire\LoginComp;
 use App\Livewire\UsersAdminComp;
 use Illuminate\Support\Facades\Route;
@@ -33,15 +35,11 @@ Route::post('/loginStore', [LoginController::class, 'loginStore'])->name('login.
 Route::get('/', function () {
     return view('index');
 });
-Route::get('/kategori', function () {
-    return view('kategori');
-});
-Route::get('/bookmark', function () {
-    return view('bookmark');
-});
 
 
 Route::get('/buku', BookExplorerComp::class)->name('jelajahi-buku');
+Route::get('/bookmark', BookmarkComp::class)->name('bookmark');
+Route::get('/buku/detail/{id}', BookDetailComp::class)->name('detail-buku');
 
 Route::get('/manajemen-user', AdminUsersComp::class)->name('admin-manajemen-user');
 Route::get('/manajemen-buku', AdminBookComp::class)->name('admin-manajemen-buku');
