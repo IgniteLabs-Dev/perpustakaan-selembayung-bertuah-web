@@ -18,7 +18,7 @@
                             </tr>
                             <tr>
                                 <td class="font-semibold pt-1">Kategori</td>
-                                <td class="ps-4 pt-1">: {{ $data->stock }}</td>
+                                <td class="ps-4 pt-1">: {{ $categories }}</td>
                             </tr>
                             <tr>
                                 <td class="font-semibold pt-1">Tanggal Terbit</td>
@@ -31,7 +31,7 @@
                             </tr>
                             <tr>
                                 <td class="font-semibold pt-1">Penulis</td>
-                                <td class="ps-4 pt-1">: {{ $data->publisher }}</td>
+                                <td class="ps-4 pt-1">: {{ $authors }}</td>
                             </tr>
 
                         </table>
@@ -41,12 +41,16 @@
                         <p class="text-sm text-gray-900 font-normal">{{ $data->deskripsi }}</p>
                     </div>
                     <div class="flex mt-auto">
-                        <button class="bg-[var(--primary)] cursor-pointer text-white px-3 py-2.5 rounded-lg">
-                            <i class="fa-solid fa-bookmark me-1.5"></i>Tambah ke Bookmark
-                        </button>
-                        <button class="bg-red-500 cursor-pointer text-white px-3 py-2.5 rounded-lg">
+                        @if (in_array($id, $myBookmark))
+                        <button wire:click="removeBookmark({{ $id }})" class="bg-red-500 cursor-pointer text-white px-3 py-2.5 rounded-lg">
                             <i class="fa-solid fa-trash me-1.5"></i>Hapus Dari Bookmark
                         </button>
+                        @else
+                        
+                            <button wire:click="addBookmark({{ $id }})" class="bg-[var(--primary)] cursor-pointer text-white px-3 py-2.5 rounded-lg">
+                                <i class="fa-solid fa-bookmark me-1.5"></i>Tambah ke Bookmark
+                            </button>
+                        @endif
                     </div>
                 </div>
 

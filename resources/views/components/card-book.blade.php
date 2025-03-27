@@ -1,5 +1,5 @@
 <div class="p-4 w-full border-2 border-gray-200 rounded-xl ">
-    <a href="#" class="block">
+    <a href="{{ route('detail-buku', ['id' => $id]) }}" class="block">
         <img class="h-65 w-full object-cover rounded-lg hover:scale-102 transition-transform duration-300 ease-in-out"
             src="{{ asset('images/books/' . ($cover ?? '')) }}" alt="">
 
