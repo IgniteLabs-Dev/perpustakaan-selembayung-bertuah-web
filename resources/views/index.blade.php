@@ -4,17 +4,8 @@
 
 @section('content')
     <div class="relative">
-        <div class="w-full bg-stripes">
-            <div class="max-w-screen-xl mx-auto">
-                <h1 class="text-2xl font-bold text-center text-black pt-20 ">Rekomendasi Buku</h1>
-                <div class="flex justify-center items-end space-x-4 pt-5 pb-25">
-                    <img class="h-40 rounded-md" src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
-                    <img class="h-45 rounded-md" src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
-                    <img class="h-50 rounded-md" src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
-                    <img class="h-45 rounded-md" src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
-                    <img class="h-40 rounded-md" src="{{ asset('images/books/animal_farm_new.jpg') }}" alt="">
-                </div>
-            </div>
+        <div class="div">
+            @livewire('home-recommended')
         </div>
         <div class="absolute inset-x-0 top-full -translate-y-1/2">
             <div class="max-w-screen-xl mx-auto">
@@ -52,38 +43,10 @@
     </div>
 
     <div class="max-w-screen-xl mx-auto mt-5 pt-20">
-        <div class="flex justify-between items-end">
-            <h1 class="text-2xl font-bold  text-black  ">Buku Terbaru</h1>
-            <a href="#">
-                <small class="text-black ">Lihat lainnya</small>
-            </a>
-        </div>
-        <div class="flex justify-between items-start pt-2">
-            @for ($i = 0; $i < 6; $i++)
-                <div class="w-1/6  mb-3 pe-3 [&:nth-child(6n)]:pe-0">
-
-                    <x-card-book />
-                </div>
-            @endfor
-
-        </div>
+        @livewire('home-new')
     </div>
     <div class="max-w-screen-xl mx-auto mt-8 ">
-        <div class="flex justify-between items-end">
-            <h1 class="text-2xl font-bold  text-black  ">Buku Terlaris</h1>
-            <a href="#">
-                <small class="text-black ">Lihat lainnya</small>
-            </a>
-        </div>
-        <div class="flex justify-between items-start pt-2 ">
-            @for ($i = 0; $i < 6; $i++)
-                <div class="w-1/6  mb-3 pe-3 [&:nth-child(6n)]:pe-0">
-
-                    <x-card-book />
-                </div>
-            @endfor
-
-        </div>
+        @livewire('home-hot')
     </div>
     <div class="mb-20 pb-20">
 

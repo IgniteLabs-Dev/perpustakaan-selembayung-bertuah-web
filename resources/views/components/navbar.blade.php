@@ -18,8 +18,8 @@
                             aria-current="page">Home</a>
                     </li>
                     <li>
-                        <a href="/kategori"
-                            class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 ">Kategori</a>
+                        <a href="{{ route('jelajahi-buku') }}"
+                            class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 ">Jelajahi Buku</a>
                     </li>
                     <li>
                         <a href="/bookmark"

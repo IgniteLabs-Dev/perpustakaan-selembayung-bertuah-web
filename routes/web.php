@@ -6,6 +6,7 @@ use App\Livewire\AdminBookComp;
 use App\Livewire\AdminCategoryComp;
 use App\Livewire\AdminLoanTransactionComp;
 use App\Livewire\AdminUsersComp;
+use App\Livewire\BookExplorerComp;
 use App\Livewire\LoginComp;
 use App\Livewire\UsersAdminComp;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,7 @@ Route::get('/bookmark', function () {
 });
 
 
+Route::get('/buku', BookExplorerComp::class)->name('jelajahi-buku');
 
 Route::get('/manajemen-user', AdminUsersComp::class)->name('admin-manajemen-user');
 Route::get('/manajemen-buku', AdminBookComp::class)->name('admin-manajemen-buku');
