@@ -50,6 +50,7 @@ class AdminBookComp extends Component
             ->paginate('10');
 
 
+
         return view('livewire.admin-book-comp', compact('data'))->extends('layouts.master-admin');
     }
     public function updatedSearch()
@@ -84,8 +85,13 @@ class AdminBookComp extends Component
         }
     }
 
+    public function create()
+    {
+        $this->categoriesData = Category::all();
+        $this->authorsData = Author::all();
+    }
 
-    public function store()
+    public function storeCreate()
     {
         $this->validate([
             'title' => 'required',
@@ -106,52 +112,7 @@ class AdminBookComp extends Component
         $data->status = $this->status;
         $data->type = $this->type;
 
-        foreach ($this->authorsAdd as $authorIdNew) {
-            if (ctype_digit($authorIdNew)) {
 
-                $authorsData = new BookAuthors();
-                $authorsData->book_id = $data->id;
-                $authorsData->author_id = $authorIdNew;
-                $authorsData->save();
-            } else {
-                $authorsDataCreate = new Author();
-                $authorsDataCreate->name = $authorIdNew;
-                $authorsDataCreate->save();
-
-                $authorsData = new BookAuthors();
-                $authorsData->book_id = $data->id;
-                $authorsData->author_id = $authorsDataCreate->id;
-                $authorsData->save();
-            }
-        }
-        foreach ($this->authorsDelete as $authorIdDelete) {
-            $authorsDelete = BookAuthors::where('book_id', $data->id)->where('author_id', $authorIdDelete)->first();
-            $authorsDelete->delete();
-        }
-
-        //kategori
-        foreach ($this->categoriesAdd as $categoryIdNew) {
-            if (ctype_digit($categoryIdNew)) {
-
-                $categoriesData = new BookCategories();
-                $categoriesData->book_id = $data->id;
-                $categoriesData->category_id = $categoryIdNew;
-                $categoriesData->save();
-            } else {
-                $categoriesDataCreate = new Category();
-                $categoriesDataCreate->name = $categoryIdNew;
-                $categoriesDataCreate->save();
-
-                $categoriesData = new BookCategories();
-                $categoriesData->book_id = $data->id;
-                $categoriesData->category_id = $categoriesDataCreate->id;
-                $categoriesData->save();
-            }
-        }
-        foreach ($this->categoriesDelete as $categoryIdDelete) {
-            $categoriesDelete = BookCategories::where('book_id', $data->id)->where('category_id', $categoryIdDelete)->first();
-            $categoriesDelete->delete();
-        }
 
 
         $currentTimestamp = time();
@@ -173,6 +134,55 @@ class AdminBookComp extends Component
 
 
         if ($data->save()) {
+
+            foreach ($this->authorsAdd as $authorIdNew) {
+                if (ctype_digit($authorIdNew)) {
+
+                    $authorsData = new BookAuthors();
+                    $authorsData->book_id = $data->id;
+                    $authorsData->author_id = $authorIdNew;
+                    $authorsData->save();
+                } else {
+                    $authorsDataCreate = new Author();
+                    $authorsDataCreate->name = $authorIdNew;
+                    $authorsDataCreate->save();
+
+                    $authorsData = new BookAuthors();
+                    $authorsData->book_id = $data->id;
+                    $authorsData->author_id = $authorsDataCreate->id;
+                    $authorsData->save();
+                }
+            }
+            foreach ($this->authorsDelete as $authorIdDelete) {
+                $authorsDelete = BookAuthors::where('book_id', $data->id)->where('author_id', $authorIdDelete)->first();
+                $authorsDelete->delete();
+            }
+
+            //kategori
+            foreach ($this->categoriesAdd as $categoryIdNew) {
+                if (ctype_digit($categoryIdNew)) {
+
+                    $categoriesData = new BookCategories();
+                    $categoriesData->book_id = $data->id;
+                    $categoriesData->category_id = $categoryIdNew;
+                    $categoriesData->save();
+                } else {
+                    $categoriesDataCreate = new Category();
+                    $categoriesDataCreate->name = $categoryIdNew;
+                    $categoriesDataCreate->save();
+
+                    $categoriesData = new BookCategories();
+                    $categoriesData->book_id = $data->id;
+                    $categoriesData->category_id = $categoriesDataCreate->id;
+                    $categoriesData->save();
+                }
+            }
+            foreach ($this->categoriesDelete as $categoryIdDelete) {
+                $categoriesDelete = BookCategories::where('book_id', $data->id)->where('category_id', $categoryIdDelete)->first();
+                $categoriesDelete->delete();
+            }
+
+
             $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Disimpan!')
                 ->position('top-end')
@@ -349,7 +359,9 @@ class AdminBookComp extends Component
         $this->authorsAdd = [];
         $this->authorsDelete = [];
         $this->authorsNew = [];
+        $this->authorsData = null;
         $this->categoriesShow = null;
+        $this->categoriesData = null;
         $this->categoriesAdd = [];
         $this->categoriesDelete = [];
         $this->categoriesNew = [];

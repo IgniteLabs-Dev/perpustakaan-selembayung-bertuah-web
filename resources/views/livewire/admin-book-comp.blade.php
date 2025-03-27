@@ -11,7 +11,7 @@
             </div>
             <div class="div">
 
-                <button @click="$dispatch('open-modal')" type="button"
+                <button @click="$dispatch('open-modal')" type="button" wire:click="create"
                     class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
                     <i class="fa-solid fa-plus me-2"></i>
                     Tambah Buku
@@ -234,6 +234,8 @@
                                         <img class=" rounded-xl h-full" src="{{ asset('images/books/' . $cover) }}"
                                             alt="">
                                     @endif
+                                    @if ($showId == null)
+                                        
                                     <div class="div">
 
                                         <label class="text-sm text-gray-500 ">Cover<span
@@ -253,6 +255,7 @@
                                         @enderror
 
                                     </div>
+                                    @endif
 
                                 </div>
                                 <div class="w-2/3 flex flex-col justify-between  h-full">
@@ -333,31 +336,31 @@
                                                         </div>
                                                     @empty
                                                     @endforelse
-                                                    @if ($showId == null)
+                                                @endif
+                                                @if ($showId == null && $categoriesData != null)
 
-                                                        <div
-                                                            class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
+                                                    <div
+                                                        class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
 
-                                                            <div wire:ignore class=" flex items-center"
-                                                                x-data="selectComponent">
-                                                                <select name="categoriesAdd[]" multiple
-                                                                    wire:model.defer="categoriesAdd"
-                                                                    class="p-0   min-w-[130px] border-0 outlin-0"
-                                                                    id="select-categories">
-                                                                    <option value="">Pilih Penulis</option>
-                                                                    @forelse ($categoriesData as $category)
-                                                                        <option value="{{ $category->id }}">
-                                                                            {{ $category->name }}</option>
-                                                                    @empty
-                                                                        <option disabled>Kategori Tidak Ada
-                                                                        <option>
-                                                                    @endforelse
+                                                        <div wire:ignore class=" flex items-center"
+                                                            x-data="selectComponent">
+                                                            <select name="categoriesAdd[]" multiple
+                                                                wire:model.defer="categoriesAdd"
+                                                                class="p-0   min-w-[130px] border-0 outlin-0"
+                                                                id="select-categories">
+                                                                <option value="">Pilih Penulis</option>
+                                                                @forelse ($categoriesData as $category)
+                                                                    <option value="{{ $category->id }}">
+                                                                        {{ $category->name }}</option>
+                                                                @empty
+                                                                    <option disabled>Kategori Tidak Ada
+                                                                    <option>
+                                                                @endforelse
 
-                                                                </select>
+                                                            </select>
 
-                                                            </div>
                                                         </div>
-                                                    @endif
+                                                    </div>
                                                 @endif
 
 
@@ -390,33 +393,33 @@
 
                                                     @empty
                                                     @endforelse
-                                                    @if ($showId == null)
 
-                                                        <div
-                                                            class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
+                                                @endif 
+                                                @if ($showId == null  && $authorsData != null)
 
-                                                            <div wire:ignore class=" flex items-center"
-                                                                x-data="selectComponent">
-                                                                <select name="authorsAdd[]" multiple
-                                                                    wire:model.defer="authorsAdd"
-                                                                    class="p-0   min-w-[130px] border-0 outlin-0"
-                                                                    id="select-authors">
-                                                                    <option value="">Pilih Penulis</option>
-                                                                    @forelse ($authorsData as $author)
-                                                                        <option value="{{ $author->id }}">
-                                                                            {{ $author->name }}</option>
-                                                                    @empty
+                                                    <div
+                                                        class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
 
-                                                                        <option disabled>Author Tidak Ada
-                                                                        <option>
-                                                                    @endforelse
+                                                        <div wire:ignore class=" flex items-center"
+                                                            x-data="selectComponent">
+                                                            <select name="authorsAdd[]" multiple
+                                                                wire:model.defer="authorsAdd"
+                                                                class="p-0   min-w-[130px] border-0 outlin-0"
+                                                                id="select-authors">
+                                                                <option value="">Pilih Penulis</option>
+                                                                @forelse ($authorsData as $author)
+                                                                    <option value="{{ $author->id }}">
+                                                                        {{ $author->name }}</option>
+                                                                @empty
 
-                                                                </select>
+                                                                    <option disabled>Author Tidak Ada
+                                                                    <option>
+                                                                @endforelse
 
-                                                            </div>
+                                                            </select>
+
                                                         </div>
-                                                    @endif
-
+                                                    </div>
                                                 @endif
 
 
@@ -443,7 +446,7 @@
                                         <div class="div">
 
                                             @if ($editId == null)
-                                                <button type="button" wire:click="store"
+                                                <button type="button" wire:click="storeCreate"
                                                     class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
                                                     Tambah Buku
                                                 </button>
