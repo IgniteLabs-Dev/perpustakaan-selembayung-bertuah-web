@@ -8,13 +8,15 @@ use Livewire\Component;
 class BookDetailComp extends Component
 {
     public $id;
+    public $data;
+
     public function mount($id)
     {
         $this->id = $id;
+        $this->data = Book::find($this->id);
     }
     public function render()
     {
-        $data = Book::find($this->id);
-        return view('livewire.book-detail-comp', compact('data'))->extends('layouts.master-admin');
+        return view('livewire.book-detail-comp')->extends('layouts.master');
     }
 }

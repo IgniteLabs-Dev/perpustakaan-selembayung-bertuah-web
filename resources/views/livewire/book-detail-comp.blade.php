@@ -1,3 +1,56 @@
 <div>
-    {{-- If your happiness depends on money, you will never be happy with yourself. --}}
+    <div class="max-w-screen-xl mx-auto pt-25 flex  ">
+        <div class="border-1 border-gray-300 rounded-lg shadow-sm  py-3 px-3 font-semibold w-full flex flex-col ">
+
+            <div class="flex ">
+                <div class="w-1/4">
+                    <img class="rounded-lg block " src="{{ asset('images/books/' . $data->cover) }}" alt="">
+                </div>
+                <div class="w-3/4 flex flex-col ps-3">
+                    <h3 class="text-3xl  text-[var(--primary)] font-bold">{{ $data->title }}</h3>
+
+                    <div class="flex">
+
+                        <table class="table-auto border-0 border-collapse   ">
+                            <tr>
+                                <td class="font-semibold pt-1">Stok</td>
+                                <td class="ps-4 pt-1">: {{ $data->stock }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pt-1">Kategori</td>
+                                <td class="ps-4 pt-1">: {{ $data->stock }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pt-1">Tanggal Terbit</td>
+                                <td class="ps-4 pt-1">:
+                                    {{ \Carbon\Carbon::parse($data->realese_date)->translatedFormat('d F Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pt-1">Penerbit</td>
+                                <td class="ps-4 pt-1">: {{ $data->publisher }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pt-1">Penulis</td>
+                                <td class="ps-4 pt-1">: {{ $data->publisher }}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="mt-1">
+                        <p class="">Deskripsi :</p>
+                        <p class="text-sm text-gray-900 font-normal">{{ $data->deskripsi }}</p>
+                    </div>
+                    <div class="flex mt-auto">
+                        <button class="bg-[var(--primary)] cursor-pointer text-white px-3 py-2.5 rounded-lg">
+                            <i class="fa-solid fa-bookmark me-1.5"></i>Tambah ke Bookmark
+                        </button>
+                        <button class="bg-red-500 cursor-pointer text-white px-3 py-2.5 rounded-lg">
+                            <i class="fa-solid fa-trash me-1.5"></i>Hapus Dari Bookmark
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
