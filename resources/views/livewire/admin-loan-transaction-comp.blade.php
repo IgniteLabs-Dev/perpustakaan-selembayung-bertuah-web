@@ -148,7 +148,7 @@
                                 <div class="flex gap-1 justify-end items-end">
                                     @if ($item->status == 'borrowed')
                                         <button wire:click="show({{ $item->id }})"
-                                            @click="$dispatch('open-modal')" type="button"
+                                            @click="$dispatch('open-modal2')" type="button"
                                             class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
@@ -221,110 +221,223 @@
                     </div>
                     <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
 
-                        {{-- <span wire:loading class="loader scale-50  my-5"></span>wire:loading.class="hidden" --}}
+                        {{-- <span wire:loading class="loader scale-50  my-5"></span> --}}
+                    
+                            <div class="block">
+                                <div class="flex flex-wrap items-start">
 
-                        <div class="block">
-                            <div class="flex flex-wrap items-start">
-                                <div class=" w-1/2 even:ps-2   items-start">
-                                    <label class="text-sm text-gray-500">Siswa<span
-                                            class="text-red-500 text-lg">*</span></label>
-                                    <div wire:ignore class=" flex items-center" x-data="selectComponent">
-                                        <select wire:model.defer="user_id" class="tom-select   w-full"
-                                            id="select-users">
-                                            <option value="">Pilih Siswa</option>
-                                            @forelse ($users as $user)
-                                                <option value="{{ $user->id }}">
-                                                    {{ $user->name }}</option>
-                                            @empty
-                                             
-                                            @endforelse
 
-                                        </select>
-
-                                    </div>
-                                </div>
-                                <div class=" w-1/2 even:ps-2   items-start">
-                                    <label class="text-sm text-gray-500">Buku<span
-                                            class="text-red-500 text-lg">*</span></label>
-                                    <div wire:ignore class=" flex items-center" x-data="selectComponent">
-                                        <select wire:model.defer="book_id" class="tom-select   w-full"
-                                            id="select-book">
-                                            <option value="">Pilih Buku</option>
-                                            @forelse ($books as $book)
-                                                <option value="{{ $book->id }}">
-                                                    {{ $book->title }}</option>
-                                            @empty
-                                                <option disabled>Buku Tidak Ada
-                                                <option>
-                                            @endforelse
-
-                                        </select>
-
-                                    </div>
-                                </div>
-                                <div class=" w-1/2 even:ps-2   items-start">
-                                    <x-input symbol="*" typeWire="change" inputId="borrowed_at"
-                                        label="Tanggal Peminjaman" type="date" wireModel="borrowed_at"
-                                        placeholder="Masukkan Tanggal Peminjaman" />
-                                </div>
-                                <div class=" w-1/2 even:ps-2   items-start">
-                                    <x-input symbol="*" typeWire="change" inputId="due_date"
-                                        label="Tenggat waktu pengembalian" type="date" wireModel="due_date"
-                                        placeholder="Masukkan Tenggah Pengembalian" />
-                                </div>
-                                @if ($editId != null)
                                     <div class=" w-1/2 even:ps-2   items-start">
-                                        <x-input symbol="*" typeWire="change" inputId="returned_at"
-                                            label="Tanggal Pengembalian" type="date" wireModel="returned_at"
-                                            placeholder="Masukkan Tanggal Pengembalian" />
+                                        <label class="text-sm text-gray-500">Siswa<span
+                                                class="text-red-500 text-lg">*</span></label>
+                                        <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                                            <select wire:model.defer="user_id" class="tom-select   w-full"
+                                                id="select-users">
+                                                <option value="">Pilih Siswa</option>
+                                                @forelse ($users as $user)
+                                                    <option value="{{ $user->id }}">
+                                                        {{ $user->name }}</option>
+                                                @empty
+                                                @endforelse
+
+                                            </select>
+
+                                        </div>
                                     </div>
                                     <div class=" w-1/2 even:ps-2   items-start">
-                                        <x-select typeWire="change" symbol="*" selectId="status" label="Status"
-                                            wireModel="status" placeholder="Pilih Status" :options="[
-                                                'borrowed' => 'Dipinjam',
-                                                'returned' => 'Dikembalikan',
-                                            ]" />
+                                        <label class="text-sm text-gray-500">Buku<span
+                                                class="text-red-500 text-lg">*</span></label>
+                                        <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                                            <select wire:model.defer="book_id" class="tom-select   w-full"
+                                                id="select-book">
+                                                <option value="">Pilih Buku</option>
+                                                @forelse ($books as $book)
+                                                    <option value="{{ $book->id }}">
+                                                        {{ $book->title }}</option>
+                                                @empty
+                                                    <option disabled>Buku Tidak Ada
+                                                    <option>
+                                                @endforelse
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class=" w-1/2 even:ps-2   items-start">
+                                        <x-input symbol="*" typeWire="change" inputId="borrowed_at"
+                                            label="Tanggal Peminjaman" type="date" wireModel="borrowed_at"
+                                            placeholder="Masukkan Tanggal Peminjaman" />
                                     </div>
                                     <div class=" w-1/2 even:ps-2   items-start">
-                                        <x-select typeWire="change" symbol="*" selectId="condition"
-                                            label="Kondisi" wireModel="condition" placeholder="Pilih Kondisi"
-                                            :options="[
-                                                'baik' => 'Baik',
-                                                'rusak' => 'Rusak',
-                                                'hilang' => 'Hilang',
-                                            ]" />
+                                        <x-input symbol="*" typeWire="change" inputId="due_date"
+                                            label="Tenggat waktu pengembalian" type="date" wireModel="due_date"
+                                            placeholder="Masukkan Tenggah Pengembalian" />
                                     </div>
+                                    @if ($editId != null)
+                                        <div class=" w-1/2 even:ps-2   items-start">
+                                            <x-input symbol="*" typeWire="change" inputId="returned_at"
+                                                label="Tanggal Pengembalian" type="date" wireModel="returned_at"
+                                                placeholder="Masukkan Tanggal Pengembalian" />
+                                        </div>
+                                        <div class=" w-1/2 even:ps-2   items-start">
+                                            <x-select typeWire="change" symbol="*" selectId="status"
+                                                label="Status" wireModel="status" placeholder="Pilih Status"
+                                                :options="[
+                                                    'borrowed' => 'Dipinjam',
+                                                    'returned' => 'Dikembalikan',
+                                                ]" />
+                                        </div>
+                                        <div class=" w-1/2 even:ps-2   items-start">
+                                            <x-select typeWire="change" symbol="*" selectId="condition"
+                                                label="Kondisi" wireModel="condition" placeholder="Pilih Kondisi"
+                                                :options="[
+                                                    'baik' => 'Baik',
+                                                    'rusak' => 'Rusak',
+                                                    'hilang' => 'Hilang',
+                                                ]" />
+                                        </div>
 
-                                    <div class=" w-1/2 even:ps-2   mt-auto">
-                                        <label class="text-sm text-gray-500">Point :<span
-                                                class="text-red-500 text-lg">‎</span></label>
-                                        <input type="text" class="border-0   outline-0 p-0" disabled
-                                            wire:model.defer="finePoint">
-                                    </div>
-                                @endif
-
-
-                                <div class=" w-full mt-3  items-end justify-center flex">
-                                    @if ($editId == null)
-                                        <button type="button" wire:click="storeCreate"
-                                            class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                            Tambah Peminjaman
-                                        </button>
-                                    @else
-                                        <button type="button" wire:click="storeEdit"
-                                            class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                            Simpan Perubahan
-                                        </button>
+                                        <div class=" w-1/2 even:ps-2   mt-auto">
+                                            <label class="text-sm text-gray-500">Point :<span
+                                                    class="text-red-500 text-lg">‎</span></label> <br>
+                                            <input type="text" class="border-0   outline-0 p-0" disabled
+                                                wire:model.defer="finePoint">
+                                        </div>
                                     @endif
+
+
+                                    <div class=" w-full mt-3  items-end justify-center flex">
+                                        @if ($editId == null)
+                                            <button type="button" wire:click="storeCreate"
+                                                class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                                Tambah Peminjaman
+                                            </button>
+                                        @else
+                                            <button type="button" wire:click="storeEdit"
+                                                class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                                Simpan Perubahan
+                                            </button>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                      
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div x-data="{ openSecond: false, zoomImage: '' }" x-cloak x-show="openSecond"
+        x-on:open-modal2.window="openSecond = true; zoomImage = $event.detail.image"
+        x-on:close-modal2.window="openSecond = false"
+        class="fixed inset-0 z-20 flex items-center justify-center bg-black/50 ">
 
+        <div class="relative bg-white rounded-xl shadow-sm max-w-xl max-h-full">
+
+            <div class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
+                <h3 class="text-lg font-semibold text-white">
+                    Tambah Kategori
+                </h3>
+                <button wire:click="resetInput" type="button" @click="openSecond = false"
+                    class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
+                @if ($showId != null)
+                    {{-- <span wire:loading class="loader scale-50  my-5"></span> --}}
+                    <div class="block flex">
+                        <div class="flex w-1/2">
+                            <img class="rounded-lg object-cover" src="{{ asset('images/books/' . $dataShow->book->cover) }}"
+                                alt="">
+                        </div>
+                        <div class="w-1/2 flex flex-col ps-2 justify-between" x-data="{ returned: false }">
+
+                            <!-- if -->
+                            <div class="mb-2">
+                                <label class="text-xs text-gray-500">Nama Peminjam</label>
+                                <p>{{ $dataShow->user->name }}</p>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-xs text-gray-500">Judul Buku</label>
+                                <p>{{ $dataShow->book->title }}</p>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-xs text-gray-500">Tanggal Peminjaman</label>
+                                <p>{{ \Carbon\Carbon::parse($dataShow->borrowed_at)->translatedFormat('d F Y') }} -
+                                    {{ \Carbon\Carbon::parse($dataShow->due_date)->translatedFormat('d F Y') }}</p>
+                            </div>
+                            <div x-show="!returned">
+                            </div>
+
+                            <!-- else -->
+                            <div x-show="returned">
+                                <div class="mb-1">
+                                    <x-input symbol="*" typeWire="change" inputId="returned_at"
+                                        label="Tanggal Pengembalian" type="date" wireModel="returned_at"
+                                        placeholder="Masukkan Tanggal Pengembalian" />
+                                </div>
+                            
+                                <div class="mb-1">
+                                    <x-select typeWire="change" symbol="*" selectId="condition" label="Kondisi"
+                                        wireModel="condition" placeholder="Pilih Kondisi" :options="[
+                                            'baik' => 'Baik',
+                                            'rusak' => 'Rusak',
+                                            'hilang' => 'Hilang',
+                                        ]" />
+                                </div>
+                                <div class="w-1/2 even:ps-2 mt-auto">
+                                    <label class="text-sm text-gray-500">Point :<span
+                                            class="text-red-500 text-lg">‎</span></label>
+                                    <input type="text" class="border-0 outline-0 p-0" disabled
+                                        wire:model.defer="finePoint">
+                                </div>
+                            </div>
+
+                            <!-- tombol -->
+                            <div class="mt-auto ">
+                                <template x-if="returned">
+                                    <div class="flex">
+                                        <div class="pe-1 w-1/2">
+
+                                            <button @click="returned = false"
+                                                class="bg-red-500 w-full  cursor-pointer text-white p-2 rounded-lg">
+                                                Batal
+                                            </button>
+                                        </div>
+                                        <div class="ps-1 w-1/2">
+
+                                            <button @click="returned = true" wire:click="storeReturn"
+                                                class="bg-[var(--primary)] w-full cursor-pointer text-white p-2 rounded-lg">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template x-if="!returned">
+                                    <button @click="returned = true"
+                                        class="bg-[var(--primary)] cursor-pointer text-white p-2 w-full rounded-lg">
+                                        Sudah Dikembalikan
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                    </div>
+                @endif
+
+
+            </div>
+        </div>
+    </div>
     <style>
         .ts-control,
         .ts-wrapper.single.input-active .ts-control,

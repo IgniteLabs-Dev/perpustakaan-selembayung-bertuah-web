@@ -13,10 +13,11 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 class AdminLoanTransactionComp extends Component
 {
     use WithPagination;
-    public $user_id, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine, $point;
+    public $user_id, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine, $point, $cover;
     public $search;
     public $confirmDelete;
     public $editId;
+    public $dataShow, $showId;
     public $users;
     public $books;
     public $finePoint;
@@ -77,9 +78,17 @@ class AdminLoanTransactionComp extends Component
         $this->due_date = $data->due_date;
         $this->condition = $data->condition;
     }
+
+    public function show($id)
+    {
+        $this->showId = $id;
+        $this->dataShow = LoanTransaction::find($id);
+        $this->status = 'returned';
+    }
+
     public function countFinePoint()
     {
-        if ($this->status === 'returned') {
+        if ($this->status === 'returned' && $this->returned_at != null) {
             $returnedAt = Carbon::parse($this->returned_at);
             $dueDate = Carbon::parse($this->due_date);
             if ($this->condition === 'hilang') {
@@ -147,6 +156,40 @@ class AdminLoanTransactionComp extends Component
                 ->show();
         }
     }
+    public function storeReturn()
+    {
+        $this->validate([
+
+            'status' => 'required',
+            'returned_at' => 'required',
+            'condition' => 'required',
+        ]);
+
+        $id = $this->showId;
+        $data = LoanTransaction::find($id);
+        $data->status = $this->status;
+        $data->returned_at = $this->returned_at;
+        $data->condition = $this->condition;
+        $data->fine = preg_replace('/[^0-9]/', '', $this->fine);
+        $data->point = preg_replace('/[^0-9]/', '', $this->point);
+
+        if ($data->save()) {
+            LivewireAlert::title('Data Berhasil Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->success()
+                ->show();
+
+            $this->dispatch('close-modal2');
+            $this->resetInput();
+        } else {
+            LivewireAlert::title('Data Gagal Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
+        }
+    }
     public function storeCreate()
     {
         $this->validate([
@@ -162,7 +205,7 @@ class AdminLoanTransactionComp extends Component
         $data->borrowed_at = $this->borrowed_at;
         $data->due_date = $this->due_date;
         $data->status = 'borrowed';
-       
+
 
         if ($data->save()) {
             LivewireAlert::title('Data Berhasil Ditambah!')
