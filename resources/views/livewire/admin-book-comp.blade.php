@@ -472,7 +472,7 @@
         class="fixed inset-0 z-20 flex items-center justify-center bg-black/50">
 
         <div class="justify-center flex p-5 shadow-lg" @click.away="openSecond = false">
-            <img class="h-dvh rounded-lg" :src="zoomImage" alt="">
+            <img class="h-dvh " :src="zoomImage" alt="">
         </div>
     </div>
     <script>

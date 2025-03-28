@@ -34,7 +34,10 @@ class AdminAuthorComp extends Component
     {
         $this->validate([
             'name' => 'required'
+        ], [
+            'name.required' => 'Nama penulis wajib diisi.'
         ]);
+
 
         $data = new Author();
         $data->name = $this->name;
@@ -65,7 +68,9 @@ class AdminAuthorComp extends Component
     public function storeEdit()
     {
         $this->validate([
-            'name' => 'required',
+            'name' => 'required'
+        ], [
+            'name.required' => 'Nama penulis wajib diisi.'
         ]);
 
         $id = $this->editId;
@@ -99,10 +104,10 @@ class AdminAuthorComp extends Component
                 ->show();
         } else {
             LivewireAlert::title('Data gagal dihapus!')
-            ->position('top-end')
-            ->toast()
-            ->error()
-            ->show();
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
         }
     }
     public function resetInput()

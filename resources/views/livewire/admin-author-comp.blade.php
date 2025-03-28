@@ -1,13 +1,13 @@
 <div>
     <div class="flex justify-between mb-3 mt-5">
         <div class="div items-center">
-            <h1 class="text-2xl font-semibold text-gray-900">Data Penulis</h1>
+            <h1 class="text-2xl font-bold text-gray-900">Data Penulis</h1>
         </div>
         <div class="flex justify-end items-center gap-2">
             <div class="div">
                 <input wire:model.live="search" type="text"
-                    class="bg-white w-full  p-2 placeholder:italic  outline-slate-300 outline-1  rounded-lg focus:outline-slate-300"
-                    placeholder="Masukkan Pencarian">
+                    class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:border-slate-300"
+                    placeholder="Masukkan Nama Penulis">
             </div>
             <div class="div">
 
@@ -67,7 +67,7 @@
                                 <div class="div">
 
                                     <button wire:click="$set('confirmDelete', {{ $item->id }})" type="button"
-                                        class="cursor-pointer hover:brightness:95 text-red-500 hover:scale-120 rounded-full">
+                                        class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
@@ -75,7 +75,7 @@
 
                                     <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
                                         type="button"
-                                        class="cursor-pointer hover:brightness:95 text-blue-500 hover:scale-120 rounded-full">
+                                        class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
                                 </div>
@@ -121,7 +121,11 @@
                     <div
                         class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
                         <h3 class="text-lg font-semibold text-white">
+                            @if ($editId != null)
+                            Edit Data {{ $name }}
+                        @else
                             Tambah Penulis
+                        @endif
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">

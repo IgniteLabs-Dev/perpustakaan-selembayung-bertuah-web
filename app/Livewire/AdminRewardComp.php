@@ -12,7 +12,8 @@ class AdminRewardComp extends Component
 {
     use WithPagination;
     public $confirmDelete;
-    public $sortType = 'desc';
+    public $search;
+    public $sort = 'desc';
 
     public function render()
     {
@@ -23,8 +24,13 @@ class AdminRewardComp extends Component
                 DB::raw('SUM(fine) as total_fine'),
                 DB::raw('SUM(point) - SUM(fine) as final_point')
             )
+            ->when($this->search, function ($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%');
+                });
+            })
             ->groupBy('user_id')
-            ->orderByRaw('SUM(point) - SUM(fine) ' . $this->sortType)
+            ->orderByRaw('SUM(point) - SUM(fine) ' . $this->sort)
             ->paginate(10);
 
         return view('livewire.admin-reward-comp', compact('data'))->extends('layouts.master-admin');

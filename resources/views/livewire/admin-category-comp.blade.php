@@ -6,8 +6,8 @@
         <div class="flex justify-end items-center gap-2">
             <div class="div">
                 <input wire:model.live="search" type="text"
-                    class="bg-white w-full  p-2 placeholder:italic  outline-slate-300 outline-1  rounded-lg focus:outline-slate-300"
-                    placeholder="Masukkan Pencarian">
+                    class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:border-slate-300"
+                    placeholder="Masukkan Kategori">
             </div>
             <div class="div">
 
@@ -67,7 +67,7 @@
                                 <div class="div">
 
                                     <button wire:click="$set('confirmDelete', {{ $item->id }})" type="button"
-                                        class="cursor-pointer hover:brightness:95 text-red-500 hover:scale-120 rounded-full">
+                                        class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
@@ -75,7 +75,7 @@
 
                                     <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
                                         type="button"
-                                        class="cursor-pointer hover:brightness:95 text-blue-500 hover:scale-120 rounded-full">
+                                        class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
                                 </div>

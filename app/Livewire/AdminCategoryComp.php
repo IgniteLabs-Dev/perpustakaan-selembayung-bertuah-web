@@ -33,6 +33,8 @@ class AdminCategoryComp extends Component
     {
         $this->validate([
             'name' => 'required'
+        ], [
+            'name.required' => 'Kategori wajib diisi.'
         ]);
 
         $data = new Category();
@@ -64,7 +66,9 @@ class AdminCategoryComp extends Component
     public function storeEdit()
     {
         $this->validate([
-            'name' => 'required',
+            'name' => 'required'
+        ], [
+            'name.required' => 'Kategori wajib diisi.'
         ]);
 
         $id = $this->editId;
@@ -98,10 +102,10 @@ class AdminCategoryComp extends Component
                 ->show();
         } else {
             LivewireAlert::title('Data gagal dihapus!')
-            ->position('top-end')
-            ->toast()
-            ->error()
-            ->show();
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
         }
     }
     public function resetInput()

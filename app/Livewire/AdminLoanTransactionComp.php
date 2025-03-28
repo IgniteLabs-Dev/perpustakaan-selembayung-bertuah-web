@@ -21,6 +21,8 @@ class AdminLoanTransactionComp extends Component
     public $users;
     public $books;
     public $finePoint;
+    public $conditionFilter;
+    public $statusFilter;
 
     public function mount()
     {
@@ -32,16 +34,22 @@ class AdminLoanTransactionComp extends Component
 
     public function render()
     {
-        $data = LoanTransaction::when($this->search, function ($query) {
-            $query->where('loan_id', 'like', '%' . $this->search . '%');
-        })->whereHas('user', function ($query) {
-            $query->where('name', 'like', '%' . $this->search . '%');
+        $data = LoanTransaction::where(function ($query) {
+            $query->whereHas('user', function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%');
+            })->orWhereHas('book', function ($q) {
+                $q->where('title', 'like', '%' . $this->search . '%');
+            });
         })
-            ->whereHas('book', function ($query) {
-                $query->where('title', 'like', '%' . $this->search . '%');
+            ->when($this->conditionFilter, function ($query) {
+                $query->where('condition', $this->conditionFilter);
             })
-            ->orderby('created_at', 'desc')
-            ->paginate('10');
+            ->when($this->statusFilter, function ($query) {
+                $query->where('status', $this->statusFilter);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
 
 
 
@@ -65,6 +73,7 @@ class AdminLoanTransactionComp extends Component
         $this->condition = '';
         $this->fine = '';
         $this->point = '';
+        $this->resetValidation();
     }
     public function edit($id)
     {
@@ -125,7 +134,16 @@ class AdminLoanTransactionComp extends Component
             'returned_at' => 'required',
             'due_date' => 'required',
             'condition' => 'required',
+        ], [
+            'user_id.required' => 'User harus dipilih.',
+            'book_id.required' => 'Buku harus dipilih.',
+            'status.required' => 'Status harus diisi.',
+            'borrowed_at.required' => 'Tanggal peminjaman harus diisi.',
+            'returned_at.required' => 'Tanggal pengembalian harus diisi.',
+            'due_date.required' => 'Tanggal jatuh tempo harus diisi.',
+            'condition.required' => 'Kondisi buku harus diisi.',
         ]);
+
 
         $id = $this->editId;
         $data = LoanTransaction::find($id);
@@ -159,10 +177,13 @@ class AdminLoanTransactionComp extends Component
     public function storeReturn()
     {
         $this->validate([
-
             'status' => 'required',
             'returned_at' => 'required',
             'condition' => 'required',
+        ], [
+            'status.required' => 'Status harus diisi.',
+            'returned_at.required' => 'Tanggal pengembalian harus diisi.',
+            'condition.required' => 'Kondisi buku harus diisi.',
         ]);
 
         $id = $this->showId;
@@ -190,6 +211,13 @@ class AdminLoanTransactionComp extends Component
                 ->show();
         }
     }
+    public function resetFilter()
+    {
+        $this->conditionFilter = '';
+        $this->statusFilter = '';
+        $this->search = '';
+        $this->resetPage();
+    }
     public function storeCreate()
     {
         $this->validate([
@@ -197,6 +225,11 @@ class AdminLoanTransactionComp extends Component
             'book_id' => 'required',
             'borrowed_at' => 'required',
             'due_date' => 'required',
+        ], [
+            'user_id.required' => 'User harus dipilih.',
+            'book_id.required' => 'Buku harus dipilih.',
+            'borrowed_at.required' => 'Tanggal peminjaman harus diisi.',
+            'due_date.required' => 'Tanggal jatuh tempo harus diisi.',
         ]);
 
         $data = new LoanTransaction();
