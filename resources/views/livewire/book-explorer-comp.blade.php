@@ -1,31 +1,54 @@
 <div>
-    <div class="max-w-screen-xl mx-auto pt-25 flex">
-        <div class="w-5/6 pe-2">
+    <div class="max-w-screen-xl mx-auto pt-25 flex flex-col">
+        <div class="w-full ">
             <input wire:model.live="search" type="search" id="default-search"
                 class="block border border-gray-300 rounded-xl w-full py-3 px-2 focus:outline-0 focus:outline-transparent text-sm  "
                 placeholder="Masukkan judul atau penulis" required />
         </div>
-        <div class="w-1/6 flex">
-            <div class="w-[50%] pe-1">
+        <div class="w-full flex justify-between mt-2">
+            <div class="flex w-[50%] gap-2 items-center">
 
-                <select id="countries"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                    <option selected>Kategori</option>
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
-                    <option value="FR">France</option>
-                    <option value="DE">Germany</option>
-                </select>
+                <div wire:ignore class=" flex items-center " x-data="selectComponent">
+                    <select wire:model.change="category" class="  p-0 min-w-[140px]   border-0 outline-0"
+                        id="select-categories">
+                        <option value="">Pilih Kategori</option>
+                        @forelse ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @empty
+                        @endforelse
+                    </select>
+
+                </div>
+                <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                    <select wire:model.change="author" class=" h-full p-0 min-w-[140px] border-0 outline-0"
+                        id="select-authors">
+                        <option value="">Pilih Penulis</option>
+                        @forelse ($authors as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @empty
+                        @endforelse
+                    </select>
+
+                </div>
+                <button wire:click="resetFilter"
+                    class="text-xs cursor-pointer hover:scale-105 hover:shadow-md hover:brightness-95 bg-[var(--primary)] text-white  px-2 py-1 rounded-full">
+                    Reset Filter
+                </button>
             </div>
-            <div class="w-[50%] ps-1">
-                <select id="countries"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                    <option selected>Penulis</option>
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
-                    <option value="FR">France</option>
-                    <option value="DE">Germany</option>
-                </select>
+            <div class="flex w-[50%] items-center  justify-end">
+                <div class="div me-2">
+
+                    <p class=" text-md">Urutkan :</p>
+                </div>
+                <div class="div">
+
+                    <select wire:model.change="sortType"
+                        class="  py-2.5 bg-transparent   text-sm w-full  border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="new">Paling Terbaru</option>
+                        <option value="az">Judul A - Z</option>
+                        <option value="za">Judul Z - A</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -43,4 +66,38 @@
             </div>
         @endforelse
     </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('selectComponent', () => ({
+                init() {
+                    this.initTomSelect("#select-authors", 'Cari Penulis');
+                    this.initTomSelect("#select-categories", 'Cari Kategori');
+                },
+                initTomSelect(selector, placeholder) {
+                    new TomSelect(selector, {
+                        searchField: ['text'],
+                        placeholder: placeholder,
+                        maxOptions: 3,
+                        persist: false,
+                        plugins: ['dropdown_input', 'remove_button'],
+                    });
+                }
+            }));
+        });
+        document.addEventListener("resetSelect", () => {
+            let selects = ["#select-authors", "#select-categories"];
+            selects.forEach(selector => {
+                let element = document.querySelector(selector);
+                if (element && element.tomselect) {
+                    element.tomselect.clear(); // Kosongkan select
+                }
+            });
+        });
+    </script>
+    <style>
+        .ts-control {
+            border-radius: 8px;
+        }
+    </style>
 </div>
