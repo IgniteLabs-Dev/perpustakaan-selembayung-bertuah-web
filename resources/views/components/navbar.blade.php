@@ -67,10 +67,13 @@
                         class="z-10 hidden  font-normal bg-white divide-y  divide-gray-100 rounded-lg shadow-sm  ">
                         <ul class="py-2 px-3 rounded-lg text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
                             <li>
-                                <button href="{{ route('logout') }}"
-                                    class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-gray-100 hover:text-[var(--primary)]">
-                                    <i class="fa-solid fa-clock-rotate-left me-2"></i>Riwayat Peminjaman
-                                </button>
+                                <a href="{{ route('riwayat-peminjaman') }}">
+
+                                    <button href="{{ route('logout') }}"
+                                        class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-gray-100 hover:text-[var(--primary)]">
+                                        <i class="fa-solid fa-clock-rotate-left me-2"></i>Riwayat Peminjaman
+                                    </button>
+                                </a>
                             </li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
