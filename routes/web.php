@@ -33,8 +33,8 @@ Route::post('/loginStore', [LoginController::class, 'loginStore'])->name('login.
 
 
 Route::get('/', function () {
-    return view('index');
-});
+    return view('pages.index');
+})->name('index');
 
 
 Route::get('/buku/{search?}', BookExplorerComp::class)->name('jelajahi-buku');

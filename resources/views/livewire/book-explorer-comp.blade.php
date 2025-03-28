@@ -3,7 +3,7 @@
         <div class="w-full ">
             <input wire:model.live="search" type="search" id="default-search"
                 class="block border border-gray-300 rounded-xl w-full py-3 px-2 focus:outline-0 focus:outline-transparent text-sm  "
-                placeholder="Masukkan judul atau penulis" required />
+                placeholder="Masukkan Judul, Penulis atau Kategori" required />
         </div>
         <div class="w-full flex justify-between mt-2">
             <div class="flex w-[50%] gap-2 items-center">

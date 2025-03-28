@@ -20,9 +20,11 @@ class BookExplorerComp extends Component
     public $sortType = 'new';
     public $sortTable = 'created_at';
 
-    public function mount($search = null)
+    public function mount($search = null, $category = null)
     {
+
         $this->search = $search;
+        $this->category = $category;
         $this->user = JWTAuth::parseToken()->authenticate();
     }
     public function resetFilter()
@@ -64,12 +66,22 @@ class BookExplorerComp extends Component
             ->when($this->search, function ($query) {
                 $search = '%' . $this->search . '%';
                 $query->where(function ($q) use ($search) {
-                    $q->where('title', 'like', $search)
-                        ->orWhere('publisher', 'like', $search)
-                        ->orWhereRaw('(SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
-                                    FROM book_authors 
-                                    JOIN authors ON authors.id = book_authors.author_id 
-                                    WHERE book_authors.book_id = books.id) like ?', [$search]);
+                    $q->where('title', 'like', "%$search%")
+                        ->orWhere('publisher', 'like', "%$search%")
+                        ->orWhereExists(function ($subquery) use ($search) {
+                            $subquery->select(DB::raw(1))
+                                ->from('book_authors')
+                                ->join('authors', 'authors.id', '=', 'book_authors.author_id')
+                                ->whereColumn('book_authors.book_id', 'books.id')
+                                ->where('authors.name', 'like', "%$search%");
+                        })
+                        ->orWhereExists(function ($subquery) use ($search) {
+                            $subquery->select(DB::raw(1))
+                                ->from('book_categories')
+                                ->join('categories', 'categories.id', '=', 'book_categories.category_id')
+                                ->whereColumn('book_categories.book_id', 'books.id')
+                                ->where('categories.name', 'like', "%$search%");
+                        });
                 });
             })
             ->when($this->author, function ($query) {
