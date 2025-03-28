@@ -17,20 +17,20 @@ class BookmarkComp extends Component
     {
         $data = Bookmark::select('bookmark.*')
             ->addSelect(DB::raw('(
-        SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
-        FROM book_authors 
-        JOIN authors ON authors.id = book_authors.author_id 
-        WHERE book_authors.book_id = bookmark.id
-    ) as authors'))
+            SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
+            FROM book_authors 
+            JOIN authors ON authors.id = book_authors.author_id 
+            WHERE book_authors.book_id = bookmark.book_id
+        ) as authors'))
             ->when($this->search, function ($query) {
                 $search = '%' . $this->search . '%';
                 $query->whereHas('book', function ($query) use ($search) {
                     $query->where('title', 'like', $search);
                 })
-                ->orWhereRaw('(SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
+                    ->orWhereRaw('(SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
                                 FROM book_authors 
                                 JOIN authors ON authors.id = book_authors.author_id 
-                                WHERE book_authors.book_id = bookmark.id) like ?', [$search]);
+                                WHERE book_authors.book_id = bookmark.book_id) like ?', [$search]);
             })
             ->orderBy('created_at', 'desc')
             ->paginate(30);

@@ -48,7 +48,7 @@
                     </a>
                 @else
                     <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
-                        class="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto ">{{ $name }}
+                        class="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[var(--primary)] hover:font-semibold font-medium md:p-0 md:w-auto ">{{ $name }}
                         <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -60,11 +60,17 @@
                         class="z-10 hidden  font-normal bg-white divide-y  divide-gray-100 rounded-lg shadow-sm  ">
                         <ul class="py-2 px-3 rounded-lg text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
                             <li>
+                                <button href="{{ route('logout') }}"
+                                    class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-gray-100 hover:text-[var(--primary)]">
+                                    <i class="fa-solid fa-clock-rotate-left me-2"></i>Riwayat Peminjaman
+                                </button>
+                            </li>
+                            <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button href="{{ route('logout') }}"
-                                        class="block cursor-pointer px-4 rounded-lg py-2 hover:bg-gray-100 hover:text-red-700">
-                                        Log out
+                                        class="block cursor-pointer w-full text-start px-3 rounded-lg py-2 hover:bg-gray-100 hover:text-red-700">
+                                        <i class="fa-solid fa-right-from-bracket me-2"></i> Log out
                                     </button>
                                 </form>
                             </li>

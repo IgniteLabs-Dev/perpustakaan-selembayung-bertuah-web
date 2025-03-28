@@ -4,7 +4,7 @@
 
             <div class="flex ">
                 <div class="w-1/4">
-                    <img class="rounded-lg block " src="{{ asset('images/books/' . $data->cover) }}" alt="">
+                    <img class="rounded-lg block " src="{{ asset('images/books/' . $data->cover) }}" alt="cover">
                 </div>
                 <div class="w-3/4 flex flex-col ps-3">
                     <h3 class="text-3xl  text-[var(--primary)] font-bold">{{ $data->title }}</h3>

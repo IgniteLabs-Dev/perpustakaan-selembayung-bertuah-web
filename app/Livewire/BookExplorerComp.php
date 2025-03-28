@@ -10,11 +10,12 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BookExplorerComp extends Component
 {
-    public $search;
+    public $search = null;
     public $user;
 
-    public function mount()
+    public function mount($search = null)
     {
+        $this->search = $search;
         $this->user = JWTAuth::parseToken()->authenticate();
     }
 

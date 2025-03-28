@@ -9,30 +9,36 @@
                         placeholder="Masukkan judul atau penulis" required />
                 </div>
 
-                <div class="flex mt-2">
+                <div class="flex mt-2 flex-wrap">
                     @forelse($data as $item)
                         <div class="w-1/3 mb-3 pe-3">
-                            <div class="border-gray-300 p-3 border rounded-lg">
-                                <div class="flex">
 
-                                    <img class="w-35 hover:scale-102 transition-transform duration-300 ease-in-out object-cover rounded-lg  "
-                                        src="{{ asset('images/books/' . $item->book->cover) }}" alt="">
-                                    <div class="ms-2 flex  flex-col ">
-                                        <div class="flex flex-col">
+                            <div class="border-gray-300 p-3 border flex rounded-lg justify-start">
+                                <div class="flex  ">
+                                    <div class="w-3/7">
 
-                                            <p
-                                                class="text-xs mb-0 mt-2 text-gray-700 overflow-hidden text-ellipsis hover:whitespace-normal whitespace-nowrap max-w-[150px]">
-                                                {{ $item->authors }}
-                                            </p>
+                                        <a  class="h-full" href="{{ route('detail-buku', ['id' => $item->book->id]) }}">
+                                            <img class="w-36  hover:scale-102 transition-transform duration-300 ease-in-out object-cover rounded-lg  "
+                                                src="{{ asset('images/books/' . $item->book->cover) }}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="ms-2 flex w-4/7 flex-col ">
+                                        <a href="{{ route('detail-buku', ['id' => $item->book->id]) }}">
+                                            <div class="flex flex-col flex-wrap">
 
-                                            <h1 class="text-md font-bold mb-1 mt-0 text-black leading-tight">
-                                                {{ $item->book->title }} </h1>
-                                            <p class="text-xs  text-black">Stok : {{ $item->book->stock ?? '' }}</p>
-                                        </div>
+                                                <p
+                                                    class="text-xs mb-0  text-gray-700 overflow-hidden text-ellipsis hover:whitespace-normal whitespace-nowrap max-w-[150px]">
+                                                    {{ $item->authors }}
+                                                </p>
 
+                                                <h1 class="text-md font-bold mb-1 mt-0 whitespace- text-black leading-tight">
+                                                    {{ $item->book->title }} </h1>
+                                                <p class="text-xs  text-black">Stok : {{ $item->book->stock ?? '' }}</p>
+                                            </div>
+                                        </a>
 
                                         <button wire:click="removeBookmark({{ $item->book_id }})"
-                                            class="mt-auto cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out rounded-full outline-1   bg-red-800  text-white hover:shadow-sm focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-xs px-2 py-1 active:outline-0 active:outline-none">Hapus
+                                            class=" cursor-pointer mt-auto hover:scale-105 transition-transform duration-300 ease-in-out rounded-full outline-1 outline-red-700 text-red-700  hover:bg-red-700  hover:text-white hover:shadow-sm focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-xs px-2 py-1 active:outline-0 active:outline-none">Hapus
                                             dari
                                             Bookmark</button>
 
@@ -41,6 +47,7 @@
                                 </div>
 
                             </div>
+
                         </div>
                     @empty
                         <div class="w-full text-center justify-center flex items-center">

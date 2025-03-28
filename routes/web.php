@@ -37,7 +37,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/buku', BookExplorerComp::class)->name('jelajahi-buku');
+Route::get('/buku/{search?}', BookExplorerComp::class)->name('jelajahi-buku');
 Route::get('/bookmark', BookmarkComp::class)->name('bookmark');
 Route::get('/buku/detail/{id}', BookDetailComp::class)->name('detail-buku');
 
