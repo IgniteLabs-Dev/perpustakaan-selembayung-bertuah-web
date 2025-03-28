@@ -1,13 +1,13 @@
 <div>
     <div class="flex justify-between mb-3 mt-5">
         <div class="div items-center">
-            <h1 class="text-2xl font-semibold text-gray-900">Data Pengguna</h1>
+            <h1 class="text-2xl  font-bold text-gray-900">Data Pengguna</h1>
         </div>
         <div class="flex justify-end items-center gap-2">
             <div class="div">
                 <input wire:model.live="search" type="text"
-                    class="bg-white w-full  p-2 placeholder:italic  outline-slate-300 outline-1  rounded-lg focus:outline-slate-300"
-                    placeholder="Masukkan Pencarian">
+                    class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300   rounded-lg focus:border-1  "
+                    placeholder="Masukkan Nama Siswa">
             </div>
             <div class="div">
 
@@ -67,13 +67,15 @@
                             {{ $item->email }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ \Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('d F Y') }}
+                            @if ($item->tanggal_lahir != null)
+                                {{ \Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('d F Y') }}
+                            @endif
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->kelas }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->role }}
+                            {{ ucfirst($item->role) }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->point }}
@@ -81,7 +83,7 @@
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->semester }}
                         </td>
-                        <td class="px-6 flex py-3 text-center text-gray-900 font-normal gap-1 ">
+                        <td class="px-6 flex py-3 justify-end text-center text-gray-900 font-normal gap-1 ">
 
                             @if ($confirmDelete != null && $confirmDelete == $item->id)
                                 <div class="flex flex-col">
@@ -99,20 +101,26 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="div">
+                                <div class="flex justify-center">
+                                    <div class="div">
+                                        <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
+                                            type="button"
+                                            class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                    </div>
+                                    @if ($user->id != $item->id)
+                                        <div class="ms-1">
 
-                                    <button wire:click="$set('confirmDelete', {{ $item->id }})" type="button"
-                                        class="cursor-pointer hover:brightness:95 text-red-500 hover:scale-120 rounded-full">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </div>
-                                <div class="div">
 
-                                    <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
-                                        type="button"
-                                        class="cursor-pointer hover:brightness:95 text-blue-500 hover:scale-120 rounded-full">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
+                                            <button wire:click="$set('confirmDelete', {{ $item->id }})"
+                                                type="button"
+                                                class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+
                                 </div>
                             @endif
                         </td>
@@ -156,7 +164,11 @@
                     <div
                         class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
                         <h3 class="text-lg font-semibold text-white">
-                            Tambah Pengguna
+                            @if ($editId != null)
+                                Edit Data {{ $name }}
+                            @else
+                                Tambah Pengguna
+                            @endif
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
@@ -194,7 +206,7 @@
                                 </div>
 
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-input symbol="‎" typeWire="defer" inputId="password" label="Password"
+                                    <x-input symbol="{{ $editId ? '‎' : '*' }}" typeWire="defer" inputId="password" label="Password"
                                         type="password" wireModel="password" placeholder="Masukkan Password" />
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
@@ -204,13 +216,13 @@
                                 </div>
 
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-select typeWire="defer" symbol="*" selectId="role" label="Role" wireModel="role"
-                                        placeholder="Role" :options="[
+                                    <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
+                                        wireModel="role" placeholder="Role" :options="[
                                             'admin' => 'Admin',
                                             'siswa' => 'Siswa',
                                         ]" />
                                 </div>
-                                <div class=" w-1/2 mt-3 odd:pe-2 items-end justify-start flex">
+                                <div class=" w-full mt-3  items-center justify-center flex">
                                     @if ($editId == null)
                                         <button type="button" wire:click="store"
                                             class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">

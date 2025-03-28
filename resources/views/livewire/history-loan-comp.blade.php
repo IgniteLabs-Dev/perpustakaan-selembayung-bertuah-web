@@ -2,17 +2,25 @@
     <div class="max-w-screen-xl mx-auto pt-25 flex flex-col">
         <div class="flex w-full justify-between mb-3">
             <div class="div items-center">
-                <h1 class="text-2xl font-semibold text-gray-900">Riwayat Peminjaman</h1>
+                <h1 class="text-2xl font-bold text-gray-900">Riwayat Peminjaman</h1>
             </div>
             <div class="flex justify-end items-center gap-2">
                 <div class="div">
-                    <input wire:model.live="search" type="text"
-                        class="bg-white w-full  p-2 placeholder:italic  outline-slate-300 outline-1  rounded-lg focus:outline-slate-300"
-                        placeholder="Masukkan Pencarian">
+                    <div class="   items-start">
+                        <select wire:model.change="type"
+                            class="border-1  border-slate-300 cursor-pointer  text-sm w-full h-full  rounded-lg focus:outline-gray-300 disabled:bg-gray-300 ">
+                            <option value="">Semua Tipe</option>
+                            <option value="literasi">Literasi</option>
+                            <option value="paketan">Paketan</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="div">
-
+                    <input wire:model.live="search" type="text"
+                        class="bg-white w-full  p-2 placeholder:italic border-1  border-slate-300   rounded-lg focus:border-slate-300"
+                        placeholder="Masukkan Judul Buku">
                 </div>
+
             </div>
         </div>
 
@@ -102,7 +110,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
+                            <td colspan="8" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
                         </tr>
                     @endforelse
 

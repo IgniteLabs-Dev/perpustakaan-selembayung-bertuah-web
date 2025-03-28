@@ -11,10 +11,23 @@ class HistoryLoanComp extends Component
 {
     use WithPagination;
     public $confirmDelete;
+    public $search;
+    public $type;
     public function render()
     {
+
         $user = JWTAuth::parseToken()->authenticate();
         $data = LoanTransaction::where('user_id', $user->id)
+            ->when($this->search, function ($query) {
+                $query->whereHas('book', function ($bookQuery) {
+                    $bookQuery->where('title', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->type, function ($query) {
+                $query->whereHas('book', function ($bookTypeQuery) {
+                    $bookTypeQuery->where('type', 'like', '%' . $this->type . '%');
+                });
+            })
             ->orderby('created_at', 'desc')
             ->paginate('10');;
 
