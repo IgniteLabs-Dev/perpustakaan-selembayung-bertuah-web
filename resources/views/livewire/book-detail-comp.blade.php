@@ -14,7 +14,11 @@
                         <table class="table-auto border-0 border-collapse   ">
                             <tr>
                                 <td class="font-semibold pt-1">Stok</td>
-                                <td class="ps-4 pt-1">: {{ $data->stock }}</td>
+                                <td class="ps-4 pt-1">: 
+                                    <span class="{{ $data->stock - $loaned->total == 0 ? 'text-red-500' : '' }}">
+                                        {{ $data->stock - $loaned->total }}
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="font-semibold pt-1">Kategori</td>
@@ -42,12 +46,13 @@
                     </div>
                     <div class="flex mt-auto">
                         @if (in_array($id, $myBookmark))
-                        <button wire:click="removeBookmark({{ $id }})" class="bg-red-500 cursor-pointer text-white px-3 py-2.5 rounded-lg">
-                            <i class="fa-solid fa-trash me-1.5"></i>Hapus Dari Bookmark
-                        </button>
+                            <button wire:click="removeBookmark({{ $id }})"
+                                class="bg-red-500 cursor-pointer text-white px-3 py-2.5 rounded-lg">
+                                <i class="fa-solid fa-trash me-1.5"></i>Hapus Dari Bookmark
+                            </button>
                         @else
-                        
-                            <button wire:click="addBookmark({{ $id }})" class="bg-[var(--primary)] cursor-pointer text-white px-3 py-2.5 rounded-lg">
+                            <button wire:click="addBookmark({{ $id }})"
+                                class="bg-[var(--primary)] cursor-pointer text-white px-3 py-2.5 rounded-lg">
                                 <i class="fa-solid fa-bookmark me-1.5"></i>Tambah ke Bookmark
                             </button>
                         @endif

@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Bookmark;
 use App\Models\Category;
+use App\Models\LoanTransaction;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -63,6 +64,16 @@ class BookExplorerComp extends Component
             JOIN authors ON authors.id = book_authors.author_id 
             WHERE book_authors.book_id = books.id
         ) as authors'))
+            ->leftJoinSub(
+                LoanTransaction::where('status', 'borrowed')
+                    ->selectRaw('book_id, COUNT(*) as total')
+                    ->groupBy('book_id'),
+                'loaned',
+                'books.id',
+                '=',
+                'loaned.book_id'
+            )
+            ->selectRaw('COALESCE(books.stock - loaned.total, books.stock) as available_stock') // Kurangi stok
             ->when($this->search, function ($query) {
                 $search = '%' . $this->search . '%';
                 $query->where(function ($q) use ($search) {
@@ -102,7 +113,6 @@ class BookExplorerComp extends Component
             })
             ->orderBy($this->sortTable, $this->sort)
             ->paginate(30);
-
 
         $categories = Category::all() ?? collect();
         $authors = Author::all() ?? collect();

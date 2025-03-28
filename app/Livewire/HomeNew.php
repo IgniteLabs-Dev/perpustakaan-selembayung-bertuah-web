@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Book;
 use App\Models\Bookmark;
+use App\Models\LoanTransaction;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -23,11 +24,26 @@ class HomeNew extends Component
 
         $books = Book::select('books.*')
             ->addSelect(DB::raw('(
-        SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
-        FROM book_authors 
-        JOIN authors ON authors.id = book_authors.author_id 
-        WHERE book_authors.book_id = books.id
-    ) as authors'))->paginate(12);
+            SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
+            FROM book_authors 
+            JOIN authors ON authors.id = book_authors.author_id 
+            WHERE book_authors.book_id = books.id
+        ) as authors'))
+            ->leftJoinSub(
+                LoanTransaction::where('status', 'borrowed')
+                    ->selectRaw('book_id, COUNT(*) as total')
+                    ->groupBy('book_id'),
+                'loaned',
+                'books.id',
+                '=',
+                'loaned.book_id'
+            )
+            ->selectRaw('COALESCE(books.stock - loaned.total, books.stock) as available_stock') // Kurangi stok
+            ->paginate(12);
+
+
+
+
         return view('livewire.home-new', compact('books', 'myBookmark'));
     }
     public function addBookmark($id)

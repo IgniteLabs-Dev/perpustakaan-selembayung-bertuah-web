@@ -56,7 +56,7 @@
         @forelse($books as $book)
             <div class="w-1/6  mb-3 pe-3 [&:nth-child(6n)]:pe-0">
 
-                <x-card-book :id="$book->id" :myBookmark="$myBookmark" :cover="$book->cover" :stock="$book->stock" :title="$book->title"
+                <x-card-book :id="$book->id" :myBookmark="$myBookmark" :cover="$book->cover" :stock="$book->available_stock" :title="$book->title"
                     :author="$book->authors" />
 
             </div>

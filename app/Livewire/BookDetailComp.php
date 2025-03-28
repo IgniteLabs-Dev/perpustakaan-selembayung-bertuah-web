@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\BookAuthors;
 use App\Models\BookCategories;
 use App\Models\Bookmark;
+use App\Models\LoanTransaction;
 use Livewire\Component;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -35,7 +36,14 @@ class BookDetailComp extends Component
         $this->user = JWTAuth::parseToken()->authenticate();
         $myBookmark = Bookmark::where('user_id', $this->user->id)->pluck('book_id')->toArray();
 
-        return view('livewire.book-detail-comp', compact('categories', 'authors', 'myBookmark'))->extends('layouts.master');
+        $loaned = LoanTransaction::where('status', 'borrowed')
+            ->where('book_id', $this->id)
+            ->selectRaw('book_id, COUNT(*) as total')
+            ->groupBy('book_id')
+            ->first();
+        
+
+        return view('livewire.book-detail-comp', compact('categories', 'authors', 'myBookmark','loaned'))->extends('layouts.master');
     }
     public function addBookmark($id)
     {
