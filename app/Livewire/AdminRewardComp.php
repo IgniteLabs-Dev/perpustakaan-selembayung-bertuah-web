@@ -13,6 +13,10 @@ class AdminRewardComp extends Component
     use WithPagination;
     public $confirmDelete;
     public $search;
+    public $username;
+    public $showId;
+
+
     public $sort = 'desc';
 
     public function render()
@@ -33,6 +37,26 @@ class AdminRewardComp extends Component
             ->orderByRaw('SUM(point) - SUM(fine) ' . $this->sort)
             ->paginate(10);
 
-        return view('livewire.admin-reward-comp', compact('data'))->extends('layouts.master-admin');
+        $history = LoanTransaction::where('user_id', $this->showId)
+            ->where('status', 'returned')
+            ->orderby('created_at', 'desc')
+            ->paginate(5);
+
+
+        return view('livewire.admin-reward-comp', compact('data', 'history'))->extends('layouts.master-admin');
+    }
+    public function showHistory($id)
+    {
+        $this->showId = $id;
+        $this->username = User::find($id)->name;
+    }
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+    public function resetInput()
+    {
+        $this->confirmDelete = '';
+        $this->search = '';
     }
 }

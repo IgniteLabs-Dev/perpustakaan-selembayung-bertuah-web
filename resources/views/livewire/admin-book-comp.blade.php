@@ -5,9 +5,17 @@
         </div>
         <div class="flex justify-end items-center gap-2">
             <div class="div">
+                <select wire:model.change="tipeFilter"
+                    class="  py-2.5   text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                    <option value="">Semua Tipe</option>
+                    <option value="literasi">Literasi</option>
+                    <option value="paketan">Paketan</option>
+                </select>
+            </div>
+            <div class="div">
                 <input wire:model.live="search" type="text"
-                    class="bg-white w-full  p-2 placeholder:italic  outline-slate-300 outline-1  rounded-lg focus:outline-slate-300"
-                    placeholder="Masukkan Pencarian">
+                    class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:outline-slate-300 focus:ring-0 focus:ring-slate-500 "
+                    placeholder="Masukkan Judul, Penulis, Penerbit, Kategori, Deskripsi" />
             </div>
             <div class="div">
 
@@ -27,7 +35,7 @@
                     <th scope="col" class="px-6 py-4 text-center">
                         No
                     </th>
-                    <th scope="col" class="px-6 py-4 ">
+                    <th scope="col" class="px-6 py-4 text-center">
                         Cover
                     </th>
                     <th scope="col" class="px-6 py-4 ">
@@ -51,9 +59,7 @@
                     <th scope="col" class="px-6 py-4 text-center">
                         Stok
                     </th>
-                    <th scope="col" class="px-6 py-4 text-center">
-                        Status
-                    </th>
+
                     <th scope="col" class="px-6 py-4 text-center">
                         Tipe
                     </th>
@@ -87,20 +93,16 @@
                             {{ $item->title }}
                         </td>
                         <td class="px-6 py-3 align-top   text-xs text-gray-900 font-normal ">
-                            {{-- <button type="button"
-                                class="cursor-pointer pt-1 hover:brightness:95 text-[var(--primary)] hover:scale-120 rounded-full">
-                                <i class="fa-solid fa-eye"></i>
-                            </button> --}}
                             {{ Str::limit($item->deskripsi, 150, '...') }}
                         </td>
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
-                            {{ $item->author }}
+                            {{ $item->authors }}
                         </td>
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
-                            {{ $item->publisher }}-
+                            {{ $item->publisher }}
                         </td>
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
-                            {{ $item->category }}-
+                            {{ $item->categories }}
                         </td>
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
                             {{ \Carbon\Carbon::parse($item->realese_date)->translatedFormat('d F Y') }}
@@ -108,28 +110,7 @@
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
                             {{ $item->stock }}
                         </td>
-                        <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
-                            @if ($item->status == 'available')
-                                <div data-tooltip-target="tooltip-status-available"
-                                    class="text-xs pt-1 text-green-500 "><i
-                                        class="fa-solid scale-130 fa-circle-check"></i></div>
 
-                                <div id="tooltip-status-available" role="tooltip"
-                                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                    Tersedia
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                                </div>
-                            @else
-                                <div data-tooltip-target="tooltip-status-not-available"
-                                    class=" text-xs pt-1 text-red-500 "><i
-                                        class="fa-solid scale-130 fa-circle-xmark"></i></div>
-
-                                <div id="tooltip-status-not-available" role="tooltip"
-                                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                    Tidak Tersedia
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                            @endif
-                        </td>
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
                             {{ ucfirst($item->type) }}
                         </td>
@@ -209,7 +190,14 @@
                     <div
                         class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
                         <h3 class="text-lg font-semibold text-white">
-                            Tambah Buku
+
+                            @if ($editId != null)
+                                Edit Buku {{ $title }}
+                            @elseif($showId != null)
+                                Detail Buku {{ $title }}
+                            @else
+                                Tambah Buku
+                            @endif
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
@@ -235,26 +223,25 @@
                                             alt="">
                                     @endif
                                     @if ($showId == null)
-                                        
-                                    <div class="div">
+                                        <div class="div">
 
-                                        <label class="text-sm text-gray-500 ">Cover<span
-                                                class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
-                                                1MB))</span></label>
-                                        <input wire:model.defer="image_baru"
-                                            class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
-                                            aria-describedby="file_input_help" id="file_input" type="file">
+                                            <label class="text-sm text-gray-500 ">Cover<span
+                                                    class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
+                                                    1MB))</span></label>
+                                            <input wire:model.defer="image_baru"
+                                                class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
+                                                aria-describedby="file_input_help" id="file_input" type="file">
 
-                                        <div class="text-red-500 font-italic text-sm" wire:loading
-                                            wire:target="image_baru">
-                                            Uploading...
+                                            <div class="text-red-500 font-italic text-sm" wire:loading
+                                                wire:target="image_baru">
+                                                Uploading...
+                                            </div>
+
+                                            @error('image_baru')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+
                                         </div>
-
-                                        @error('image_baru')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-
-                                    </div>
                                     @endif
 
                                 </div>
@@ -394,8 +381,8 @@
                                                     @empty
                                                     @endforelse
 
-                                                @endif 
-                                                @if ($showId == null  && $authorsData != null)
+                                                @endif
+                                                @if ($showId == null && $authorsData != null)
 
                                                     <div
                                                         class="border-1 min-h-[20px]  min-w-[130px]  px-2 flex items-center border-gray-500 text-gray-800 text-xs rounded-full">
@@ -429,7 +416,7 @@
                                             <label class="text-sm text-gray-500">Deskripsi<span
                                                     class="text-red-500 text-lg">‎</span></label>
                                             <textarea :attribute="$showId ? 'disabled' : ''" wire:model.defer="deskripsi"
-                                                class="w-full rounded-lg focus:outline-gray-300 readonly:bg-gray-300 read-only:focus:outline-0 bg-gray-200 p-2 text-sm"
+                                                class="w-full rounded-lg focus:outline-gray-300 readonly:bg-gray-300 read-only:focus:outline-0 border-0 bg-gray-200 p-2 text-sm"
                                                 name="" id="" cols="30" rows="5"></textarea>
                                             @error($deskripsi)
                                                 <div class="text-red-500 text-sm">{{ $message }}</div>
@@ -490,7 +477,11 @@
                         searchField: ['text'],
                         placeholder: placeholder,
                         maxOptions: 3,
-                        plugins: ['dropdown_input', 'remove_button']
+                        plugins: ['dropdown_input', 'remove_button'],
+                        onItemAdd: function() {
+                            this.control_input.value =
+                                '';
+                        }
                     });
                 }
             }));

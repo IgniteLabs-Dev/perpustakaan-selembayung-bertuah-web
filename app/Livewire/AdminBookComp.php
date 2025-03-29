@@ -7,6 +7,8 @@ use App\Models\Book;
 use App\Models\BookAuthors;
 use App\Models\BookCategories;
 use App\Models\Category;
+use App\Models\LoanTransaction;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\WithFileUploads;
@@ -18,6 +20,8 @@ class AdminBookComp extends Component
     use WithPagination;
     use WithFileUploads;
     public $search;
+    public $tipeFilter;
+    public $category;
     public $cover, $title, $deskripsi, $author, $publisher, $category_id, $realese_date, $stock, $status, $type;
     public $editId;
     public $showId;
@@ -40,12 +44,69 @@ class AdminBookComp extends Component
 
     public function render()
     {
-        $data = Book::when($this->search, function ($query) {
-            $query->where('title', 'like', '%' . $this->search . '%')
-                ->orWhere('deskripsi', 'like', '%' . $this->search . '%')
-                ->orWhere('author', 'like', '%' . $this->search . '%')
-                ->orWhere('publisher', 'like', '%' . $this->search . '%');
-        })
+        $data = Book::select('books.*')
+            ->addSelect(DB::raw('(
+        SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
+        FROM book_authors 
+        JOIN authors ON authors.id = book_authors.author_id 
+        WHERE book_authors.book_id = books.id
+    ) as authors'))
+            ->addSelect(DB::raw('(
+        SELECT GROUP_CONCAT(categories.name SEPARATOR ", ") 
+        FROM book_categories 
+        JOIN categories ON categories.id = book_categories.category_id 
+        WHERE book_categories.book_id = books.id
+    ) as categories'))
+            ->leftJoinSub(
+                LoanTransaction::where('status', 'borrowed')
+                    ->selectRaw('book_id, COUNT(*) as total')
+                    ->groupBy('book_id'),
+                'loaned',
+                'books.id',
+                '=',
+                'loaned.book_id'
+            )
+            ->selectRaw('COALESCE(books.stock - loaned.total, books.stock) as available_stock') // Kurangi stok
+            ->when($this->search, function ($query) {
+                $search = '%' . $this->search . '%';
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%$search%")
+                        ->orWhere('publisher', 'like', "%$search%")
+                        ->orWhereExists(function ($subquery) use ($search) {
+                            $subquery->select(DB::raw(1))
+                                ->from('book_authors')
+                                ->join('authors', 'authors.id', '=', 'book_authors.author_id')
+                                ->whereColumn('book_authors.book_id', 'books.id')
+                                ->where('authors.name', 'like', "%$search%");
+                        })
+                        ->orWhereExists(function ($subquery) use ($search) {
+                            $subquery->select(DB::raw(1))
+                                ->from('book_categories')
+                                ->join('categories', 'categories.id', '=', 'book_categories.category_id')
+                                ->whereColumn('book_categories.book_id', 'books.id')
+                                ->where('categories.name', 'like', "%$search%");
+                        });
+                });
+            })
+            ->when($this->author, function ($query) {
+                $query->whereExists(function ($subquery) {
+                    $subquery->select(DB::raw(1))
+                        ->from('book_authors')
+                        ->whereColumn('book_authors.book_id', 'books.id')
+                        ->where('book_authors.author_id', $this->author);
+                });
+            })
+            ->when($this->category, function ($query) {
+                $query->whereExists(function ($subquery) {
+                    $subquery->select(DB::raw(1))
+                        ->from('book_categories')
+                        ->whereColumn('book_categories.book_id', 'books.id')
+                        ->where('book_categories.category_id', $this->category);
+                });
+            })
+            ->when($this->tipeFilter, function ($query) {
+                $query->where('type', $this->tipeFilter);
+            })
             ->orderby('created_at', 'desc')
             ->paginate('10');
 

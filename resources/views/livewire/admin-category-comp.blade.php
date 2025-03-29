@@ -121,7 +121,11 @@
                     <div
                         class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
                         <h3 class="text-lg font-semibold text-white">
-                            Tambah Kategori
+                            @if ($editId == null)
+                                Tambah Kategori
+                            @else
+                                Edit Kategori {{ $name }}
+                            @endif
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
