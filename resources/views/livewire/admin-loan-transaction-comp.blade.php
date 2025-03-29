@@ -1,7 +1,7 @@
 <div>
     <div class="flex justify-between mb-3 mt-5">
         <div class="div items-center">
-            <h1 class="text-2xl font-semibold text-gray-900">Data Peminjaman</h1>
+            <h1 class="text-2xl font-bold text-gray-900">Data Peminjaman</h1>
         </div>
         <div class="flex justify-end items-center gap-2">
             <div class="div">
