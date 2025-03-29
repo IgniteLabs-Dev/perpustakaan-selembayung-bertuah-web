@@ -92,6 +92,7 @@ class ProfileComp extends Component
                 ->success()
                 ->show();
             $this->resetInput();
+            $this->dispatch('refreshNavbar');
         } else {
             LivewireAlert::title('Data Gagal Diubah!')
                 ->position('top-end')
@@ -107,6 +108,5 @@ class ProfileComp extends Component
         $this->password = '';
         $this->editMode = '';
         $this->loadData();
-
     }
 }

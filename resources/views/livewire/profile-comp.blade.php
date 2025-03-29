@@ -7,7 +7,7 @@
                 <div class="w-2/5 flex justify-center flex-col ">
 
                     @if ($image_baru == null)
-                        @if (!file_exists(public_path('images/profile/' . $user->cover)))
+                        @if ($user->cover == null || !file_exists(public_path('images/profile/' . $user->cover)))
                             <img class="rounded-4xl mb-3  h-70 w-70  object-cover aspect-square"
                                 src="{{ asset('images/profile/profile-blank.png') }}" alt="">
                         @else

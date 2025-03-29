@@ -52,14 +52,14 @@
 
                             <div class="flex flex-col justify-end text-end me-2 ">
                                 <span class="text-sm font-bold">{{ $user->name }}</span>
-                                <span class="text-xs"><i class="fa-solid fa-star text-orange-400"></i> 29</span>
+                                <span class="text-xs"><i class="fa-solid fa-star text-orange-400 me-0.5"></i>{{$point}}</span>
 
                             </div>
                             @if ($user->cover == null || !file_exists(public_path('images/profile/' . $user->cover)))
-                                <img class="rounded-lg h-9 w-9 aspect-square"
+                                <img class="rounded-lg h-9 w-9 aspect-square object-cover"
                                     src="{{ asset('images/profile/profile-blank.png') }}" alt="">
                             @else
-                                <img class="rounded-lg h-9 w-9 aspect-square"
+                                <img class="rounded-lg h-9 w-9 aspect-square object-cover"
                                     src="{{ asset('images/profile/' . $user->cover) }}" alt="">
                             @endif
                         </button>
