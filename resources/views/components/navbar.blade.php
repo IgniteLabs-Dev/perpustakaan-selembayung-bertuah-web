@@ -77,7 +77,6 @@
                             </li>
                             <li>
                                 <a href="{{ route('riwayat-peminjaman') }}">
-
                                     <button href="{{ route('logout') }}"
                                         class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
                                         <i class="fa-solid fa-clock-rotate-left me-2"></i>Riwayat Peminjaman

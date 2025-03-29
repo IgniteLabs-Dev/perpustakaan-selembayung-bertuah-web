@@ -15,6 +15,7 @@ class AdminRewardComp extends Component
     public $search;
     public $username;
     public $showId;
+    public $currentPageHistory = 1;
 
 
     public $sort = 'desc';
@@ -40,10 +41,11 @@ class AdminRewardComp extends Component
         $history = LoanTransaction::where('user_id', $this->showId)
             ->where('status', 'returned')
             ->orderby('created_at', 'desc')
-            ->paginate(5);
+            ->paginate(2, ['*'], 'page', $this->currentPageHistory);
 
+        $totalPagesHistory = $history->lastPage();
 
-        return view('livewire.admin-reward-comp', compact('data', 'history'))->extends('layouts.master-admin');
+        return view('livewire.admin-reward-comp', compact('data', 'history', 'totalPagesHistory'))->extends('layouts.master-admin');
     }
     public function showHistory($id)
     {
