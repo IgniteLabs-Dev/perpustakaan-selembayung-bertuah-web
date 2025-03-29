@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\LoanTransaction;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
@@ -80,7 +81,7 @@ class AdminLoanTransactionComp extends Component
         $this->bookTitle = '';
         $this->editUser = false;
         $this->editBook = false;
-
+        $this->dispatch('resetTomSelect');
 
         $this->resetValidation();
     }
@@ -143,23 +144,33 @@ class AdminLoanTransactionComp extends Component
             'user_id' => 'required',
             'book_id' => 'required',
             'status' => 'required',
-            'borrowed_at' => 'required',
-            'returned_at' => 'required',
-            'due_date' => 'required',
-            'condition' => 'required',
+            'borrowed_at' => 'required|date',
+            'due_date' => 'required|date|after_or_equal:borrowed_at',
         ], [
             'user_id.required' => 'Siswa harus dipilih.',
             'book_id.required' => 'Buku harus dipilih.',
             'status.required' => 'Status harus diisi.',
             'borrowed_at.required' => 'Tanggal peminjaman harus diisi.',
-            'returned_at.required' => 'Tanggal pengembalian harus diisi.',
             'due_date.required' => 'Tanggal jatuh tempo harus diisi.',
-            'condition.required' => 'Kondisi buku harus diisi.',
+            'due_date.after_or_equal' => 'Tanggal jatuh tempo harus setelah tanggal peminjaman.',
         ]);
-
 
         $id = $this->editId;
         $data = LoanTransaction::find($id);
+        $book = Book::find($this->book_id);
+        $loaned = LoanTransaction::where('status', 'borrowed')
+            ->where('book_id', $this->book_id)
+            ->count();
+
+
+        if (($book->stock - $loaned) <= 0 && ($data->book_id != $this->book_id)) {
+            throw ValidationException::withMessages([
+                'book_id' => 'Semua buku ini sedang dipinjam.'
+            ]);
+        }
+
+
+
         $data->user_id = $this->user_id;
         $data->book_id = $this->book_id;
         $data->status = $this->status;
@@ -237,21 +248,35 @@ class AdminLoanTransactionComp extends Component
             'user_id' => 'required',
             'book_id' => 'required',
             'borrowed_at' => 'required',
-            'due_date' => 'required',
+            'due_date' => 'required|date|after_or_equal:borrowed_at',
         ], [
             'user_id.required' => 'User harus dipilih.',
             'book_id.required' => 'Buku harus dipilih.',
             'borrowed_at.required' => 'Tanggal peminjaman harus diisi.',
             'due_date.required' => 'Tanggal jatuh tempo harus diisi.',
+            'due_date.after_or_equal' => 'Tanggal jatuh tempo harus setelah tanggal peminjaman.',
         ]);
+
+
+
+        $book = Book::find($this->book_id);
+        $loaned = LoanTransaction::where('status', 'borrowed')
+            ->where('book_id', $this->book_id)
+            ->count();
+
+
+        if ($book->stock - $loaned <= 0) {
+            throw ValidationException::withMessages([
+                'book_id' => 'Semua buku ini sedang dipinjam.'
+            ]);
+        }
 
         $data = new LoanTransaction();
         $data->user_id = $this->user_id;
         $data->book_id = $this->book_id;
         $data->borrowed_at = $this->borrowed_at;
         $data->due_date = $this->due_date;
-        $data->status = 'borrowed';
-
+        $data->book->stock = 'borrowed';
 
         if ($data->save()) {
             LivewireAlert::title('Data Berhasil Ditambah!')

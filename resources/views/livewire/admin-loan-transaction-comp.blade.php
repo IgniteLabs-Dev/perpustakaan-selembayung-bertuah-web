@@ -529,18 +529,35 @@
                 init() {
                     this.initTomSelect("#select-users", 'Tambah Penulis');
                     this.initTomSelect("#select-book", 'Tambah Buku');
+
+                 
+                    Livewire.on('resetTomSelect', () => {
+                        this.resetTomSelect("#select-users");
+                        this.resetTomSelect("#select-book");
+                    });
                 },
                 initTomSelect(selector, placeholder) {
-                    new TomSelect(selector, {
-                        create: false,
-                        searchField: ['text'],
-                        placeholder: placeholder,
-                        maxOptions: 5,
-                        persist: false,
-                        plugins: ['dropdown_input']
-                    });
+                    let element = document.querySelector(selector);
+                    if (element) {
+                        new TomSelect(element, {
+                            create: false,
+                            searchField: ['text'],
+                            placeholder: placeholder,
+                            maxOptions: 5,
+                            persist: false,
+                            plugins: ['dropdown_input']
+                        });
+                    }
+                },
+                resetTomSelect(selector) {
+                    let element = document.querySelector(selector);
+                    if (element && element.tomselect) {
+                        element.tomselect.clear();
+                    }
                 }
             }));
         });
     </script>
+
+
 </div>
