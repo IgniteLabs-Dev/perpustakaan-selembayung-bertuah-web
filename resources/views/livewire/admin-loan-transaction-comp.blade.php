@@ -237,7 +237,7 @@
                                 Tambah Peminjaman
                             @endif
                         </h3>
-                        <button wire:click="resetInput" type="button" @click="open = false"
+                        <button wire:click="resetInput" type="button" @click="open = false; editBookMode = true"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 14 14">
@@ -258,19 +258,36 @@
                                 <div class=" w-1/2 even:ps-2   items-start">
                                     <label class="text-sm text-gray-500">Siswa<span
                                             class="text-red-500 text-lg">*</span></label>
-                                    <div wire:ignore class=" flex items-center" x-data="selectComponent">
-                                        <select wire:model.defer="user_id" class="tom-select   w-full"
-                                            id="select-users">
-                                            <option value="">Pilih Siswa</option>
-                                            @forelse ($users as $user)
-                                                <option value="{{ $user->id }}">
-                                                    {{ $user->name }}</option>
-                                            @empty
-                                            @endforelse
 
-                                        </select>
+                                    <div class="@if ($editUser == true) hidden @endif">
 
+                                        <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                                            <select wire:model.defer="user_id" class="tom-select   w-full"
+                                                id="select-users">
+                                                <option value="">Pilih Siswa</option>
+                                                @forelse ($users as $user)
+                                                    <option value="{{ $user->id }}">
+                                                        {{ $user->name }}</option>
+                                                @empty
+                                                @endforelse
+
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="@if ($editUser == false) hidden @endif">
+
+                                        <div class="flex justify-between items-center relative">
+                                            <input readonly value="{{ $userName }}" placeholder="Pilih Buku"
+                                                class="bg-gray-200 w-full border-0 p-2 mt-1 rounded-lg pe-4 focus:outline-gray-300 read-only:bg-gray-300 read-only:focus:outline-0">
+                                            <button wire:click="$set('editUser', false)" type="button"
+                                                class="border-1 top-2.5 absolute right-2 bg-gray-200 border-slate-300 text-gray-500 cursor-pointer rounded-md p-1.5 hover:brightness-95 hover:scale-110 aspect-square transition duration-100 ease-in-out">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+
                                     @error('user_id')
                                         <div class="text-red-500 text-sm">{{ $message }}</div>
                                     @enderror
@@ -278,21 +295,34 @@
                                 <div class=" w-1/2 even:ps-2   items-start">
                                     <label class="text-sm text-gray-500">Buku<span
                                             class="text-red-500 text-lg">*</span></label>
-                                    <div wire:ignore class=" flex items-center" x-data="selectComponent">
-                                        <select wire:model.defer="book_id" class="tom-select   w-full"
-                                            id="select-book">
-                                            <option value="">Pilih Buku</option>
-                                            @forelse ($books as $book)
-                                                <option value="{{ $book->id }}">
-                                                    {{ $book->title }}</option>
-                                            @empty
-                                                <option disabled>Buku Tidak Ada
-                                                <option>
-                                            @endforelse
-
-                                        </select>
-
+                                    <div class="@if ($editBook == true) hidden @endif">
+                                        <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                                            <select wire:model.defer="book_id" class="tom-select   w-full"
+                                                id="select-book">
+                                                <option value="">{{ $bookTitle }}</option>
+                                                @forelse ($books as $book)
+                                                    <option value="{{ $book->id }}">
+                                                        {{ $book->title }}</option>
+                                                @empty
+                                                    <option disabled>Buku Tidak Ada
+                                                    <option>
+                                                @endforelse
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="@if ($editBook == false) hidden @endif">
+
+                                        <div class="flex justify-between items-center relative">
+                                            <input readonly value="{{ $bookTitle }}" placeholder="Pilih Buku"
+                                                class="bg-gray-200 w-full border-0 p-2 mt-1 rounded-lg pe-4 focus:outline-gray-300 read-only:bg-gray-300 read-only:focus:outline-0">
+                                            <button wire:click="$set('editBook', false)" type="button"
+                                                class="border-1 top-2.5 absolute right-2 bg-gray-200 border-slate-300 text-gray-500 cursor-pointer rounded-md p-1.5 hover:brightness-95 hover:scale-110 aspect-square transition duration-100 ease-in-out">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
                                     @error('book_id')
                                         <div class="text-red-500 text-sm">{{ $message }}</div>
                                     @enderror
@@ -480,10 +510,17 @@
         .ts-wrapper.single.input-active .ts-control,
         .ts-dropdown {
             background: #e5e7eb;
+            background-color: #e5e7eb;
             width: 100%;
             border: 1 solid #e5e7eb;
             border-radius: 0.5rem;
             outline: none;
+        }
+
+        .full .ts-control {
+
+            background-color: #e5e7eb;
+
         }
     </style>
     <script>

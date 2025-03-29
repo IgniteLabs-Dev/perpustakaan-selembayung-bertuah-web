@@ -13,7 +13,7 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 class AdminLoanTransactionComp extends Component
 {
     use WithPagination;
-    public $user_id, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine, $point, $cover;
+    public $user_id, $book_id, $status, $borrowed_at, $returned_at, $due_date, $condition, $fine, $point, $cover, $userName, $bookTitle;
     public $search;
     public $confirmDelete;
     public $editId;
@@ -23,6 +23,8 @@ class AdminLoanTransactionComp extends Component
     public $finePoint;
     public $conditionFilter;
     public $statusFilter;
+    public $editUser = false;
+    public $editBook = false;
 
     public function mount()
     {
@@ -73,6 +75,13 @@ class AdminLoanTransactionComp extends Component
         $this->condition = '';
         $this->fine = '';
         $this->point = '';
+        $this->userName = '';
+        $this->bookTitle = '';
+        $this->bookTitle = '';
+        $this->editUser = false;
+        $this->editBook = false;
+
+
         $this->resetValidation();
     }
     public function edit($id)
@@ -86,6 +95,10 @@ class AdminLoanTransactionComp extends Component
         $this->returned_at = $data->returned_at;
         $this->due_date = $data->due_date;
         $this->condition = $data->condition;
+        $this->userName = $data->user->name;
+        $this->bookTitle = $data->book->title;
+        $this->editUser = true;
+        $this->editBook = true;
     }
 
     public function show($id)
@@ -135,7 +148,7 @@ class AdminLoanTransactionComp extends Component
             'due_date' => 'required',
             'condition' => 'required',
         ], [
-            'user_id.required' => 'User harus dipilih.',
+            'user_id.required' => 'Siswa harus dipilih.',
             'book_id.required' => 'Buku harus dipilih.',
             'status.required' => 'Status harus diisi.',
             'borrowed_at.required' => 'Tanggal peminjaman harus diisi.',
