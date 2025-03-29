@@ -40,8 +40,12 @@ class BookDetailComp extends Component
             ->where('book_id', $this->id)
             ->selectRaw('book_id, COUNT(*) as total')
             ->groupBy('book_id')
+            ->pluck('total')
             ->first();
-        
+
+             $loaned = $loaned ? $loaned : 0;
+            // dd($loaned);
+          
 
         return view('livewire.book-detail-comp', compact('categories', 'authors', 'myBookmark','loaned'))->extends('layouts.master');
     }

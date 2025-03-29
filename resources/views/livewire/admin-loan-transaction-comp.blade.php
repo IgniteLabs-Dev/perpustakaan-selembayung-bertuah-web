@@ -428,7 +428,7 @@
                         </div>
                         <div class="w-1/2 flex flex-col ps-2 justify-between" x-data="{ returned: false }">
 
-                            <!-- if -->
+                           
                             <div class="mb-2">
                                 <label class="text-xs text-gray-500">Nama Peminjam</label>
                                 <p>{{ $dataShow->user->name }}</p>
@@ -445,7 +445,7 @@
                             <div x-show="!returned">
                             </div>
 
-                            <!-- else -->
+                   
                             <div x-show="returned">
                                 <div class="mb-1">
                                     <x-input symbol="*" typeWire="change" inputId="returned_at"

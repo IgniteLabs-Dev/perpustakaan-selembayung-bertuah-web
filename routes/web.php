@@ -12,6 +12,7 @@ use App\Livewire\BookExplorerComp;
 use App\Livewire\BookmarkComp;
 use App\Livewire\HistoryLoanComp;
 use App\Livewire\LoginComp;
+use App\Livewire\ProfileComp;
 use App\Livewire\UsersAdminComp;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,7 @@ Route::get('/', function () {
 })->name('index');
 
 
+Route::get('/profile', ProfileComp::class)->name('profile');
 Route::get('/buku/{search?}', BookExplorerComp::class)->name('jelajahi-buku');
 Route::get('/bookmark', BookmarkComp::class)->name('bookmark');
 Route::get('/riwayat-peminjaman', HistoryLoanComp::class)->name('riwayat-peminjaman');

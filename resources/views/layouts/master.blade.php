@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <x-navbar />
+    @livewire('navbar-comp')
     <div class="div">
 
         @yield('content')

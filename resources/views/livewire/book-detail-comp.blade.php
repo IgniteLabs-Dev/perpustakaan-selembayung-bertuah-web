@@ -15,8 +15,8 @@
                             <tr>
                                 <td class="font-semibold pt-1">Stok</td>
                                 <td class="ps-4 pt-1">: 
-                                    <span class="{{ $data->stock - $loaned->total == 0 ? 'text-red-500' : '' }}">
-                                        {{ $data->stock - $loaned->total }}
+                                    <span class="{{ $data->stock - $loaned == 0 ? 'text-red-500' : '' }}">
+                                        {{ $data->stock - $loaned }}
                                     </span>
                                 </td>
                             </tr>

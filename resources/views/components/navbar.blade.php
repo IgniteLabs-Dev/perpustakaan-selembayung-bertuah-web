@@ -4,6 +4,7 @@
     try {
         $user = JWTAuth::parseToken()->authenticate();
         $name = $user->name;
+        $profile = $user->cover;
     } catch (\Exception $e) {
         $name = null;
     }
@@ -55,21 +56,25 @@
                     </a>
                 @else
                     <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
-                        class="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[var(--primary)] hover:font-semibold font-medium md:p-0 md:w-auto ">{{ $name }}
-                        <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 4 4 4-4" />
-                        </svg>
+                        class="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[var(--primary)] hover:font-semibold font-medium md:p-0 md:w-auto ">
+
+                       
+                        <div class="flex flex-col justify-end text-end me-2 ">
+                            <span class="text-sm font-bold">{{ $name }}</span>
+                            <span class="text-xs"><i class="fa-solid fa-star text-orange-400"></i> 29</span>
+
+                        </div>
+                        <img class="rounded-lg h-9 w-9 aspect-square" src="{{ asset('images/profile/' . $profile) }}"
+                        alt="">
                     </button>
 
                     <div id="dropdownNavbar"
                         class="z-10 hidden  font-normal bg-white divide-y  divide-gray-100 rounded-lg shadow-sm  ">
                         <ul class="py-2 px-3 rounded-lg text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
                             <li>
-                                <a href="{{ route('riwayat-peminjaman') }}">
+                                <a href="{{ route('profile') }}">
 
-                                    <button href="{{ route('logout') }}"
+                                    <button href="{{ route('profile') }}"
                                         class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
                                         <i class="fa-solid fa-user me-2"></i>Profile
                                     </button>
@@ -77,7 +82,7 @@
                             </li>
                             <li>
                                 <a href="{{ route('riwayat-peminjaman') }}">
-                                    <button href="{{ route('logout') }}"
+                                    <button href="{{ route('riwayat-peminjaman') }}"
                                         class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
                                         <i class="fa-solid fa-clock-rotate-left me-2"></i>Riwayat Peminjaman
                                     </button>

@@ -33,6 +33,7 @@ class BookmarkComp extends Component
                                 WHERE book_authors.book_id = bookmark.book_id) like ?', [$search]);
             })
             ->orderBy('created_at', 'desc')
+            ->where('user_id', JWTAuth::parseToken()->authenticate()->id)
             ->paginate(30);
 
 
