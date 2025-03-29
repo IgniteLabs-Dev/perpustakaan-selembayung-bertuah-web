@@ -70,7 +70,16 @@
                                 <a href="{{ route('riwayat-peminjaman') }}">
 
                                     <button href="{{ route('logout') }}"
-                                        class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-gray-100 hover:text-[var(--primary)]">
+                                        class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
+                                        <i class="fa-solid fa-user me-2"></i>Profile
+                                    </button>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('riwayat-peminjaman') }}">
+
+                                    <button href="{{ route('logout') }}"
+                                        class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
                                         <i class="fa-solid fa-clock-rotate-left me-2"></i>Riwayat Peminjaman
                                     </button>
                                 </a>
@@ -79,7 +88,7 @@
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button href="{{ route('logout') }}"
-                                        class="block cursor-pointer w-full text-start px-3 rounded-lg py-2 hover:bg-gray-100 hover:text-red-700">
+                                        class="block cursor-pointer w-full text-start px-3 rounded-lg py-2 hover:bg-red-500 hover:text-white">
                                         <i class="fa-solid fa-right-from-bracket me-2"></i> Log out
                                     </button>
                                 </form>
