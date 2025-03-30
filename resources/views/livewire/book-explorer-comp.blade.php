@@ -51,21 +51,30 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="max-w-screen-xl mx-auto flex flex-wrap mt-3 justify-start   ">
-        @forelse($books as $book)
-            <div class="w-1/6  mb-3 pe-3 [&:nth-child(6n)]:pe-0">
 
-                <x-card-book :id="$book->id" :myBookmark="$myBookmark" :cover="$book->cover" :stock="$book->available_stock" :title="$book->title"
-                    :author="$book->authors" />
+        <div class=" mx-auto flex flex-wrap mt-3 justify-center ">
+            
 
-            </div>
-        @empty
-            <div class="flex justify-center items-center w-full h-[50vh]">
-                <p class="text-2xl font-bold text-black">Buku tidak ditemukan</p>
-            </div>
-        @endforelse
+
+
+                @forelse($books as $book)
+                    <div class=" w-auto md:w-1/3 sm:w-1/2  mb-3  ">
+
+
+
+                        <x-card-book :id="$book->id" :myBookmark="$myBookmark" :cover="$book->cover" :stock="$book->available_stock"
+                            :title="$book->title" :author="$book->authors" />
+
+                    </div>
+                @empty
+                    <div class="flex justify-center items-center w-full h-[50vh]">
+                        <p class="text-2xl font-bold text-black">Buku tidak ditemukan</p>
+                    </div>
+                @endforelse
+            
+        </div>
     </div>
+
 
     <script>
         document.addEventListener('alpine:init', () => {
