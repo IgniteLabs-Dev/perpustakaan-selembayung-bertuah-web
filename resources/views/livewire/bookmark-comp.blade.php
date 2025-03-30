@@ -77,33 +77,5 @@
         </div>
 
     </div>
-    <div class="flex flex-wrap  md:justify-start justify-center ">
-      
-            <div class=" w-1/3 mb-3 bg-red-500">
 
-
-              s
-
-            </div>
-            <div class=" w-1/3 mb-3 bg-red-500">
-
-
-              s
-
-            </div>
-            <div class=" w-1/3 mb-3 bg-red-500">
-
-
-              s
-
-            </div>
-            <div class=" w-1/3 mb-3 bg-red-500">
-
-
-              s
-
-            </div>
-   
-
-    </div>
 </div>
