@@ -1,15 +1,18 @@
 <div>
 
     <nav class="bg-white  fixed w-full z-20 top-0 start-0 border-b border-gray-200  ">
-        <div class="max-w-screen-xl flex flex-wrap  justify-between mx-auto pt-3 pb-3">
-            <div class="w-1/3 flex items-start">
-                <div class="flex items-start  flex-col">
+        <div class="max-w-screen-xl flex flex-wrap  justify-between mx-auto py-1">
+            <div class="w-1/2 md:w-1/3 flex items-center">
+                <div class="md:flex items-start  flex-col hidden">
                     <p class="font-medium text-[11px]  mb-0">PERPUSTAKAAN</p>
                     <p class="self-center text-xl p-0 m-0 font-bold  whitespace-nowrap ">
                         SELEMBAYUNG BERTUAH</p>
                 </div>
+                <div class="bg-gray-200 p-3 ms-3 md:hidden block rounded-lg cursor-pointer hover:bg-gray-300 ">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
             </div>
-            <div class="w-1/3 justify-center flex">
+            <div class="hidden md:w-1/3 justify-center md:flex">
                 <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                     <ul
                         class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white ">
@@ -38,8 +41,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="w-1/3 flex justify-end text-end">
-                <div class="flex md:order-2 space-x-3 text-end ">
+            <div class="w-1/2 md:w-1/3 flex justify-end text-end">
+                <div class="flex md:order-2 pe-3 text-end ">
                     @if ($user->name == null)
                         <a href="{{ route('login') }}">
                             <button type="button"
@@ -47,7 +50,7 @@
                         </a>
                     @else
                         <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
-                            class="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[var(--primary)] hover:font-semibold font-medium md:p-0 md:w-auto ">
+                            class="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[var(--primary)] hover:font-semibold font-medium md:p-0 md:w-auto pe-0">
 
 
                             <div class="flex flex-col justify-end text-end me-2 ">
@@ -101,8 +104,6 @@
                     @endif
                 </div>
             </div>
-
-
         </div>
     </nav>
 
