@@ -1,23 +1,32 @@
 <div>
-    <div class="flex justify-between mb-3 mt-5">
-        <div class="div items-center">
-            <h1 class="text-2xl font-bold text-gray-900">Data Buku</h1>
+    <div class="flex justify-between mb-3 mt-5 flex-col sm:flex-row">
+        <div class="w-full sm:w-auto flex items-center justify-between mb-2 sm:mb-0 sm:justify-start div   md:mb-0">
+            <h1 class="text-2xl font-bold   text-gray-900">Data Buku</h1>
+            <div class="w-1/2  justify-end sm:hidden flex ">
+
+                <button @click="$dispatch('open-modal')" type="button" wire:click="create"
+                    class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Tambah Buku
+                </button>
+            </div>
         </div>
-        <div class="flex justify-end items-center gap-2">
-            <div class="div">
+        <div class="w-full sm:w-auto flex items-center  justify-end  gap-2">
+            <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
                 <select wire:model.change="tipeFilter"
-                    class="  py-2.5   text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                    class="  py-2.5 px-2.5   text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
                     <option value="">Semua Tipe</option>
                     <option value="literasi">Literasi</option>
                     <option value="paketan">Paketan</option>
                 </select>
             </div>
-            <div class="div">
+            <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
+
                 <input wire:model.live="search" type="text"
                     class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:outline-slate-300 focus:ring-0 focus:ring-slate-500 "
-                    placeholder="Masukkan Judul, Penulis, Penerbit, Kategori, Deskripsi" />
+                    placeholder="Judul, Penulis, Penerbit, Kategori, Deskripsi" />
             </div>
-            <div class="div">
+            <div class="md:w-auto w-1/2 sm:w-auto hidden justify-end sm:flex ">
 
                 <button @click="$dispatch('open-modal')" type="button" wire:click="create"
                     class="flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
@@ -28,7 +37,7 @@
         </div>
     </div>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto shadow-md rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
             <thead class="text-xs text-white uppercase bg-[#164f81]  ">
                 <tr>
@@ -215,7 +224,7 @@
 
                         <div class="block">
                             <div class="flex flex-wrap">
-                                <div class="w-1/3 flex flex-col h-full">
+                                <div class="w-full sm:w-1/3 flex flex-col h-full">
                                     @if ($image_baru != null)
                                         <img class=" rounded-xl h-full" src="{{ $image_baru->temporaryUrl() }}">
                                     @elseif($editId != null || $showId != null)
@@ -245,7 +254,7 @@
                                     @endif
 
                                 </div>
-                                <div class="w-2/3 flex flex-col justify-between  h-full">
+                                <div class="w-full sm:w-2/3 flex flex-col justify-between  h-full">
                                     <div class="div">
 
                                         <div class="flex ">
@@ -253,13 +262,13 @@
                                                 <div class=" w-full mt-1   items-start">
                                                     <x-input :attribute="$showId ? 'readonly' : ''" symbol="*" typeWire="defer"
                                                         inputId="title" label="Judul" type="text"
-                                                        wireModel="title" placeholder="Masukkan Judul" />
+                                                        wireModel="title" placeholder="Judul" />
                                                 </div>
                                                 <div class="w-full flex">
                                                     <div class=" w-1/2 mt-1 pe-2  items-start">
                                                         <x-input :attribute="$showId ? 'readonly' : ''" symbol="*" typeWire="defer"
                                                             inputId="stock" label="Stok" type="text"
-                                                            wireModel="stock" placeholder="Masukkan Stok" />
+                                                            wireModel="stock" placeholder="Stok" />
                                                     </div>
                                                     <div class=" w-1/2 mt-1   items-start">
                                                         <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="type"
@@ -275,7 +284,7 @@
                                                 <div class=" w-full mt-1   items-start">
                                                     <x-input :attribute="$showId ? 'readonly' : ''" symbol="*" typeWire="defer"
                                                         inputId="publisher" label="Penerbit" type="text"
-                                                        wireModel="publisher" placeholder="Masukkan Penerbit" />
+                                                        wireModel="publisher" placeholder="Penerbit" />
                                                 </div>
                                                 <div class="w-full flex">
 
@@ -283,7 +292,7 @@
                                                         <x-input :attribute="$showId ? 'readonly' : ''" symbol="‎" typeWire="defer"
                                                             inputId="realese_date" label="Tanggal Rilis"
                                                             type="date" wireModel="realese_date"
-                                                            placeholder="Masukkan Tanggal Rilis" />
+                                                            placeholder="Tanggal Rilis" />
                                                     </div>
                                                     <div class=" w-1/2 mt-1  ps-2 items-start">
                                                         <x-select :attribute="$showId ? 'disabled' : ''" symbol="*" selectId="status"
@@ -430,7 +439,7 @@
 
                                     <div class="w-full  items-end justify-end mt-auto flex ">
 
-                                        <div class="div">
+                                        <div class="mt-2">
 
                                             @if ($editId == null)
                                                 <button type="button" wire:click="storeCreate"
