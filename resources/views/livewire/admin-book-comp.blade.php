@@ -224,7 +224,7 @@
 
                         <div class="block">
                             <div class="flex flex-wrap">
-                                <div class="w-full sm:w-1/3 flex flex-col h-full">
+                                <div class="w-full sm:w-1/3 ps-3 flex flex-col h-full">
                                     @if ($image_baru != null)
                                         <img class=" rounded-xl h-full" src="{{ $image_baru->temporaryUrl() }}">
                                     @elseif($editId != null || $showId != null)
@@ -236,10 +236,10 @@
 
                                             <label class="text-sm text-gray-500 ">Cover<span
                                                     class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
-                                                    1MB))</span></label>
-                                            <input wire:model.defer="image_baru"
-                                                class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
-                                                aria-describedby="file_input_help" id="file_input" type="file">
+                                                    1MB))</span><span
+                                                    class="text-red-500 text-lg">*</span></label>
+                                            <input type="file" wire:model.defer="image_baru"
+                                                class=" p-1 w-full cursor-pointer text-slate-500 text-sm rounded-lg leading-6 file:bg-[var(--primary)] file:text-white file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:cursor-pointer file:rounded-sm hover:file:brightness-90 border border-gray-300">
 
                                             <div class="text-red-500 font-italic text-sm" wire:loading
                                                 wire:target="image_baru">

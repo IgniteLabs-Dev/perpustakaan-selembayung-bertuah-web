@@ -58,19 +58,28 @@
                     <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
                         class="flex items-center cursor-pointer justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[var(--primary)] hover:font-semibold font-medium md:p-0 md:w-auto ">
 
-                       
+
                         <div class="flex flex-col justify-end text-end me-2 ">
                             <span class="text-sm font-bold">{{ $name }}</span>
                             <span class="text-xs"><i class="fa-solid fa-star text-orange-400"></i> 29</span>
 
                         </div>
                         <img class="rounded-lg h-9 w-9 aspect-square" src="{{ asset('images/profile/' . $profile) }}"
-                        alt="">
+                            alt="">
                     </button>
 
                     <div id="dropdownNavbar"
                         class="z-10 hidden  font-normal bg-white divide-y  divide-gray-100 rounded-lg shadow-sm  ">
                         <ul class="py-2 px-3 rounded-lg text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
+                            <li>
+                                <a href="{{ route('admin-manajemen-peminjaman') }}">
+
+                                    <button href="{{ route('admin-manajemen-peminjaman') }}"
+                                        class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
+                                        <i class="fa-solid fa-user me-2"></i>Admin
+                                    </button>
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('profile') }}">
 
