@@ -6,14 +6,34 @@
 @livewireScripts
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         $(".carousel-1").owlCarousel({
             loop: false,
             margin: 20,
             nav: false,
             items: false,
-            autoWidth: true, 
-            startPosition: 2,
+            responsive: {
+                0: {
+                    autoWidth: true,
+                    startPosition: 3,
+                    center: true,
+                },
+                800: {
+                    autoWidth: true,
+                    startPosition: 1,
+                    center: false,
+                },
+                900: {
+                    startPosition: 0,
+                    autoWidth: false,
+                    center: false,
+                },
+                // 1000: {
+                //     autoWidth: false,
+                // },
+            },
+
+
         });
 
         $(".carousel-2").owlCarousel({
@@ -21,7 +41,13 @@
             margin: 10,
             nav: false,
             items: false,
-            autoWidth: true, 
+            autoWidth: true,
         });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(".owl-stage-outer").addClass("justify-center");
+        $(".owl-stage").addClass("flex items-end !important w-full justify-center ");
     });
 </script>

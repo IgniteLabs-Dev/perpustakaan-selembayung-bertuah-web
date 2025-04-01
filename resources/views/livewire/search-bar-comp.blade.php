@@ -1,6 +1,6 @@
 <div>
 
-    <div class="mx-auto">
+    <div class="mx-auto z-30">
         <div
             class=" flex items-center py-2 text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ">
             <div class=" inset-y-0 start-0 flex items-center ps-3 pe-2 pointer-events-none  ">
@@ -22,7 +22,7 @@
         @forelse($categories as $category)
             <a href="{{ route('jelajahi-buku', ['search' => $category->name]) }}" target="_blank">
                 <button type="button"
-                    class="text-black cursor-pointer my-1 rounded-full me-2 outline-1 outline-gray-300 bg-white hover:bg-gray-100 hover:text-black hover:shadow-md focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-sm px-4 py-2 active:outline-0 active:outline-none">{{ $category->name }}</button>
+                    class="text-black cursor-pointer my-1 rounded-full me-2 outline-1 outline-gray-300 bg-white hover:bg-gray-100 hover:text-black whitespace-nowrap hover:shadow-md focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-sm px-4 py-2 active:outline-0 active:outline-none">{{ $category->name }}</button>
             </a>
         @empty
         @endforelse
