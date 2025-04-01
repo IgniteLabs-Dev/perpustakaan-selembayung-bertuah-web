@@ -38,7 +38,8 @@ class HomeHot extends Component
                 'loaned.book_id'
             )
             ->selectRaw('COALESCE(books.stock - loaned.total, books.stock) as available_stock') 
-            ->paginate(6);
+            ->orderby('books.created_at', 'desc')
+            ->get(18);
 
 
 

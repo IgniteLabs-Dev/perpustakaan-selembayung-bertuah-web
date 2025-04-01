@@ -21,11 +21,7 @@
         
         @livewire('home-hot')
     </div>
-    <div class="max-w-screen-xl mx-auto mt-8 ">
-        @livewire('home-new')
-    </div>
-    <div class="mb-20 pb-20">
-
-    </div>
+ 
+   
 
 @endsection
