@@ -20,9 +20,16 @@ class BookDetailComp extends Component
     {
         $this->id = $id;
         $this->data = Book::find($this->id);
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            $this->user = null;
+        }
     }
     public function render()
     {
+
+
         $categories = BookCategories::where('book_id', $this->id)->get();
         $categories = $categories->map(function ($item) {
             return $item->category->name;
@@ -33,8 +40,8 @@ class BookDetailComp extends Component
             return $item->author->name;
         })->implode(', ');
 
-        $this->user = JWTAuth::parseToken()->authenticate();
-        $myBookmark = Bookmark::where('user_id', $this->user->id)->pluck('book_id')->toArray();
+
+        $myBookmark = $this->user ? Bookmark::where('user_id', $this->user->id)->pluck('book_id')->toArray() : [];
 
         $loaned = LoanTransaction::where('status', 'borrowed')
             ->where('book_id', $this->id)
@@ -43,18 +50,22 @@ class BookDetailComp extends Component
             ->pluck('total')
             ->first();
 
-             $loaned = $loaned ? $loaned : 0;
-            // dd($loaned);
-          
+        $loaned = $loaned ? $loaned : 0;
+        // dd($loaned);
 
-        return view('livewire.book-detail-comp', compact('categories', 'authors', 'myBookmark','loaned'))->extends('layouts.master');
+
+        return view('livewire.book-detail-comp', compact('categories', 'authors', 'myBookmark', 'loaned'))->extends('layouts.master');
     }
     public function addBookmark($id)
     {
-        Bookmark::create([
-            'user_id' => $this->user->id,
-            'book_id' => $id
-        ]);
+        if ($this->user == null) {
+            return redirect()->route('login');
+        } else {
+            Bookmark::create([
+                'user_id' => $this->user->id,
+                'book_id' => $id
+            ]);
+        }
     }
     public function removeBookmark($id)
     {

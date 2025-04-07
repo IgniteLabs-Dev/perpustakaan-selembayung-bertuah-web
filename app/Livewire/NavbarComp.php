@@ -17,11 +17,18 @@ class NavbarComp extends Component
             $user = JWTAuth::parseToken()->authenticate();
         } catch (\Exception $e) {
             $name = null;
+            $user = null;
         }
 
-        $point = LoanTransaction::where('user_id', $user->id)
-            ->selectRaw('SUM(point) - SUM(fine) as total_point')
-            ->value('total_point');
+
+        if ($user != null) {
+            $point = LoanTransaction::where('user_id', $user->id)
+                ->selectRaw('SUM(point) - SUM(fine) as total_point')
+                ->value('total_point');
+        } else {
+            $point = null;
+        }
+
 
         return view('livewire.navbar-comp', compact('user', 'point'));
     }

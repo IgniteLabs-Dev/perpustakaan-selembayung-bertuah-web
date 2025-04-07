@@ -48,10 +48,14 @@ class HomeNew extends Component
     }
     public function addBookmark($id)
     {
-        Bookmark::create([
-            'user_id' => $this->user->id,
-            'book_id' => $id
-        ]);
+        if ($this->user == null) {
+            return redirect()->route('login');
+        } else {
+            Bookmark::create([
+                'user_id' => $this->user->id,
+                'book_id' => $id
+            ]);
+        }
     }
     public function removeBookmark($id)
     {

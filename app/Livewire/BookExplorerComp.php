@@ -26,7 +26,12 @@ class BookExplorerComp extends Component
 
         $this->search = $search;
         $this->category = $category;
-        $this->user = JWTAuth::parseToken()->authenticate();
+
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            $this->user = null;
+        }
     }
     public function resetFilter()
     {
@@ -56,7 +61,7 @@ class BookExplorerComp extends Component
     public function render()
     {
 
-        $myBookmark = Bookmark::where('user_id', $this->user->id)->pluck('book_id')->toArray();
+        $myBookmark = $this->user ? Bookmark::where('user_id', $this->user->id)->pluck('book_id')->toArray() : [];
         $books = Book::select('books.*')
             ->addSelect(DB::raw('(
             SELECT GROUP_CONCAT(authors.name SEPARATOR ", ") 
@@ -120,10 +125,14 @@ class BookExplorerComp extends Component
     }
     public function addBookmark($id)
     {
-        Bookmark::create([
-            'user_id' => $this->user->id,
-            'book_id' => $id
-        ]);
+        if ($this->user == null) {
+            return redirect()->route('login');
+        } else {
+            Bookmark::create([
+                'user_id' => $this->user->id,
+                'book_id' => $id
+            ]);
+        }
     }
     public function removeBookmark($id)
     {

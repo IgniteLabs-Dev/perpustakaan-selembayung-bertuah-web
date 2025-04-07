@@ -15,11 +15,15 @@ class HomeHot extends Component
 
     public function mount()
     {
-        $this->user = JWTAuth::parseToken()->authenticate();
+        try {
+            $this->user = JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            $this->user = null;
+        }
     }
     public function render()
     {
-        $myBookmark = Bookmark::where('user_id', $this->user->id)->pluck('book_id')->toArray();
+        $myBookmark = $this->user ? Bookmark::where('user_id', $this->user->id)->pluck('book_id')->toArray() : [];
 
         $books = Book::select('books.*')
             ->addSelect(DB::raw('(
@@ -37,7 +41,7 @@ class HomeHot extends Component
                 '=',
                 'loaned.book_id'
             )
-            ->selectRaw('COALESCE(books.stock - loaned.total, books.stock) as available_stock') 
+            ->selectRaw('COALESCE(books.stock - loaned.total, books.stock) as available_stock')
             ->orderby('books.created_at', 'desc')
             ->get(18);
 
@@ -48,10 +52,14 @@ class HomeHot extends Component
     }
     public function addBookmark($id)
     {
-        Bookmark::create([
-            'user_id' => $this->user->id,
-            'book_id' => $id
-        ]);
+        if ($this->user == null) {
+            return redirect()->route('login');
+        } else {
+            Bookmark::create([
+                'user_id' => $this->user->id,
+                'book_id' => $id
+            ]);
+        }
     }
     public function removeBookmark($id)
     {
