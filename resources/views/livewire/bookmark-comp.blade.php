@@ -1,7 +1,7 @@
 <div>
     <div class="max-w-screen-xl mx-auto pt-25 flex  flex-col">
         <div class=" w-full mb-3 ">
-            <div class="border-gray-300 border rounded-lg shadow-sm py-3 px-3 font-semibold w-full">
+            <div class="border-gray-300 bg-white border rounded-lg shadow-sm py-3 px-3 font-semibold w-full">
                 <p class="text-lg font-bold text-[var(--primary)] !important"><i
                         class="fa-solid fa-circle-info me-1"></i>Proses Peminjaman</p>
                 <hr class="text-gray-400 mt-1 mb-1">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class=" w-full  flex  flex-wrap">
-            <div class="border-gray-300  border rounded-lg shadow-sm p-3 font-semibold w-full    flex-col flex-wrap">
+            <div class="border-gray-300 bg-white  border rounded-lg shadow-sm p-3 font-semibold w-full    flex-col flex-wrap">
                 <div class="w-full">
 
                     <div class="div  mb-3">

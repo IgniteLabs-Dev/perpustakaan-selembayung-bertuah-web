@@ -1,7 +1,7 @@
 <div>
     <div class="max-w-screen-xl  justify-center mx-auto pt-25 flex">
         <div
-            class="flex justify-center border-0   md:border-1 border-gray-300 rounded-xl shadow-sm py-10  flex-col font-semibold  ">
+            class="flex justify-center border-0   md:border-1 border-gray-300 bg-white rounded-xl shadow-sm py-10  flex-col font-semibold  ">
             <h3 class="text-center font-bold text-2xl mb-5">Profile Settings</h3>
             <div class="w-full flex flex-col md:flex-row justify-center">
 

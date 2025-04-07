@@ -1,6 +1,6 @@
 <div>
     <div class="max-w-screen-xl mx-auto pt-25 flex  ">
-        <div class="border-0  rounded-lg    font-semibold w-full flex flex-col ">
+        <div class="border-0  rounded-lg  bg-white  font-semibold w-full flex flex-col ">
 
             <div class="flex flex-col md:flex-row">
                 <div class="md:w-[310px] lg:w-[380px] flex justify-between md:justify-start">

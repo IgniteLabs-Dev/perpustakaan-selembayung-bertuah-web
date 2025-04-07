@@ -1,4 +1,4 @@
-<div class="p-4 w-full border-2 border-gray-200 rounded-xl ">
+<div class="p-4 w-full border-2 border-gray-200 rounded-xl bg-white">
     <a href="{{ route('detail-buku', ['id' => $id]) }}" class="block">
         <img class="h-64 aspect-12/16 object-cover rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out"
             src="{{ asset('images/books/' . ($cover ?? '')) }}" alt="">

@@ -8,7 +8,7 @@
                 <div class="md:w-auto w-1/2">
                     <div class="items-start">
                         <select wire:model.change="type"
-                            class="border-1 p-2 border-slate-300 cursor-pointer  text-sm w-full h-full  rounded-lg focus:outline-gray-300 disabled:bg-gray-300 ">
+                            class="border-1 p-2 border-slate-300 bg-white cursor-pointer  text-sm w-full h-full  rounded-lg focus:outline-gray-300 disabled:bg-gray-300 ">
                             <option value="">Semua Tipe</option>
                             <option value="literasi">Literasi</option>
                             <option value="paketan">Paketan</option>

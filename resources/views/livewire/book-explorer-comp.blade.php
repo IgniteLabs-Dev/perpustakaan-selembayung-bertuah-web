@@ -2,13 +2,13 @@
     <div class="max-w-screen-xl mx-auto pt-25 flex flex-col">
         <div class="w-full ">
             <input wire:model.live="search" type="search" id="default-search"
-                class="block border border-gray-300 rounded-xl w-full py-3 px-2 focus:outline-0 focus:outline-transparent text-sm  "
+                class="block border border-gray-300 bg-white rounded-xl w-full py-3 px-2 focus:outline-0 focus:outline-transparent text-sm  "
                 placeholder="Masukkan Judul, Penulis atau Kategori" required />
         </div>
         <div class="w-full flex flex-wrap justify-between mt-2">
             <div class="flex w-full md:w-[60%] gap-2 items-center">
                 <div wire:ignore class=" flex w-1/3 md:w-1/3 items-center " x-data="selectComponent">
-                    <select wire:model.change="category" class="w-full  p-0 md:min-w-[140px]   border-0 outline-0"
+                    <select wire:model.change="category" class="w-full   p-0 md:min-w-[140px]   border-0 outline-0"
                         id="select-categories">
                         <option value="">Pilih Kategori</option>
                         @forelse ($categories as $category)
@@ -50,7 +50,7 @@
                 <div class="div">
 
                     <select wire:model.change="sortType"
-                        class="  py-2.5 bg-transparent  px-2.5 text-sm w-full  border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        class="  py-2.5 bg-transparent  px-2.5 text-sm w-full  border bg-white border-gray-300  rounded-lg focus:outline-gray-300  ">
                         <option value="new">Paling Terbaru</option>
                         <option value="az">Judul A - Z</option>
                         <option value="za">Judul Z - A</option>
