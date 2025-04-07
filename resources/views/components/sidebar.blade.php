@@ -3,8 +3,10 @@
     <div :class="open ? 'w-64' : 'w-16'" class="hidden md:flex z-20 flex-col  bg-gray-50 transition-all duration-300">
         <div class="flex items-center justify-center h-16 bg-gray-50">
             <div class="flex items-start flex-col" :class="!open && 'hidden'">
-                <p class="font-medium text-[11px] mb-0">ADMIN PERPUSTAKAAN</p>
-                <p class="self-center text-xl p-0 m-0 font-bold whitespace-nowrap">SELEMBAYUNG BERTUAH</p>
+                <a href="/">
+
+                    <img class="h-12 w-auto" src="{{ asset('images/Perpustakaan Icon.png') }}" alt="">
+                </a>
             </div>
         </div>
         <div class="flex flex-col flex-1 overflow-y-auto">

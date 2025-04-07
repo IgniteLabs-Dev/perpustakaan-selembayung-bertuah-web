@@ -4,9 +4,10 @@
         <div class="max-w-screen-xl flex flex-wrap py-2.5 justify-between mx-auto ">
             <div class="w-1/2 md:w-1/3 flex items-center">
                 <div class="md:flex items-start  flex-col hidden">
-                    <p class="font-medium text-[11px]  mb-0">PERPUSTAKAAN</p>
-                    <p class="self-center text-xl p-0 m-0 font-bold  whitespace-nowrap ">
-                        SELEMBAYUNG BERTUAH</p>
+                    <a href="/">
+
+                        <img class="h-12 w-auto" src="{{ asset('images/Perpustakaan Icon.png') }}" alt="">
+                    </a>
                 </div>
                 <div class="bg-gray-200 p-3 ms-3 md:hidden block rounded-lg cursor-pointer hover:bg-gray-300 ">
                     <i class="fa-solid fa-bars"></i>
@@ -55,7 +56,8 @@
 
                             <div class="flex flex-col justify-end text-end me-2 ">
                                 <span class="text-sm font-bold">{{ $user->name }}</span>
-                                <span class="text-xs"><i class="fa-solid fa-star text-orange-400 me-0.5"></i>{{$point}}</span>
+                                <span class="text-xs"><i
+                                        class="fa-solid fa-star text-orange-400 me-0.5"></i>{{ $point }}</span>
 
                             </div>
                             @if ($user->cover == null || !file_exists(public_path('images/profile/' . $user->cover)))
@@ -72,17 +74,15 @@
                             <ul class="py-2 px-3 rounded-lg text-sm text-gray-700 "
                                 aria-labelledby="dropdownLargeButton">
                                 @if ($user->role == 'admin')
-                           
-                                    
-                                <li>
-                                    <a href="{{ route('admin-manajemen-peminjaman') }}">
-    
-                                        <button href="{{ route('admin-manajemen-peminjaman') }}"
-                                            class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
-                                            <i class="fa-solid fa-chart-simple me-2"></i>Dashboard Admin
-                                        </button>
-                                    </a>
-                                </li>
+                                    <li>
+                                        <a href="{{ route('admin-manajemen-peminjaman') }}">
+
+                                            <button href="{{ route('admin-manajemen-peminjaman') }}"
+                                                class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
+                                                <i class="fa-solid fa-chart-simple me-2"></i>Dashboard Admin
+                                            </button>
+                                        </a>
+                                    </li>
                                 @endif
                                 <li>
                                     <a href="{{ route('profile') }}">

@@ -13,9 +13,7 @@
     <div class="max-w-screen-xl flex flex-wrap  justify-between mx-auto pt-3 pb-3">
         <div class="w-1/3 flex items-start">
             <div class="flex items-start  flex-col">
-                <p class="font-medium text-[11px]  mb-0">PERPUSTAKAAN</p>
-                <p class="self-center text-xl p-0 m-0 font-bold  whitespace-nowrap ">
-                    SELEMBAYUNG BERTUAH</p>
+                <img class="w-auto" src="{{ asset('images/Perpustakaan Icon.png') }}" alt="">
             </div>
         </div>
         <div class="w-1/3 justify-center flex">
