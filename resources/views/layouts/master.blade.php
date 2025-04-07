@@ -6,7 +6,7 @@
 
 <body>
     @livewire('navbar-comp')
-    <div class="bg-[#fdfdfd]" >
+    <div class="bg-[#fcfbf8]">
 
         @yield('content')
     </div>
