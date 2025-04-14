@@ -7,13 +7,16 @@ use App\Livewire\AdminCategoryComp;
 use App\Livewire\AdminLoanTransactionComp;
 use App\Livewire\AdminRewardComp;
 use App\Livewire\AdminUsersComp;
+use App\Livewire\AdminVisitorComp;
 use App\Livewire\BookDetailComp;
 use App\Livewire\BookExplorerComp;
 use App\Livewire\BookmarkComp;
+use App\Livewire\Dashboard;
 use App\Livewire\HistoryLoanComp;
 use App\Livewire\LoginComp;
 use App\Livewire\ProfileComp;
 use App\Livewire\UsersAdminComp;
+use App\Livewire\VisitorComp;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,10 +50,12 @@ Route::get('/riwayat-peminjaman', HistoryLoanComp::class)->name('riwayat-peminja
 Route::get('/buku/detail/{id}', BookDetailComp::class)->name('detail-buku');
 
 Route::middleware(['auth-jwt'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/manajemen-user', AdminUsersComp::class)->name('admin-manajemen-user');
     Route::get('/manajemen-reward', AdminRewardComp::class)->name('admin-manajemen-reward');
     Route::get('/manajemen-buku', AdminBookComp::class)->name('admin-manajemen-buku');
     Route::get('/manajemen-kategori', AdminCategoryComp::class)->name('admin-manajemen-kategori');
     Route::get('/manajemen-penulis', AdminAuthorComp::class)->name('admin-manajemen-penulis');
+    Route::get('/manajemen-pengunjung', AdminVisitorComp::class)->name('admin-manajemen-pengunjung');
     Route::get('/manajemen-peminjaman', AdminLoanTransactionComp::class)->name('admin-manajemen-peminjaman');
 });

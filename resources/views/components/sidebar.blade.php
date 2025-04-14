@@ -12,6 +12,15 @@
         <div class="flex flex-col flex-1 overflow-y-auto">
             <nav class="flex-1 bg-gray-50">
                 <div class="px-2 py-[1px]">
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center px-4 py-2 rounded-lg 
+                        {{ request()->routeIs('dashboard') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
+                        hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+                        <i class="fa-solid fa-home"></i>
+                        <span class="ms-2" :class="!open && 'hidden'">Dashboard</span>
+                    </a>
+                </div>
+                <div class="px-2 py-[1px]">
                     <a href="{{ route('admin-manajemen-user') }}"
                         class="flex items-center px-4 py-2 rounded-lg 
                         {{ request()->routeIs('admin-manajemen-user') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
@@ -63,6 +72,15 @@
                         hover:brightness-90 hover:bg-[#26537b] hover:text-white">
                         <i class="fa-solid fa-medal"></i>
                         <span class="ms-2" :class="!open && 'hidden'">Manajemen Reward</span>
+                    </a>
+                </div>
+                <div class="px-2 py-[1px]">
+                    <a href="{{ route('admin-manajemen-pengunjung') }}"
+                        class="flex items-center px-4 py-2 rounded-lg 
+                        {{ request()->routeIs('admin-manajemen-pengunjung') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
+                        hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+                        <i class="fa-solid fa-user-secret   "></i>
+                        <span class="ms-2" :class="!open && 'hidden'">Manajemen Pengunjung</span>
                     </a>
                 </div>
             </nav>
