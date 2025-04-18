@@ -16,6 +16,7 @@ class AdminVisitorComp extends Component
     public $user_id;
     public $editId;
     public $name;
+    public $nameSiswa;
 
     public function render()
     {
@@ -96,6 +97,7 @@ class AdminVisitorComp extends Component
         $data = Visitor::find($id);
 
         $this->name = $data->name;
+        $this->nameSiswa = $data->user->name;
     }
     public function storeEdit()
     {
@@ -108,6 +110,7 @@ class AdminVisitorComp extends Component
         $id = $this->editId;
         $data = Visitor::find($id);
         $data->name = $this->name;
+        $data->user_id = null;
         if ($data->save()) {
             LivewireAlert::title('Data Berhasil Diubah!')
                 ->position('top-end')
@@ -116,6 +119,36 @@ class AdminVisitorComp extends Component
                 ->show();
 
             $this->dispatch('close-modal');
+            $this->resetInput();
+        } else {
+            LivewireAlert::title('Data Gagal Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
+        }
+    }
+    public function storeEditSiswa()
+    {
+        $this->validate([
+            'user_id' => 'required'
+        ], [
+            'user_id.required' => 'Nama penulis wajib diisi.'
+        ]);
+
+        $id = $this->editId;
+        $data = Visitor::find($id);
+        $data->name = null;
+        $data->user_id = $this->user_id;
+        if ($data->save()) {
+            LivewireAlert::title('Data Berhasil Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->success()
+                ->show();
+
+            $this->dispatch('close-modal2');
+            $this->dispatch('resetTomSelect');
             $this->resetInput();
         } else {
             LivewireAlert::title('Data Gagal Diubah!')
@@ -146,6 +179,7 @@ class AdminVisitorComp extends Component
     {
 
         $this->name = '';
+        $this->nameSiswa = '';
         $this->editId = '';
         $this->user_id = '';
     }

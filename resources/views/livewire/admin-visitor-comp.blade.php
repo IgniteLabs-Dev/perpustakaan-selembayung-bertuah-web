@@ -83,12 +83,19 @@
                                     </button>
                                 </div>
                                 <div class="div">
-
-                                    <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
-                                        type="button"
-                                        class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
+                                    @if ($item->name != null)
+                                        <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
+                                            type="button"
+                                            class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                    @else
+                                        <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal2')"
+                                            type="button"
+                                            class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                    @endif
                                 </div>
                             @endif
                         </td>
@@ -189,7 +196,7 @@
             <div class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
                 <h3 class="text-lg font-semibold text-white">
                     @if ($editId != null)
-                        Edit Pengunjung
+                        Edit {{ $nameSiswa }}
                     @else
                         Tambah Pengunjung
                     @endif
@@ -246,7 +253,7 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('selectComponent', () => ({
                 init() {
-                    this.initTomSelect("#select-users", 'Tambah Penulis');
+                    this.initTomSelect("#select-users", 'Masukkan Nama Siswa');
 
 
 

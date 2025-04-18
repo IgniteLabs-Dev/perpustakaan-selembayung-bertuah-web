@@ -538,7 +538,7 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('selectComponent', () => ({
                 init() {
-                    this.initTomSelect("#select-users", 'Tambah Penulis');
+                    this.initTomSelect("#select-users", 'Tambah Peminjam');
                     this.initTomSelect("#select-book", 'Tambah Buku');
 
 
