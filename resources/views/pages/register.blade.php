@@ -2,6 +2,7 @@
 
 <head>
     <x-style />
+    <title>Perpustakan Selembayung Bertuah - Register</title>
 </head>
 
 <body

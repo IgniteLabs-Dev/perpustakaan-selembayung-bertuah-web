@@ -1,4 +1,7 @@
-<title>Perpustakan Selembayung Bertuah - @yield('title')</title>
+@if (View::hasSection('title'))
+    <title>Perpustakan Selembayung Bertuah - @yield('title')</title>
+@endif
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])

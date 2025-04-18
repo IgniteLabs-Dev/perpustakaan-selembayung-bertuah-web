@@ -3,10 +3,14 @@
 
 <head>
     <x-style />
+    <title>Perpustakan Selembayung Bertuah - Login</title>
 </head>
 
 <body
     style="background-image: url('{{ asset('images/bg-login.jpg') }}'); background-size: cover; background-position: center;">
+
+
+
     <div class="flex justify-center items-center min-h-screen">
         <div class="w-full max-w-md mt-10 p-6">
             <div class="bg-white rounded-2xl shadow-md p-6">
