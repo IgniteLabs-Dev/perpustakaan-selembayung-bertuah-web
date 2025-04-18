@@ -28,8 +28,7 @@
                         @endif
                         <h2 class="text-center text-2xl font-bold">Selamat Datang!</h2>
                         <div class="div">
-                            <label class="text-sm text-gray-500">Email<span
-                                    class="text-red-500 text-lg">*</span></label>
+                            <label class="text-sm text-gray-500">Email</label>
                             <input value="{{ old('email') }}" required
                                 class="border-1 border-gray-200 bg-gray-50  rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 name="email" type="email" placeholder="E-Mail">
@@ -38,8 +37,7 @@
                             @enderror
                         </div>
                         <div class="div">
-                            <label class="text-sm text-gray-500">Password<span
-                                    class="text-red-500 text-lg">*</span></label>
+                            <label class="text-sm text-gray-500">Password</label>
                             <input required
                                 class="border-1 border-gray-200 bg-gray-50  rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 name="password" type="password" placeholder="Password">
