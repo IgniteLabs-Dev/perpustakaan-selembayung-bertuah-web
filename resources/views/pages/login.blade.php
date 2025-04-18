@@ -1,46 +1,62 @@
 <html>
 
-<head>
-    <title>Perdin - @yield('title')</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/icon_ars.ico') }}">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    {{-- <script src="{{ asset('js/tailwind.js') }}"></script> --}}
-    @vite(['resource/css/app.css', 'resource/js/app.js'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<head>
+    <x-style />
 </head>
 
-<body>
+<body
+    style="background-image: url('{{ asset('images/bg-login.jpg') }}'); background-size: cover; background-position: center;">
     <div class="flex justify-center items-center min-h-screen">
         <div class="w-full max-w-md mt-10 p-6">
             <div class="bg-white rounded-2xl shadow-md p-6">
                 <form action="{{ route('login.proses') }}" method="POST">
                     @csrf
                     <div class="flex flex-col gap-4">
+                        <div class="flex justify-center">
+
+                            <img class="h-20" src="{{ asset('images/Perpustakaan Icon.png') }}" alt="">
+                        </div>
                         @if (session('error'))
-                            <div class="bg-red-500 text-white p-3 rounded-lg text-center">
+                            <div class="p-4 text-sm text-center text-red-800 rounded-lg bg-red-50 " role="alert">
                                 {{ session('error') }}
                             </div>
+                        @elseif(session('success'))
+                            <div class="p-4 text-sm text-center text-green-800 rounded-lg bg-green-50 " role="alert">
+                                {{ session('success') }}
+                            </div>
                         @endif
-                        <h2 class="text-center text-2xl font-bold">Login</h2>
-                        <input required
-                            class="border-1 border-gray-200 bg-gray-50 shadow-sm rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            name="email" type="email"  placeholder="E-Mail">
-                        @error('email')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                        <input required
-                            class="border-1 border-gray-200 bg-gray-50 shadow-sm rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            name="password" type="password" placeholder="Password">
-                        @error('password')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
+                        <h2 class="text-center text-2xl font-bold">Selamat Datang!</h2>
+                        <div class="div">
+                            <label class="text-sm text-gray-500">Email<span
+                                    class="text-red-500 text-lg">*</span></label>
+                            <input value="{{ old('email') }}" required
+                                class="border-1 border-gray-200 bg-gray-50  rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                name="email" type="email" placeholder="E-Mail">
+                            @error('email')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="div">
+                            <label class="text-sm text-gray-500">Password<span
+                                    class="text-red-500 text-lg">*</span></label>
+                            <input required
+                                class="border-1 border-gray-200 bg-gray-50  rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                name="password" type="password" placeholder="Password">
+                            @error('password')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                     <div class="flex justify-center mt-4">
                         <button type="submit"
-                            class="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded-lg hover:bg-blue-600">Submit</button>
+                            class="bg-[var(--primary)]  cursor-pointer text-white py-2 px-8 hover:scale-105 rounded-lg hover:brightness-90 transition-transform duration-300 ease-in-out">Login</button>
+                    </div>
+                    <div class="flex flex-col gap-2 mt-2 justify-center">
+                        <p class="text-sm text-center text-gray-500">Belum punya akun? <a href="{{ route('register') }}"
+                                class="text-[var(--primary)] font-semibold">Daftar</a></p>
+
+
                     </div>
                 </form>
             </div>

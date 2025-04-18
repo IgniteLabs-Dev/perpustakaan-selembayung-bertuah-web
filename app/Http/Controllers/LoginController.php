@@ -8,6 +8,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cookie;
+
 class LoginController extends Controller
 {
     public function loginPage(Request $request)
@@ -27,7 +28,7 @@ class LoginController extends Controller
     {
 
         $token = $request->bearerToken() ?? $request->cookie('token');
-       
+
         if ($token) {
 
             return redirect()->route('admin-manajemen-buku');
@@ -51,7 +52,7 @@ class LoginController extends Controller
 
     public function register()
     {
-        return view('register');
+        return view('pages.register');
     }
 
     public function registerProses(Request $request)
@@ -59,7 +60,8 @@ class LoginController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:users,name',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required'
+            'password' => 'required',
+            'nis' => 'required|unique:users,nis',
         ]);
 
         if ($validator->fails()) {
@@ -70,15 +72,16 @@ class LoginController extends Controller
         $data = new User();
         $data->name = $request->input('name');
         $data->email = $request->input('email');
+        $data->nis = $request->input('nis');
 
         $data->password = bcrypt($request->input('password'));
 
         if ($data->save()) {
 
-            return redirect('/login')->with('success', 'Registration successful, please log in.');
+            return redirect('/login')->with('success', 'Pendaftaran akun berhasil, Silahkan Login.');
         } else {
 
-            return redirect('/register')->with('error', 'Registration failed.');
+            return redirect('/register')->with('error', 'Pendaftaran akun gagal, Silahkan Ulangi.');
         }
     }
 
@@ -102,11 +105,11 @@ class LoginController extends Controller
             // Coba membuat token menggunakan credentials yang diberikan
             if (!$token = JWTAuth::attempt($credentials)) {
 
-                return redirect('/login')->with('error', 'Username and password do not match.');
+                return redirect('/login')->with('error', 'Email dan Password salah.')->withInput();
             }
         } catch (JWTException $e) {
 
-            return redirect('/login')->with('error', 'Please try again.');
+            return redirect('/login')->with('error', 'Silahkan Ulangi.')->withInput();
         }
 
         // Mengatur cookie dengan token JWT
