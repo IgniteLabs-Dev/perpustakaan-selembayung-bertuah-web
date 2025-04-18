@@ -2,14 +2,20 @@
     <!-- Sidebar -->
     <div :class="open ? 'w-64' : 'w-16'" class="hidden md:flex z-20 flex-col  bg-gray-50 transition-all duration-300">
         <div class="flex items-center justify-center h-16 bg-gray-50">
-            <div class="flex items-start flex-col" :class="!open && 'hidden'">
+            <div class="flex items-start flex-col">
                 <a href="/">
+                    <!-- Gambar atas (muncul saat open = true) -->
+                    <img class="h-12 w-auto" :class="open ? 'block' : 'hidden'"
+                        src="{{ asset('images/Perpustakaan Icon.png') }}" alt="">
 
-                    <img class="h-12 w-auto" src="{{ asset('images/Perpustakaan Icon.png') }}" alt="">
+                    <!-- Gambar bawah (muncul saat open = false) -->
+                    <img class="h-12 w-auto" :class="open ? 'hidden' : 'block'" src="{{ asset('images/Icon.png') }}"
+                        alt="">
+
                 </a>
             </div>
         </div>
-        <div class="flex flex-col flex-1 overflow-y-auto">
+        <div class="flex flex-col flex-1 overflow-y-auto mt-2">
             <nav class="flex-1 bg-gray-50">
                 <div class="px-2 py-[1px]">
                     <a href="{{ route('dashboard') }}"
