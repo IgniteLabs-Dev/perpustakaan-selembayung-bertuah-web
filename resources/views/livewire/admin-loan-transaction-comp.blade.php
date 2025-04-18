@@ -260,7 +260,7 @@
                     </div>
                     <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
 
-                        {{-- <span wire:loading class="loader scale-50  my-5"></span> --}}
+                        <span wire:loading class="loader scale-50  my-5"></span>
 
                         <div class="block">
                             <div class="flex flex-wrap items-start">
@@ -430,7 +430,7 @@
                 </button>
             </div>
             <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
-                @if ($showId != null)
+                @if ($showId != null && $dataShow != null)
                     {{-- <span wire:loading class="loader scale-50  my-5"></span> --}}
                     <div class="block flex">
                         <div class="flex w-1/2">

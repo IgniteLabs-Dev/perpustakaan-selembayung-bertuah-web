@@ -76,7 +76,7 @@ class AdminLoanTransactionComp extends Component
         $this->condition = '';
         $this->fine = '';
         $this->point = '';
-        $this->userName = '';
+        $this->dataShow= null;        $this->userName = '';
         $this->bookTitle = '';
         $this->bookTitle = '';
         $this->editUser = false;
