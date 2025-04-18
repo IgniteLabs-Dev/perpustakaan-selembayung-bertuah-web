@@ -1,5 +1,5 @@
 <div>
-
+    @section('title', 'Dashboard')
     <div class="grid  md:grid-cols-3 grid-cols-2 gap-4 p-4  text-gray-900 3 ">
 
 

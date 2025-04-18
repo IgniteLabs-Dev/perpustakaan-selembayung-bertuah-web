@@ -1,4 +1,5 @@
 <div>
+    @section('title', 'Profile')
     <div class="max-w-screen-xl  justify-center mx-auto pt-25 flex">
         <div
             class="flex justify-center border-0   md:border-1 border-gray-300 bg-white rounded-xl shadow-sm py-10  flex-col font-semibold  ">

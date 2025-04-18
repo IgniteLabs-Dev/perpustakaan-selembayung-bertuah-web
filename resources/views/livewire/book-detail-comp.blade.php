@@ -1,4 +1,5 @@
 <div>
+    @section('title', $data->title)
     <div class="max-w-screen-xl mx-auto pt-25 flex  ">
         <div class="border-0  rounded-lg  bg-white  font-semibold w-full flex flex-col ">
 

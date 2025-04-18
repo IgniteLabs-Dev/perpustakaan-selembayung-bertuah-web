@@ -1,4 +1,5 @@
 <div>
+    @section('title', 'Riwayat Peminjaman')
     <div class="max-w-screen-xl mx-auto pt-25 flex flex-col">
         <div class="flex justify-between mb-3 mt-5">
             <div class="div items-center mb-2 md:mb-0">

@@ -1,6 +1,6 @@
 <div>
 
-
+    @section('title', 'Manajemen Peminjaman')
     <div class="flex justify-between mb-3 mt-5 flex-col lg:flex-row">
         <div class="w-full lg:w-auto flex items-center justify-center lg:justify-start div mb-2  lg:mb-0">
             <h1 class="text-2xl font-bold   text-gray-900">Data Peminjaman</h1>

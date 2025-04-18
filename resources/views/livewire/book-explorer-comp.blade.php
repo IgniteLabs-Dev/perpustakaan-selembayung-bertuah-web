@@ -1,4 +1,5 @@
 <div>
+    @section('title', 'Koleksi Buku')
     <div class="max-w-screen-xl mx-auto pt-25 flex flex-col">
         <div class="w-full ">
             <input wire:model.live="search" type="search" id="default-search"
@@ -58,7 +59,8 @@
                 </div>
             </div>
         </div>
-        <div class=" mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  mt-3 justify-start ">
+        <div
+            class=" mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  mt-3 justify-start ">
             @forelse($books as $book)
                 <div class="max-w-[220px] mb-3
          

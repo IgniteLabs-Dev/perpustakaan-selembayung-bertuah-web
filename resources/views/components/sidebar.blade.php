@@ -72,12 +72,12 @@
                     </a>
                 </div>
                 <div class="px-2 py-[1px]">
-                    <a href="{{ route('admin-manajemen-reward') }}"
+                    <a href="{{ route('admin-manajemen-point') }}"
                         class="flex items-center px-4 py-2 rounded-lg 
-                        {{ request()->routeIs('admin-manajemen-reward') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
+                        {{ request()->routeIs('admin-manajemen-point') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
                         hover:brightness-90 hover:bg-[#26537b] hover:text-white">
                         <i class="fa-solid fa-medal"></i>
-                        <span class="ms-2" :class="!open && 'hidden'">Manajemen Reward</span>
+                        <span class="ms-2" :class="!open && 'hidden'">Manajemen Point</span>
                     </a>
                 </div>
                 <div class="px-2 py-[1px]">

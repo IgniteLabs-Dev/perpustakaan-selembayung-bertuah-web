@@ -1,4 +1,5 @@
 <div>
+    @section('title', 'Bookmark')
     <div class="max-w-screen-xl mx-auto pt-25 flex  flex-col">
         <div class=" w-full mb-3 ">
             <div class="border-gray-300 bg-white border rounded-lg shadow-sm py-3 px-3 font-semibold w-full">
@@ -12,7 +13,8 @@
             </div>
         </div>
         <div class=" w-full  flex  flex-wrap">
-            <div class="border-gray-300 bg-white  border rounded-lg shadow-sm p-3 font-semibold w-full    flex-col flex-wrap">
+            <div
+                class="border-gray-300 bg-white  border rounded-lg shadow-sm p-3 font-semibold w-full    flex-col flex-wrap">
                 <div class="w-full">
 
                     <div class="div  mb-3">

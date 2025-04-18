@@ -1,6 +1,6 @@
 <div>
 
-    <nav class="bg-white  fixed w-full z-20 top-0 start-0 border-b border-gray-200  ">
+    <nav class="bg-white  fixed w-full z-20 top-0 start-0 border-b border-gray-200 shadow-sm ">
         <div class="max-w-screen-xl flex flex-wrap py-2.5 justify-between mx-auto ">
             <div class="w-1/2 md:w-1/3 flex items-center">
                 <div class="md:flex items-start  flex-col hidden">
@@ -75,9 +75,9 @@
                                 aria-labelledby="dropdownLargeButton">
                                 @if ($user->role == 'admin')
                                     <li>
-                                        <a href="{{ route('admin-manajemen-peminjaman') }}">
+                                        <a href="{{ route('dashboard') }}">
 
-                                            <button href="{{ route('admin-manajemen-peminjaman') }}"
+                                            <button href="{{ route('dashboard') }}"
                                                 class="block cursor-pointer px-3 w-full text-start rounded-lg py-2 hover:bg-[var(--primary)] hover:text-white">
                                                 <i class="fa-solid fa-chart-simple me-2"></i>Dashboard Admin
                                             </button>

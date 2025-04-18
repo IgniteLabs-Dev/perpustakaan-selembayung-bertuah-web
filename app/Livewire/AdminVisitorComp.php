@@ -96,8 +96,8 @@ class AdminVisitorComp extends Component
         $this->editId = $id;
         $data = Visitor::find($id);
 
-        $this->name = $data->name;
-        $this->nameSiswa = $data->user->name;
+        $this->name = $data->name ?? null;
+        $this->nameSiswa = $data->user->name ?? null;
     }
     public function storeEdit()
     {

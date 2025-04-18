@@ -94,14 +94,14 @@
                     </div>
                     <div class="my-0 text-center">
 
-                        <a href="{{ route('admin-manajemen-reward') }}" class="mb-3">
+                        <a href="{{ route('admin-manajemen-point') }}" class="mb-3">
 
-                            <a href="{{ route('admin-manajemen-reward') }}"
+                            <a href="{{ route('admin-manajemen-point') }}"
                                 class="flex items-center ps-5 px-4 py-2 rounded-md   
-                            {{ request()->routeIs('admin-manajemen-reward') ? 'bg-blue-100 text-blue-500 text-lg  ' : 'bg-transparent text-gray-700 border-r-0' }}
+                            {{ request()->routeIs('admin-manajemen-point') ? 'bg-blue-100 text-blue-500 text-lg  ' : 'bg-transparent text-gray-700 border-r-0' }}
                             hover:bg-blue-200">
                                 <i class="fa-solid fa-medal"></i>
-                                <span class="ms-2">Manajemen Reward</span>
+                                <span class="ms-2">Manajemen Point</span>
                             </a>
                         </a>
                     </div>

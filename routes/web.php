@@ -52,7 +52,7 @@ Route::get('/buku/detail/{id}', BookDetailComp::class)->name('detail-buku');
 Route::middleware(['auth-jwt'])->prefix('admin')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/manajemen-user', AdminUsersComp::class)->name('admin-manajemen-user');
-    Route::get('/manajemen-reward', AdminRewardComp::class)->name('admin-manajemen-reward');
+    Route::get('/manajemen-point', AdminRewardComp::class)->name('admin-manajemen-point');
     Route::get('/manajemen-buku', AdminBookComp::class)->name('admin-manajemen-buku');
     Route::get('/manajemen-kategori', AdminCategoryComp::class)->name('admin-manajemen-kategori');
     Route::get('/manajemen-penulis', AdminAuthorComp::class)->name('admin-manajemen-penulis');

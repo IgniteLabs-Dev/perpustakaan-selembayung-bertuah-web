@@ -1,4 +1,5 @@
 <div>
+    @section('title', 'Manajemen Buku')
     <div class="flex justify-between mb-3 mt-5 flex-col sm:flex-row">
         <div class="w-full sm:w-auto flex items-center justify-between mb-2 sm:mb-0 sm:justify-start div   md:mb-0">
             <h1 class="text-2xl font-bold   text-gray-900">Data Buku</h1>

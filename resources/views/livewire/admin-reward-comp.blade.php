@@ -1,5 +1,5 @@
 <div>
-
+    @section('title', 'Manajemen Point')
 
     <div class="flex justify-between mb-3 mt-5 flex-col sm:flex-row">
         <div class="w-full sm:w-auto flex items-center justify-center sm:justify-start div mb-2  md:mb-0">
@@ -8,21 +8,21 @@
         <div class="w-full sm:w-auto flex items-center  justify-end  gap-2">
             <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
                 <select wire:model.change="sort"
-                class=" bg-white p-2.5  cursor-pointer  text-sm w-full  border border-gray-300  rounded-lg focus:outline-gray-300  ">
-                <option value="desc">Point Terbanyak</option>
-                <option value="asc">Point Terendah</option>
-            </select>
+                    class=" bg-white p-2.5  cursor-pointer  text-sm w-full  border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                    <option value="desc">Point Terbanyak</option>
+                    <option value="asc">Point Terendah</option>
+                </select>
             </div>
             <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
 
                 <input wire:model.live="search" type="text"
-                class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:border-slate-300"
-                placeholder="Masukkan Nama Siswa">
+                    class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:border-slate-300"
+                    placeholder="Masukkan Nama Siswa">
             </div>
         </div>
     </div>
 
-    
+
 
     <div class="relative overflow-x-auto shadow-md rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">

@@ -1,4 +1,5 @@
 <div>
+    @section('title', 'Manajmen User')
     <div class="flex justify-between mb-3 mt-5 flex-col sm:flex-row">
         <div class="w-full sm:w-auto flex items-center justify-center sm:justify-start div  mb-3  md:mb-0">
             <h1 class="text-2xl font-bold   text-gray-900">Data Pengguna</h1>
