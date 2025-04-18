@@ -124,97 +124,106 @@
 
 
                 <div class="p-4 md:p-5  " wire:loading.class="relative flex flex-col justify-center items-center">
-                    <div class="relative w-full overflow-x-auto rounded-t-lg">
+                    <span wire:loading class="loader scale-50  my-5"></span>
+                    <div class="block" wire:loading.class="hidden">
 
-                        <table class="w-full text-xs  text-left rtl:text-right text-gray-500 ">
-                            <thead class="text-xs text-white uppercase bg-[#164f81]  ">
-                                <tr>
-                                    <th scope="col" class="px-2 py-2 text-center">
-                                        No
-                                    </th>
+                        <div class="relative w-full overflow-x-auto rounded-t-lg">
 
-                                    <th scope="col" class="px-2 py-2">
-                                        Buku
-                                    </th>
-                                    <th scope="col" class="px-2 py-2">
-                                        Pengembalian
-                                    </th>
-                                    <th scope="col" class="px-2 py-2 text-center">
-                                        Point
-                                    </th>
+                            <table class="w-full text-xs  text-left rtl:text-right text-gray-500 ">
+                                <thead class="text-xs text-white uppercase bg-[#164f81]  ">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-2 text-center">
+                                            No
+                                        </th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if ($history)
+                                        <th scope="col" class="px-2 py-2">
+                                            Buku
+                                        </th>
+                                        <th scope="col" class="px-2 py-2">
+                                            Pengembalian
+                                        </th>
+                                        <th scope="col" class="px-2 py-2 text-center">
+                                            Point
+                                        </th>
 
-                                    @forelse ($history as  $item)
-                                        <tr class="odd:bg-white  even:bg-gray-100 border-b border-gray-200">
-                                            <td scope="row"
-                                                class="px-2 border-1  border-slate-300 py-3 text-center font-normal text-gray-900 ">
-                                                {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
-                                            </td>
-                                            <td class="px-2 border-1 border-slate-300 py-3  text-gray-900 font-normal ">
-                                                {{ $item->book->title }}
-                                            </td>
-                                            <td class="px-2 border-1 border-slate-300 py-3  text-gray-900 font-normal ">
-                                                {{ \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') }}
-                                            </td>
-                                            <td class="px-2 border-1 border-slate-300 py-3  text-gray-900 font-normal ">
-                                                <div class="flex justify-center">
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($history)
 
-                                                    @if ($item->point > 0)
-                                                        <div
-                                                            class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
-                                                            +{{ $item->point }}
-                                                        </div>
-                                                    @else
-                                                        <div
-                                                            class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
-                                                            -{{ $item->fine }}
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </td>
+                                        @forelse ($history as  $item)
+                                            <tr class="odd:bg-white  even:bg-gray-100 border-b border-gray-200">
+                                                <td scope="row"
+                                                    class="px-2 border-1  border-slate-300 py-3 text-center font-normal text-gray-900 ">
+                                                    {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
+                                                </td>
+                                                <td
+                                                    class="px-2 border-1 border-slate-300 py-3  text-gray-900 font-normal ">
+                                                    {{ $item->book->title }}
+                                                </td>
+                                                <td
+                                                    class="px-2 border-1 border-slate-300 py-3  text-gray-900 font-normal ">
+                                                    {{ \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') }}
+                                                </td>
+                                                <td
+                                                    class="px-2 border-1 border-slate-300 py-3  text-gray-900 font-normal ">
+                                                    <div class="flex justify-center">
 
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center py-4 text-gray-900">Data Tidak
-                                                Ditemukan
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                @endif
+                                                        @if ($item->point > 0)
+                                                            <div
+                                                                class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
+                                                                +{{ $item->point }}
+                                                            </div>
+                                                        @else
+                                                            <div
+                                                                class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
+                                                                -{{ $item->fine }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </td>
 
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="mt-3 ">
-
-                        <div class="flex justify-center flex-wrap">
-                            <button @if ($currentPageHistory == 1) disabled @endif
-                                class="cursor-pointer mb-2 rounded-md border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-[var(--primary)] hover:border-slate-800 focus:text-white focus:bg-[var(--primary)] focus:border-slate-800 active:border-slate-800 active:text-white active:bg-[var(--primary)] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
-                                Prev
-                            </button>
-
-                            @for ($i = 1; $i <= $totalPagesHistory; $i++)
-                                <button wire:click="$set('currentPageHistory', {{ $i }})"
-                                    @if ($i == $currentPageHistory) disabled @endif
-                                    class="cursor-pointer mb-2 min-w-9 rounded-md  @if ($i == $currentPageHistory) bg-[var(--primary)] text-white @else text-[var(--primary)] border border-slate-300 bg-white @endif py-2 px-3  text-center text-sm  transition-all shadow-md hover:shadow-lg focus:brightness-90 focus:shadow-none active:brightness-90 hover:bg-[var(--primary)] hover:text-white active:shadow-none disabled:pointer-events-none  ml-2">
-                                    {{ $i }}
-                                </button>
-                            @endfor
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5"
+                                                    class="text-center py-4 text-gray-900 border-1 border-slate-300">
+                                                    Data Tidak
+                                                    Ditemukan
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    @endif
 
 
-                            <button @if ($currentPageHistory == $totalPagesHistory) disabled @endif
-                                class="cursor-pointer mb-2 min-w-9 rounded-md border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-[var(--primary)] hover:border-slate-800 focus:text-white focus:bg-[var(--primary)] focus:border-slate-800 active:border-slate-800 active:text-white active:bg-[var(--primary)] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
-                                Next
-                            </button>
+
+                                </tbody>
+                            </table>
                         </div>
+                        <div class="mt-3 ">
 
+                            <div class="flex justify-center flex-wrap">
+                                <button @if ($currentPageHistory == 1) disabled @endif
+                                    class="cursor-pointer mb-2 rounded-md border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-[var(--primary)] hover:border-slate-800 focus:text-white focus:bg-[var(--primary)] focus:border-slate-800 active:border-slate-800 active:text-white active:bg-[var(--primary)] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
+                                    Prev
+                                </button>
+
+                                @for ($i = 1; $i <= $totalPagesHistory; $i++)
+                                    <button wire:click="$set('currentPageHistory', {{ $i }})"
+                                        @if ($i == $currentPageHistory) disabled @endif
+                                        class="cursor-pointer mb-2 min-w-9 rounded-md  @if ($i == $currentPageHistory) bg-[var(--primary)] text-white @else text-[var(--primary)] border border-slate-300 bg-white @endif py-2 px-3  text-center text-sm  transition-all shadow-md hover:shadow-lg focus:brightness-90 focus:shadow-none active:brightness-90 hover:bg-[var(--primary)] hover:text-white active:shadow-none disabled:pointer-events-none  ml-2">
+                                        {{ $i }}
+                                    </button>
+                                @endfor
+
+
+                                <button @if ($currentPageHistory == $totalPagesHistory) disabled @endif
+                                    class="cursor-pointer mb-2 min-w-9 rounded-md border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-[var(--primary)] hover:border-slate-800 focus:text-white focus:bg-[var(--primary)] focus:border-slate-800 active:border-slate-800 active:text-white active:bg-[var(--primary)] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
+                                    Next
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 

@@ -41,7 +41,7 @@ class AdminRewardComp extends Component
         $history = LoanTransaction::where('user_id', $this->showId)
             ->where('status', 'returned')
             ->orderby('created_at', 'desc')
-            ->paginate(2, ['*'], 'page', $this->currentPageHistory);
+            ->paginate(5, ['*'], 'page', $this->currentPageHistory);
 
         $totalPagesHistory = $history->lastPage();
 
@@ -59,6 +59,10 @@ class AdminRewardComp extends Component
     public function resetInput()
     {
         $this->confirmDelete = '';
+
+        $this->showId = '';
+        $this->currentPageHistory = 1;
+
         $this->search = '';
     }
 }

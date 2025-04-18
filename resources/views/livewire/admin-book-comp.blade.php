@@ -200,14 +200,16 @@
                     <div
                         class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
                         <h3 class="text-lg font-semibold text-white">
+                            <div class="block" wire:loading.class="hidden">
 
-                            @if ($editId != null)
-                                Edit Buku {{ $title }}
-                            @elseif($showId != null)
-                                Detail Buku {{ $title }}
-                            @else
-                                Tambah Buku
-                            @endif
+                                @if ($editId != null)
+                                    Edit Buku {{ $title }}
+                                @elseif($showId != null)
+                                    Detail Buku {{ $title }}
+                                @else
+                                    Tambah Buku
+                                @endif
+                            </div>
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
@@ -221,9 +223,9 @@
                     </div>
                     <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
 
-                        {{-- <span wire:loading class="loader scale-50  my-5" ></span>wire:loading.class="hidden" --}}
+                        <span wire:loading class="loader scale-50  my-5"></span>
 
-                        <div class="block">
+                        <div class="block" wire:loading.class="hidden">
                             <div class="flex flex-wrap">
                                 <div class="w-full sm:w-1/3 ps-3 flex flex-col h-full">
                                     @if ($image_baru != null)
@@ -237,8 +239,7 @@
 
                                             <label class="text-sm text-gray-500 ">Cover<span
                                                     class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
-                                                    1MB))</span><span
-                                                    class="text-red-500 text-lg">*</span></label>
+                                                    1MB))</span><span class="text-red-500 text-lg">*</span></label>
                                             <input type="file" wire:model.defer="image_baru"
                                                 class=" p-1 w-full cursor-pointer text-slate-500 text-sm rounded-lg leading-6 file:bg-[var(--primary)] file:text-white file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:cursor-pointer file:rounded-sm hover:file:brightness-90 border border-gray-300">
 

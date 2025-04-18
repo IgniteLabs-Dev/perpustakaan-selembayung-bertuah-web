@@ -158,10 +158,17 @@ class AdminBookComp extends Component
             'title' => 'required',
             'deskripsi' => 'required',
             'publisher' => 'required',
-            'realese_date' => 'date',
             'stock' => 'required|numeric',
             'status' => 'required',
             'type' => 'required',
+        ], [
+            'title.required' => 'Judul buku wajib diisi.',
+            'deskripsi.required' => 'Deskripsi buku wajib diisi.',
+            'publisher.required' => 'Penerbit buku wajib diisi.',
+            'stock.required' => 'Stok buku wajib diisi.',
+            'stock.numeric' => 'Stok buku harus berupa angka.',
+            'status.required' => 'Status buku wajib diisi.',
+            'type.required' => 'Tipe buku wajib diisi.',
         ]);
 
         $data = new Book();
@@ -312,6 +319,15 @@ class AdminBookComp extends Component
             'stock' => 'required|numeric',
             'status' => 'required',
             'type' => 'required',
+        ], [
+            'title.required' => 'Judul buku wajib diisi.',
+            'deskripsi.required' => 'Deskripsi buku wajib diisi.',
+            'publisher.required' => 'Penerbit buku wajib diisi.',
+            'realese_date.date' => 'Tanggal rilis harus berupa format tanggal yang valid.',
+            'stock.required' => 'Stok buku wajib diisi.',
+            'stock.numeric' => 'Stok buku harus berupa angka.',
+            'status.required' => 'Status buku wajib diisi.',
+            'type.required' => 'Tipe buku wajib diisi.',
         ]);
 
         $id = $this->editId;
@@ -427,6 +443,7 @@ class AdminBookComp extends Component
         $this->categoriesDelete = [];
         $this->categoriesNew = [];
         $this->image_baru = null;
+        $this->resetValidation();
     }
     public function delete($id)
     {
