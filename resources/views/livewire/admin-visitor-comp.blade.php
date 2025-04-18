@@ -12,9 +12,8 @@
             <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
 
                 <button @click="$dispatch('open-modal')" type="button"
-                    class="flex items-center justify-center w-full cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
-                    <i class="fa-solid fa-plus me-2"></i>
-                    Tambah Tamu
+                    class="flex items-center ms-2 justify-center w-full cursor-pointer px-4 py-2 text-sm font-medium bg-white border-2 text-[var(--primary)] border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out"></i>
+                    <i class="fa-solid fa-plus me-2"></i> Tambah Tamu
                 </button>
                 <button @click="$dispatch('open-modal2')" type="button"
                     class="flex items-center ms-2 justify-center w-full cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
@@ -136,7 +135,7 @@
                             @if ($editId != null)
                                 Edit Data {{ $name }}
                             @else
-                                Tambah Pengunjung
+                                Tambah Tamu
                             @endif
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
@@ -160,11 +159,11 @@
                                         type="text" wireModel="name" placeholder="Masukkan Nama" />
                                 </div>
 
-                                <div class=" w-full mt-3  items-end justify-start flex">
+                                <div class=" w-full mt-3  items-end justify-center flex">
                                     @if ($editId == null)
                                         <button type="button" wire:click="store"
                                             class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                                            Tambah Pengunjung
+                                            Tambah Tamu
                                         </button>
                                     @else
                                         <button type="button" wire:click="storeEdit"
@@ -192,7 +191,7 @@
                     @if ($editId != null)
                         Edit Pengunjung
                     @else
-                        Detail Pengunjung
+                        Tambah Pengunjung
                     @endif
                 </h3>
                 <button wire:click="resetInput" type="button" @click="openSecond = false"
@@ -206,31 +205,36 @@
                 </button>
             </div>
             <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
-                <div class=" w-full   items-start">
-                    <label class="text-sm text-gray-500">Nama<span class="text-red-500 text-sm">*</span></label>
-                    <div wire:ignore class=" flex items-center" x-data="selectComponent">
-                        <select wire:model.defer="user_id" class="tom-select   w-full" id="select-users">
-                            <option value="">Pilih Siswa</option>
-                            @forelse ($users as $user)
-                                <option value="{{ $user->id }}">
-                                    {{ $user->name }}</option>
-                            @empty
-                            @endforelse
-                        </select>
+
+                <span wire:loading class="loader scale-50  my-5"></span>
+                <div class="block" wire:loading.class="hidden">
+
+                    <div class=" w-full   items-start">
+                        <label class="text-sm text-gray-500">Nama<span class="text-red-500 text-sm">*</span></label>
+                        <div wire:ignore class=" flex items-center" x-data="selectComponent">
+                            <select wire:model.defer="user_id" class="tom-select   w-full" id="select-users">
+                                <option value="">Pilih Siswa</option>
+                                @forelse ($users as $user)
+                                    <option value="{{ $user->id }}">
+                                        {{ $user->name }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class=" w-full mt-3  items-end justify-start flex">
-                    @if ($editId == null)
-                        <button type="button" wire:click="storeSiswa"
-                            class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                            Tambah Pengunjung
-                        </button>
-                    @else
-                        <button type="button" wire:click="storeEditSiswa"
-                            class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
-                            Simpan Perubahan
-                        </button>
-                    @endif
+                    <div class=" w-full mt-3  items-end justify-center flex">
+                        @if ($editId == null)
+                            <button type="button" wire:click="storeSiswa"
+                                class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                Tambah Pengunjung
+                            </button>
+                        @else
+                            <button type="button" wire:click="storeEditSiswa"
+                                class="flex items-center  justify-center cursor-pointer px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:brightness-95 hover:scale-105 hover:shadow-md transition duration-150 ease-in-out">
+                                Simpan Perubahan
+                            </button>
+                        @endif
+                    </div>
                 </div>
 
 
@@ -243,7 +247,7 @@
             Alpine.data('selectComponent', () => ({
                 init() {
                     this.initTomSelect("#select-users", 'Tambah Penulis');
-               
+
 
 
                     Livewire.on('resetTomSelect', () => {
