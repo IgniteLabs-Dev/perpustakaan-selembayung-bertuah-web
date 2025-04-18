@@ -3,7 +3,7 @@
         <div
             class="flex justify-center border-0   md:border-1 border-gray-300 bg-white rounded-xl shadow-sm py-10  flex-col font-semibold  ">
             <h3 class="text-center font-bold text-2xl mb-5">Profile Settings</h3>
-            <div class="w-full flex flex-col md:flex-row justify-center">
+            <div class="w-full flex flex-col md:flex-row justify-center items-start">
 
                 <div class="md:w-2/5 w-full flex justify-center flex-wrap md:flex-col ">
                     <div class="w-full  justify-center flex">
@@ -29,7 +29,7 @@
                                         or JPEG (MAX.
                                         1MB))</span></label>
                                 <input wire:model.defer="image_baru"
-                                    class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
+                                    class="p-1 w-full cursor-pointer text-slate-500 text-sm rounded-full leading-6 file:bg-[var(--primary)]  file:text-white file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:cursor-pointer file:rounded-full hover:file:brightness-90 border border-gray-300 "
                                     aria-describedby="file_input_help" id="file_input" type="file">
 
                                 <div class="text-red-500 font-italic text-sm" wire:loading wire:target="image_baru">
@@ -59,6 +59,10 @@
                         <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="tanggal_lahir"
                             label="Tanggal Lahir" type="date" wireModel="tanggal_lahir"
                             placeholder="Masukkan Tanggal Lahir" />
+                    </div>
+                    <div class="w-full items-start">
+                        <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="nis" label="NIS"
+                            type="text" wireModel="nis" placeholder="Masukkan NIS" />
                     </div>
                     @if ($editMode != null)
                         <div class="w-full items-start">

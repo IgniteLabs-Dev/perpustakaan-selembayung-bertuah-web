@@ -21,7 +21,7 @@
                 Bookmark</button>
         @else
             <button wire:click="addBookmark({{ $id }})"
-                class=" cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out rounded-full outline-1   bg-blue-800  text-white hover:shadow-sm focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-xs px-2 py-1 active:outline-0 active:outline-none">+
+                class=" cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out rounded-full outline-1   bg-[var(--primary)]  text-white hover:shadow-sm focus:ring-0 focus:outline-1 focus:ring-gray-300 font-medium text-xs px-2 py-1 active:outline-0 active:outline-none">+
                 Bookmark</button>
         @endif
     </div>

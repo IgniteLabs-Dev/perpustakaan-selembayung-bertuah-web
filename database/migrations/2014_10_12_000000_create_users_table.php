@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->date('tanggal_lahir')->nullable();
             $table->string('kelas')->nullable();
             $table->string('password');
-            $table->string('nis')->nullable();
+            $table->string('nis')->unique()->nullable();
             $table->enum('role', ['admin', 'siswa']);
             $table->bigInteger('point')->nullable();
             $table->integer('semester')->nullable();

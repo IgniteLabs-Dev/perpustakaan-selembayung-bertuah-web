@@ -2,7 +2,7 @@
 
     <div class="mx-auto z-30">
         <div
-            class=" flex items-center py-0 text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ">
+            class=" flex items-center py-0 text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-[var(--primary)] focus:border-[var(--primary)] ">
             <div class=" inset-y-0 start-0 flex items-center ps-3 pe-2 pointer-events-none  ">
                 <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 20 20">
@@ -14,7 +14,7 @@
                 class="focus:ring-0 focus:outline-0 block rounded-lg w-full h-full border-0 pe-4  py-3 bg-transparent me-2 text-sm  "
                 placeholder="Masukkan Judul atau Penulis..." required />
             <button type="button" wire:click="searchBook"
-                class="text-white me-2 cursor-pointer end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm px-4 py-2 rounded-full">Search</button>
+                class="text-white me-2 cursor-pointer end-2.5 bottom-2.5 bg-[var(--primary)] hover:brightnes-95 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm px-4 py-2 rounded-full">Search</button>
         </div>
 
     </div>

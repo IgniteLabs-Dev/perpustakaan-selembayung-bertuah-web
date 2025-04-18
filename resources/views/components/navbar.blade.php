@@ -23,20 +23,20 @@
                     <li>
                         <a href="{{ route('index') }}"
                             class="block py-2 px-3  md:p-0 
-                                {{ request()->routeIs('index') ? 'font-bold   text-white md:text-blue-700' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700' }}"
+                                {{ request()->routeIs('index') ? 'font-bold   text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}"
                             aria-current="page">Home</a>
                     </li>
                     <li>
                         <a href="{{ route('jelajahi-buku') }}"
                             class="block py-2 px-3  md:p-0 
-                                {{ request()->routeIs('jelajahi-buku') ? 'font-bold   text-white md:text-blue-700' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700' }}">
+                                {{ request()->routeIs('jelajahi-buku') ? 'font-bold   text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}">
                             Jelajahi Buku
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('bookmark') }}"
                             class="block py-2 px-3  md:p-0 
-                                {{ request()->routeIs('bookmark') ? 'font-bold   text-white md:text-blue-700' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700' }}">
+                                {{ request()->routeIs('bookmark') ? 'font-bold   text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}">
                             Bookmark
                         </a>
                     </li>
@@ -50,7 +50,7 @@
                 @if ($name == null)
                     <a href="{{ route('login') }}">
                         <button type="button"
-                            class="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center ">Login</button>
+                            class="text-white cursor-pointer bg-[var(--primary)] hover:brightnes-90 focus:ring-4 focus:outline-none focus:ring-[var(--primary)] font-medium rounded-lg text-sm px-4 py-2 text-center ">Login</button>
                     </a>
                 @else
                     <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"

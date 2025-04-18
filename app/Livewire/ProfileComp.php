@@ -14,6 +14,7 @@ class ProfileComp extends Component
     use WithFileUploads;
     public $user;
     public $image_baru;
+    public $nis;
     public $editMode = '';
     public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $cover;
 
@@ -31,6 +32,7 @@ class ProfileComp extends Component
         $this->semester = $this->user->semester;
         $this->tanggal_lahir = $this->user->tanggal_lahir;
         $this->cover = $this->user->cover;
+        $this->nis = $this->user->nis;
     }
     public function render()
     {
@@ -46,6 +48,7 @@ class ProfileComp extends Component
             'kelas' => 'required',
             'semester' => 'required',
             'tanggal_lahir' => 'required|date',
+            'nis' => 'required|unique:users,nis,' . $this->user->id,
             'image_baru' => 'nullable|mimes:jpeg,png,jpg|max:1024',
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -56,6 +59,8 @@ class ProfileComp extends Component
             'semester.required' => 'Semester wajib diisi.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
+            'nis.required' => 'NIS wajib diisi.',
+            'nis.unique' => 'NIS sudah digunakan oleh pengguna lain.',
         ]);
 
 
@@ -63,6 +68,7 @@ class ProfileComp extends Component
         $data->name = $this->name;
         $data->email = $this->email;
         $data->kelas = $this->kelas;
+        $data->nis = $this->nis;
         $data->semester = $this->semester;
         $data->tanggal_lahir = $this->tanggal_lahir;
         if ($this->password) {
@@ -107,6 +113,7 @@ class ProfileComp extends Component
         $this->image_baru = null;
         $this->password = '';
         $this->editMode = '';
+
         $this->loadData();
     }
 }

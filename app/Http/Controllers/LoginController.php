@@ -116,7 +116,7 @@ class LoginController extends Controller
         $cookie = $this->getCookieWithToken($token);
 
         // Mengembalikan response dengan cookie
-        return redirect()->route('admin-manajemen-peminjaman')->withCookie($cookie);
+        return redirect()->route('dashboard')->withCookie($cookie);
     }
 
     public function logout(Request $request)
