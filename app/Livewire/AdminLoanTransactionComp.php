@@ -76,7 +76,8 @@ class AdminLoanTransactionComp extends Component
         $this->condition = '';
         $this->fine = '';
         $this->point = '';
-        $this->dataShow= null;        $this->userName = '';
+        $this->dataShow = null;
+        $this->userName = '';
         $this->bookTitle = '';
         $this->bookTitle = '';
         $this->editUser = false;
@@ -106,6 +107,8 @@ class AdminLoanTransactionComp extends Component
     {
         $this->showId = $id;
         $this->dataShow = LoanTransaction::find($id);
+        $this->returned_at = $this->dataShow->returned_at;
+        $this->due_date = $this->dataShow->due_date;
         $this->status = 'returned';
     }
 
@@ -117,7 +120,7 @@ class AdminLoanTransactionComp extends Component
             if ($this->condition === 'hilang') {
                 $this->fine = 25; // Hilang → -25
                 $this->point = 0;
-            } elseif ($returnedAt <= $dueDate) {
+            } elseif ($returnedAt <= $dueDate && $this->condition === 'baik') {
                 $this->fine = 0;
                 $this->point = 10; // Tepat waktu → +10
             } elseif ($returnedAt->diffInDays($dueDate) <= 3) {
@@ -125,6 +128,15 @@ class AdminLoanTransactionComp extends Component
                 $this->point = 0;
             } elseif ($returnedAt->diffInDays($dueDate) > 3) {
                 $this->fine = 25; // Terlambat >3 hari → -25
+                $this->point = 0;
+            } elseif ($this->condition === 'rusak' && $returnedAt <= $dueDate) {
+                $this->fine = 15; // Rusak dan tepat waktu
+                $this->point = 0;
+            } elseif ($this->condition === 'rusak' && $returnedAt->diffInDays($dueDate) <= 3) {
+                $this->fine = 15; // Rusak dan telat 3 hari
+                $this->point = 0;
+            } elseif ($this->condition === 'rusak' && $returnedAt->diffInDays($dueDate) > 3) {
+                $this->fine = 15; // Rusak dan telat lebih dari 3 hari
                 $this->point = 0;
             }
         } else {

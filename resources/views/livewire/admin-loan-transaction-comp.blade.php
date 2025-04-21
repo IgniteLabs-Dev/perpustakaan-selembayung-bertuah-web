@@ -20,8 +20,8 @@
                     <select wire:model.change="statusFilter"
                         class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
                         <option value="">Semua Status</option>
-                        <option value="az">Dikembalikan</option>
-                        <option value="za">Belum Dikembalikan</option>
+                        <option value="returned">Dikembalikan</option>
+                        <option value="borrowed">Belum Dikembalikan</option>
                     </select>
                 </div>
                 <div class="w-1/2 lg:w-auto   lg:pe-2  flex justify-end whitespace-nowrap">
@@ -258,9 +258,9 @@
                             <span class="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
+                    <div class="p-4 md:p-5 space-y-4 ">
 
-                        <span wire:loading class="loader scale-50  my-5"></span>
+
 
                         <div class="block">
                             <div class="flex flex-wrap items-start">
@@ -429,9 +429,8 @@
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-            <div class="p-4 md:p-5 space-y-4 " wire:loading.class="relative flex justify-center items-center">
+            <div class="p-4 md:p-5 space-y-4 ">
                 @if ($showId != null && $dataShow != null)
-                    {{-- <span wire:loading class="loader scale-50  my-5"></span> --}}
                     <div class="block flex">
                         <div class="flex w-1/2">
                             <img class="rounded-lg object-cover"
