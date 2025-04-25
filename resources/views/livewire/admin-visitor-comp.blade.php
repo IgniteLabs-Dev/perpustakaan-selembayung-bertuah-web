@@ -55,7 +55,7 @@
                         </td>
 
                         <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->created_at ? $item->created_at->translatedFormat('j F Y - H:i') : '-' }}
+                            {{ $item->created_at ? $item->created_at->setTimezone('Asia/Jakarta')->translatedFormat('j F Y - H:i') : '-' }}
                         </td>
 
                         <td class="px-6 flex py-3 text-center justify-center text-gray-900 font-normal gap-1 ">

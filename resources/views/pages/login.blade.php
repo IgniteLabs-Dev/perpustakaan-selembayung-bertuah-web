@@ -9,7 +9,7 @@
 <body
     style="background-image: url('{{ asset('images/bg-login.jpg') }}'); background-size: cover; background-position: center;">
 
-
+    @livewire('navbar-comp')
 
     <div class="flex justify-center items-center min-h-screen">
         <div class="w-full max-w-md mt-10 p-6">

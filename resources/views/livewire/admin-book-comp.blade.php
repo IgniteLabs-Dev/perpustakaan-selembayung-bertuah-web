@@ -241,7 +241,11 @@
                                                     class="text-gray-40 text-[10px]"> (PNG, JPG or JPEG (MAX.
                                                     1MB))</span><span class="text-red-500 text-lg">*</span></label>
                                             <input type="file" wire:model.defer="image_baru"
-                                                class=" p-1 w-full cursor-pointer text-slate-500 text-sm rounded-lg leading-6 file:bg-[var(--primary)] file:text-white file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:cursor-pointer file:rounded-sm hover:file:brightness-90 border border-gray-300">
+                                                accept=".jpg,.jpeg,.png,.webp" id="imageInput"
+                                                class="p-1 w-full cursor-pointer text-slate-500 text-sm rounded-lg leading-6 file:bg-[var(--primary)] file:text-white file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:cursor-pointer file:rounded-sm hover:file:brightness-90 border border-gray-300">
+
+                                            <p id="errorMsg" class="text-red-500 text-sm mt-2 hidden"></p>
+
 
                                             <div class="text-red-500 font-italic text-sm" wire:loading
                                                 wire:target="image_baru">
@@ -518,4 +522,22 @@
             padding-right: 0 !important;
         }
     </style>
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (file) {
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    errorMsg.textContent = 'File harus berupa .jpg, .jpeg, .png, atau .webp';
+                    errorMsg.classList.remove('hidden');
+                    e.target.value = ''; // Clear input
+                } else {
+                    errorMsg.classList.add('hidden');
+                    errorMsg.textContent = '';
+                }
+            }
+        });
+    </script>
 </div>

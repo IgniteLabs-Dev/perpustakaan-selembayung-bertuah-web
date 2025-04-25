@@ -26,7 +26,7 @@
                         <li>
                             <a href="{{ route('jelajahi-buku') }}"
                                 class="block py-2 px-3  md:p-0 
-                                {{ request()->routeIs('jelajahi-buku') ? 'font-extrabold   text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}">
+                                {{ request()->routeIs('jelajahi-buku') ? 'font-extrabold border-b-3  text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}">
                                 Jelajahi Buku
                             </a>
                         </li>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="w-1/2 md:w-1/3 flex justify-end text-end">
-                <div class="flex md:order-2 pe-3 text-end ">
+                <div class="flex md:order-2 pe-3 text-end  items-center">
                     @if ($user == null)
                         <a href="{{ route('login') }}">
                             <button type="button"

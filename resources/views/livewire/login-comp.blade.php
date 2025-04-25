@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    @livewire('navbar-comp')
     <div class="flex h-screen justify-center items-center bg-gray-50">
 
         <div
