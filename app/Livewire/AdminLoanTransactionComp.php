@@ -122,21 +122,21 @@ class AdminLoanTransactionComp extends Component
                 $this->point = 0;
             } elseif ($returnedAt <= $dueDate && $this->condition === 'baik') {
                 $this->fine = 0;
-                $this->point = 10; // Tepat waktu → +10
-            } elseif ($returnedAt->diffInDays($dueDate) <= 3) {
-                $this->fine = 15; // Terlambat 1-3 hari → -15
+                $this->point = 10; // Tepat waktu
+            } elseif ($returnedAt->diffInDays($dueDate) <= 3 && $this->condition === 'baik') {
+                $this->fine = 5; // Terlambat 1-3 hari 
                 $this->point = 0;
-            } elseif ($returnedAt->diffInDays($dueDate) > 3) {
-                $this->fine = 25; // Terlambat >3 hari → -25
+            } elseif ($returnedAt->diffInDays($dueDate) > 3 && $this->condition === 'baik') {
+                $this->fine = 10; // Terlambat >3 hari 
                 $this->point = 0;
             } elseif ($this->condition === 'rusak' && $returnedAt <= $dueDate) {
                 $this->fine = 15; // Rusak dan tepat waktu
                 $this->point = 0;
             } elseif ($this->condition === 'rusak' && $returnedAt->diffInDays($dueDate) <= 3) {
-                $this->fine = 15; // Rusak dan telat 3 hari
+                $this->fine = 20; // Rusak dan telat kurang dari 3 hari
                 $this->point = 0;
             } elseif ($this->condition === 'rusak' && $returnedAt->diffInDays($dueDate) > 3) {
-                $this->fine = 15; // Rusak dan telat lebih dari 3 hari
+                $this->fine = 25; // Rusak dan telat lebih dari 3 hari
                 $this->point = 0;
             }
         } else {
@@ -144,9 +144,9 @@ class AdminLoanTransactionComp extends Component
             $this->point = 0;
         }
         $this->finePoint = max($this->fine, $this->point);
-        if ($this->finePoint == 10) {
+        if ($this->fine == 0) {
             $this->finePoint = '+' . $this->finePoint;
-        } elseif ($this->finePoint != 0) {
+        } elseif ($this->fine != 0) {
             $this->finePoint = '-' . $this->finePoint;
         }
     }
