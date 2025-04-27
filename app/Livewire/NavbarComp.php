@@ -13,6 +13,7 @@ class NavbarComp extends Component
     public function render()
     {
 
+
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (\Exception $e) {
@@ -26,9 +27,11 @@ class NavbarComp extends Component
                 ->selectRaw('SUM(point) - SUM(fine) as total_point')
                 ->value('total_point');
         } else {
-            $point = null;
+            $point = 0;
         }
-
+        if ($point == null) {
+            $point = 0;
+        }
 
         return view('livewire.navbar-comp', compact('user', 'point'));
     }

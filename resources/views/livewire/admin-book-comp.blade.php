@@ -532,7 +532,7 @@
                 if (!allowedTypes.includes(file.type)) {
                     errorMsg.textContent = 'File harus berupa .jpg, .jpeg, .png, atau .webp';
                     errorMsg.classList.remove('hidden');
-                    e.target.value = ''; // Clear input
+                    e.target.value = ''; 
                 } else {
                     errorMsg.classList.add('hidden');
                     errorMsg.textContent = '';

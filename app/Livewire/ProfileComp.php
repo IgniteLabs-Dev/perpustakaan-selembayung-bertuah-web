@@ -49,7 +49,7 @@ class ProfileComp extends Component
             'semester' => 'required',
             'tanggal_lahir' => 'required|date',
             'nis' => 'required|unique:users,nis,' . $this->user->id,
-            'image_baru' => 'nullable|mimes:jpeg,png,jpg|max:1024',
+            'image_baru' => 'nullable|mimes:jpeg,png,jpg,webp|max:1024',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'email.required' => 'Email wajib diisi.',

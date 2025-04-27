@@ -73,6 +73,7 @@ class LoginController extends Controller
         $data->name = $request->input('name');
         $data->email = $request->input('email');
         $data->nis = $request->input('nis');
+        $data->role = 'siswa';
 
         $data->password = bcrypt($request->input('password'));
 

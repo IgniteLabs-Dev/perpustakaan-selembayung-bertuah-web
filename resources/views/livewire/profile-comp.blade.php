@@ -29,7 +29,7 @@
                                         JPG
                                         or JPEG (MAX.
                                         1MB))</span></label>
-                                <input wire:model.defer="image_baru"
+                                <input accept=".jpg,.jpeg,.png,.webp" wire:model.defer="image_baru"
                                     class="p-1 w-full cursor-pointer text-slate-500 text-sm rounded-full leading-6 file:bg-[var(--primary)]  file:text-white file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:cursor-pointer file:rounded-full hover:file:brightness-90 border border-gray-300 "
                                     aria-describedby="file_input_help" id="file_input" type="file">
 
@@ -38,7 +38,7 @@
                                 </div>
 
                                 @error('image_baru')
-                                    <div class="text-danger">{{ $message }}</div>
+                                    <div class="text-red-500">{{ $message }}</div>
                                 @enderror
 
                             </div>
@@ -115,4 +115,23 @@
 
         </div>
     </div>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (file) {
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    errorMsg.textContent = 'File harus berupa .jpg, .jpeg, .png, atau .webp';
+                    errorMsg.classList.remove('hidden');
+                    e.target.value = '';
+                } else {
+                    errorMsg.classList.add('hidden');
+                    errorMsg.textContent = '';
+                }
+            }
+        });
+    </script>
 </div>
