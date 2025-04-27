@@ -41,6 +41,9 @@
                         Kelas
                     </th>
                     <th scope="col" class="px-6 py-4 text-center">
+                        NIS
+                    </th>
+                    <th scope="col" class="px-6 py-4 text-center">
                         Role
                     </th>
                     <th scope="col" class="px-6 py-4 text-center">
@@ -74,6 +77,9 @@
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->kelas }}
+                        </td>
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                            {{ $item->nis }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ ucfirst($item->role) }}
@@ -173,8 +179,8 @@
                         </h3>
                         <button wire:click="resetInput" type="button" @click="open = false"
                             class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                             </svg>
@@ -195,17 +201,15 @@
                                     <x-input symbol="*" typeWire="defer" inputId="email" label="Email"
                                         type="email" wireModel="email" placeholder="Email" />
                                 </div>
-                                <div class=" w-1/2 mt-3 odd:pe-2 items-start flex">
-                                    <div class=" w-1/2  pe-2">
-                                        <x-input symbol="*" typeWire="defer" inputId="kelas" label="Kelas"
-                                            type="text" wireModel="kelas" placeholder="Kelas" />
-                                    </div>
-                                    <div class=" w-1/2  ">
-                                        <x-input symbol="*" typeWire="defer" inputId="semester" label="Semester"
-                                            type="number" wireModel="semester" placeholder="Semester" />
-                                    </div>
-                                </div>
 
+                                <div class=" w-1/2 odd:pe-2 items-start  pe-2">
+                                    <x-input symbol="*" typeWire="defer" inputId="kelas" label="Kelas"
+                                        type="text" wireModel="kelas" placeholder="Kelas" />
+                                </div>
+                                <div class=" w-1/2 odd:pe-2 items-start  ">
+                                    <x-input symbol="*" typeWire="defer" inputId="semester" label="Semester"
+                                        type="number" wireModel="semester" placeholder="Semester" />
+                                </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
                                     <x-input symbol="{{ $editId ? '‎' : '*' }}" typeWire="defer" inputId="password"
                                         label="Password" type="password" wireModel="password"
@@ -217,12 +221,17 @@
                                         placeholder="Tanggal Lahir" />
                                 </div>
 
+
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
                                     <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
                                         wireModel="role" placeholder="Role" :options="[
                                             'admin' => 'Admin',
                                             'siswa' => 'Siswa',
                                         ]" />
+                                </div>
+                                <div class=" w-1/2 mt-3 odd:pe-2 items-start  ">
+                                    <x-input symbol="*" typeWire="defer" inputId="nis" label="NIS"
+                                        type="text" wireModel="nis" placeholder="NIS" />
                                 </div>
                                 <div class=" w-full mt-3  items-center justify-center flex">
                                     @if ($editId == null)

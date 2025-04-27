@@ -11,7 +11,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AdminUsersComp extends Component
 {
     use WithPagination;
-    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId;
+    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId,$nis;
     public $search;
     public $confirmDelete;
 
@@ -26,6 +26,7 @@ class AdminUsersComp extends Component
                 ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%M') like ?", ['%' . $this->search . '%'])
                 ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%Y') = ?", [$this->search])
                 ->orWhere('role', 'like', '%' . $this->search . '%')
+                ->orWhere('nis', 'like', '%' . $this->search . '%')
                 ->orWhere('semester', 'like', '%' . $this->search . '%');
         })
             ->orderby('created_at', 'desc')
@@ -46,6 +47,7 @@ class AdminUsersComp extends Component
             'tanggal_lahir' => 'required',
             'kelas' => 'required',
             'role' => 'required',
+            'nis' => 'required',
             'semester' => 'required|numeric',
             'password' => 'required',
         ], [
@@ -58,13 +60,15 @@ class AdminUsersComp extends Component
             'role.required' => 'Role wajib diisi.',
             'semester.required' => 'Semester wajib diisi.',
             'semester.numeric' => 'Semester harus berupa angka.',
-            'password.required' => 'Password wajib diisi.'
+            'password.required' => 'Password wajib diisi.',
+            'nis.required' => 'NIS wajib diisi.'
         ]);
 
 
 
         $data = new User();
         $data->name = $this->name;
+        $data->nis = $this->nis;
         $data->email = $this->email;
         $data->tanggal_lahir = $this->tanggal_lahir;
         $data->kelas = $this->kelas;
@@ -99,6 +103,7 @@ class AdminUsersComp extends Component
         $this->email = $data->email;
         $this->kelas = $data->kelas;
         $this->role = $data->role;
+        $this->nis = $data->nis;
         $this->semester = $data->semester;
         $this->tanggal_lahir = $data->tanggal_lahir;
     }
@@ -110,6 +115,7 @@ class AdminUsersComp extends Component
             'tanggal_lahir' => 'required',
             'kelas' => 'required',
             'role' => 'required',
+            'nis' => 'required',
             'semester' => 'required|numeric',
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -118,6 +124,7 @@ class AdminUsersComp extends Component
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'kelas.required' => 'Kelas wajib diisi.',
             'role.required' => 'Role wajib diisi.',
+            'nis.required' => 'NIS wajib diisi.',
             'semester.required' => 'Semester wajib diisi.',
             'semester.numeric' => 'Semester harus berupa angka.'
         ]);
@@ -130,6 +137,7 @@ class AdminUsersComp extends Component
         $data->tanggal_lahir = $this->tanggal_lahir;
         $data->kelas = $this->kelas;
         $data->role = $this->role;
+        $data->nis = $this->nis;
         $data->semester = $this->semester;
         if ($this->password) {
             $data->password = bcrypt($this->password);
@@ -158,6 +166,7 @@ class AdminUsersComp extends Component
         $this->name = '';
         $this->email = '';
         $this->password = '';
+        $this->nis = '';
         $this->kelas = '';
         $this->role = '';
         $this->semester = '';
