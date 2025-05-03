@@ -29,6 +29,7 @@ class User extends Authenticatable implements JWTSubject
         'nis',
         'semester',
         'cover',
+        'status',
     ];
 
     /**
@@ -69,7 +70,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(LoanTransaction::class);
     }
-    
+
     public function visitor()
     {
         return $this->hasMany(Visitor::class);
