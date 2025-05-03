@@ -20,6 +20,7 @@ class AdminLoanTransactionComp extends Component
     public $editId;
     public $dataShow, $showId;
     public $users;
+    public $jenis = 'literasi';
     public $books;
     public $roleFilter;
     public $finePoint;
@@ -30,8 +31,6 @@ class AdminLoanTransactionComp extends Component
 
     public function mount()
     {
-
-
         $this->users = User::all();
         $this->books = Book::all();
     }
@@ -65,9 +64,18 @@ class AdminLoanTransactionComp extends Component
         $this->countFinePoint();
         return view('livewire.admin-loan-transaction-comp', compact('data'))->extends('layouts.master-admin');
     }
+
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+    public function updatedJenis()
+    {
+        if ($this->jenis == 'paketan') {
+            $this->due_date = Carbon::now()->addYears(2)->format('Y-m-d');
+        } else {
+            $this->due_date = null;
+        }
     }
     public function resetInput()
     {
@@ -82,6 +90,7 @@ class AdminLoanTransactionComp extends Component
         $this->condition = '';
         $this->fine = '';
         $this->point = '';
+        $this->jenis = '';
         $this->dataShow = null;
         $this->userName = '';
         $this->bookTitle = '';

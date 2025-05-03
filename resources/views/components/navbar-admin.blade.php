@@ -1,11 +1,13 @@
 @php
     use Tymon\JWTAuth\Facades\JWTAuth;
-
+    use App\Models\ViewPeminjamanHampirJatuhTempo;
     try {
         $user = JWTAuth::parseToken()->authenticate();
     } catch (\Exception $e) {
         $name = null;
     }
+    
+  
 @endphp
 
 
@@ -18,7 +20,7 @@
 
     </div>
     <div class="flex items-center pr-6 ">
-
+   
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button href="{{ route('logout') }}"
