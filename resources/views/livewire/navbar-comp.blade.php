@@ -20,7 +20,7 @@
                         <li>
                             <a href="{{ route('index') }}"
                                 class="block py-2 px-3  md:p-0 
-                                {{ request()->routeIs('index') ? 'font-extrabold   text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}"
+                                {{ request()->routeIs('index') ? 'font-extrabold  border-b-3 text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}"
                                 aria-current="page">Home</a>
                         </li>
                         <li>
@@ -31,10 +31,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('bookmark') }}"
+                            <a href="{{ route('favorit') }}"
                                 class="block py-2 px-3  md:p-0 
-                                {{ request()->routeIs('bookmark') ? 'font-extrabold   text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}">
-                                Bookmark
+                                {{ request()->routeIs('favorit') ? 'font-extrabold border-b-3  text-white md:text-[var(--primary)]' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[var(--primary)]' }}">
+                                Favorit
                             </a>
                         </li>
 

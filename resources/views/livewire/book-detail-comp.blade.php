@@ -22,12 +22,12 @@
                             @if (in_array($id, $myBookmark))
                                 <button wire:click="removeBookmark({{ $id }})"
                                     class="bg-red-500 w-full cursor-pointer text-white px-3 py-2.5 rounded-lg">
-                                    <i class="fa-solid fa-trash me-1.5"></i>Hapus Dari Bookmark
+                                    <i class="fa-solid fa-trash me-1.5"></i>Hapus dari Favorit
                                 </button>
                             @else
                                 <button wire:click="addBookmark({{ $id }})"
                                     class="bg-[var(--primary)] w-full cursor-pointer text-white px-3 py-2.5 rounded-lg">
-                                    <i class="fa-solid fa-bookmark me-1.5"></i>Tambah ke Bookmark
+                                    <i class="fa-solid fa-bookmark me-1.5"></i>Tambah ke Favorit
                                 </button>
                             @endif
                         </div>
@@ -90,7 +90,7 @@
                         @if (in_array($id, $myBookmark))
                             <button wire:click="removeBookmark({{ $id }})"
                                 class="bg-red-500 w-full cursor-pointer text-white px-3 py-2.5 rounded-lg">
-                                <i class="fa-solid fa-trash me-1.5"></i>Hapus Dari Bookmark
+                                <i class="fa-solid fa-trash me-1.5"></i>Hapus dari Favorit
                             </button>
                         @else
                             <button wire:click="addBookmark({{ $id }})"

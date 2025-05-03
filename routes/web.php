@@ -45,7 +45,7 @@ Route::get('/', function () {
 
 Route::get('/profile', ProfileComp::class)->name('profile');
 Route::get('/buku/{search?}', BookExplorerComp::class)->name('jelajahi-buku');
-Route::get('/bookmark', BookmarkComp::class)->name('bookmark');
+Route::get('/favorit', BookmarkComp::class)->name('favorit');
 Route::get('/riwayat-peminjaman', HistoryLoanComp::class)->name('riwayat-peminjaman');
 Route::get('/buku/detail/{id}', BookDetailComp::class)->name('detail-buku');
 
