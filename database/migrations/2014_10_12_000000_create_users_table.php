@@ -20,7 +20,8 @@ return new class extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->string('kelas')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'siswa']);
+            $table->enum('role', ['admin', 'siswa', 'superadmin', 'guru'])->default('siswa');
+            $table->enum('status', ['active', 'nonactive'])->default('active');
             $table->bigInteger('point')->nullable();
             $table->integer('semester')->nullable();
             $table->timestamps();

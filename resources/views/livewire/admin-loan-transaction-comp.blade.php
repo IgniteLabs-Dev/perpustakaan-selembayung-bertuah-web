@@ -16,6 +16,15 @@
                 </div>
 
                 <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
+                    <select wire:model.change="roleFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Role</option>
+                        <option value="guru">Guru</option>
+                        <option value="siswa">Siswa</option>
+                    </select>
+                </div>
+                <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
+
 
                     <select wire:model.change="statusFilter"
                         class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
@@ -62,7 +71,10 @@
                         No
                     </th>
                     <th scope="col" class="px-6 py-4  whitespace-nowrap">
-                        Siswa
+                        Nama
+                    </th>
+                    <th scope="col" class="px-6 py-4  whitespace-nowrap">
+                        Role
                     </th>
                     <th scope="col" class="px-6 py-4  whitespace-nowrap">
                         Buku
@@ -99,6 +111,9 @@
                         </td>
                         <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->user->name }}
+                        </td>
+                        <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                            {{ ucfirst($item->user->role) }}
                         </td>
                         <td class="px-6 py-3 flex text-gray-900 font-normal whitespace-normal">
                             {{ $item->book->title }}

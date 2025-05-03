@@ -28,7 +28,7 @@ class CheckAuthJWT
             return redirect()->route('index');
         }
 
-        if ($user && $user->role == 'admin') {
+        if ($user && $user->role == 'admin' || $user->role == 'superadmin') {
             return $next($request);
         }
 

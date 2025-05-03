@@ -6,6 +6,16 @@
         </div>
         <div class="w-full sm:w-auto flex items-center  justify-end  gap-2">
             <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
+                <select wire:model.change="roleFilter"
+                    class="  py-2.5 px-2.5   text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                    <option value="">Semua Role</option>
+                    <option value="siswa">Siswa</option>
+                    <option value="guru">Guru</option>
+                    <option value="admin">Admin</option>
+                    <option value="superadmin">Super Admin</option>
+                </select>
+            </div>
+            <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
                 <input wire:model.live="search" type="text"
                     class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300   rounded-lg focus:border-1  "
                     placeholder="Nama Siswa">
@@ -53,6 +63,9 @@
                         Semester
                     </th>
                     <th scope="col" class="px-6 py-4 text-center">
+                        Status
+                    </th>
+                    <th scope="col" class="px-6 py-4 text-center">
                         Aksi
                     </th>
                 </tr>
@@ -90,6 +103,15 @@
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->semester }}
                         </td>
+                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                            @if ($item->status == 'active')
+                                <span
+                                    class="text-white rounded-full text-sm px-2 bg-green-500 font-semibold">Aktif</span>
+                            @else
+                                <span class="text-white rounded-full text-sm px-2 bg-red-500 font-semibold">Tidak
+                                    Aktif</span>
+                            @endif
+                        </td>
                         <td class="px-6 flex py-3 justify-end text-center text-gray-900 font-normal gap-1 ">
 
                             @if ($confirmDelete != null && $confirmDelete == $item->id)
@@ -118,8 +140,6 @@
                                     </div>
                                     @if ($user->id != $item->id)
                                         <div class="ms-1">
-
-
                                             <button wire:click="$set('confirmDelete', {{ $item->id }})"
                                                 type="button"
                                                 class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
@@ -127,6 +147,21 @@
                                             </button>
                                         </div>
                                     @endif
+                                    <div class="ms-1">
+                                        @if ($user->id != $item->id)
+                                            @if ($item->status == 'active')
+                                                <button wire:click="changeStatus({{ $item->id }})" type="button"
+                                                    class="border-1 bg-orange-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                                    <i class="fa-solid fa-lock"></i>
+                                                </button>
+                                            @else
+                                                <button wire:click="changeStatus({{ $item->id }})" type="button"
+                                                    class="border-1 bg-green-800  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                                    <i class="fa-solid fa-lock-open"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                    </div>
 
                                 </div>
                             @endif
@@ -203,11 +238,11 @@
                                 </div>
 
                                 <div class=" w-1/2 odd:pe-2 items-start  pe-2">
-                                    <x-input symbol="*" typeWire="defer" inputId="kelas" label="Kelas"
+                                    <x-input symbol="‎" typeWire="defer" inputId="kelas" label="Kelas"
                                         type="text" wireModel="kelas" placeholder="Kelas" />
                                 </div>
                                 <div class=" w-1/2 odd:pe-2 items-start  ">
-                                    <x-input symbol="*" typeWire="defer" inputId="semester" label="Semester"
+                                    <x-input symbol="‎" typeWire="defer" inputId="semester" label="Semester"
                                         type="number" wireModel="semester" placeholder="Semester" />
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
@@ -216,7 +251,7 @@
                                         placeholder="Password" />
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-input symbol="*" typeWire="defer" inputId="tanggal_lahir"
+                                    <x-input symbol="‎" typeWire="defer" inputId="tanggal_lahir"
                                         label="Tanggal Lahir" type="date" wireModel="tanggal_lahir"
                                         placeholder="Tanggal Lahir" />
                                 </div>
@@ -226,11 +261,13 @@
                                     <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
                                         wireModel="role" placeholder="Role" :options="[
                                             'admin' => 'Admin',
+                                            'superadmin' => 'Super Admin',
+                                            'guru' => 'Guru',
                                             'siswa' => 'Siswa',
                                         ]" />
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start  ">
-                                    <x-input symbol="*" typeWire="defer" inputId="nis" label="NIS"
+                                    <x-input symbol="‎" typeWire="defer" inputId="nis" label="NIS"
                                         type="text" wireModel="nis" placeholder="NIS" />
                                 </div>
                                 <div class=" w-full mt-3  items-center justify-center flex">

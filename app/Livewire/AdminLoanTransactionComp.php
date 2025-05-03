@@ -21,6 +21,7 @@ class AdminLoanTransactionComp extends Component
     public $dataShow, $showId;
     public $users;
     public $books;
+    public $roleFilter;
     public $finePoint;
     public $conditionFilter;
     public $statusFilter;
@@ -49,6 +50,11 @@ class AdminLoanTransactionComp extends Component
             })
             ->when($this->statusFilter, function ($query) {
                 $query->where('status', $this->statusFilter);
+            })
+            ->when($this->roleFilter, function ($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('role', $this->roleFilter);
+                });
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);

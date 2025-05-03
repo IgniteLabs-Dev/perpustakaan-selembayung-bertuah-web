@@ -11,13 +11,15 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AdminUsersComp extends Component
 {
     use WithPagination;
-    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId,$nis;
+    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId, $nis;
     public $search;
+    public $roleFilter;
     public $confirmDelete;
 
     public function render()
     {
         $user = JWTAuth::parseToken()->authenticate();
+        $role = $user->role;
         $data = User::when($this->search, function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%')
                 ->orWhere('email', 'like', '%' . $this->search . '%')
@@ -29,6 +31,12 @@ class AdminUsersComp extends Component
                 ->orWhere('nis', 'like', '%' . $this->search . '%')
                 ->orWhere('semester', 'like', '%' . $this->search . '%');
         })
+            ->when($role == 'admin', function ($query) {
+                $query->where('role', 'siswa','guru');
+            })
+            ->when($this->roleFilter, function ($query) {
+                $query->where('role', $this->roleFilter);
+            })
             ->orderby('created_at', 'desc')
             ->paginate('10');
 
@@ -38,30 +46,30 @@ class AdminUsersComp extends Component
     {
         $this->resetPage();
     }
+    public function updatedRoleFilter()
+    {
+        $this->resetPage();
+    }
 
     public function store()
     {
         $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'tanggal_lahir' => 'required',
-            'kelas' => 'required',
+            'tanggal_lahir' => 'date|nullable',
             'role' => 'required',
-            'nis' => 'required',
-            'semester' => 'required|numeric',
+            'semester' => 'numeric|nullable',
             'password' => 'required',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
-            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
-            'kelas.required' => 'Kelas wajib diisi.',
+            'tanggal_lahir.date' => 'Tanggal lahir wajib tanggal.',
             'role.required' => 'Role wajib diisi.',
-            'semester.required' => 'Semester wajib diisi.',
             'semester.numeric' => 'Semester harus berupa angka.',
             'password.required' => 'Password wajib diisi.',
-            'nis.required' => 'NIS wajib diisi.'
+
         ]);
 
 
@@ -94,7 +102,28 @@ class AdminUsersComp extends Component
                 ->show();
         }
     }
-
+    public function changeStatus($id)
+    {
+        $data = User::find($id);
+        if ($data->status == 'active') {
+            $data->status = 'nonactive';
+        } else {
+            $data->status = 'active';
+        }
+        if ($data->save()) {
+            LivewireAlert::title('Status Berhasil Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->success()
+                ->show();
+        } else {
+            LivewireAlert::title('Status Gagal Diubah!')
+                ->position('top-end')
+                ->toast()
+                ->error()
+                ->show();
+        }
+    }
     public function edit($id)
     {
         $this->editId = $id;
@@ -112,20 +141,16 @@ class AdminUsersComp extends Component
         $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $this->editId,
-            'tanggal_lahir' => 'required',
-            'kelas' => 'required',
+            'tanggal_lahir' => 'date',
+
             'role' => 'required',
-            'nis' => 'required',
-            'semester' => 'required|numeric',
+            'semester' => 'numeric',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
-            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
-            'kelas.required' => 'Kelas wajib diisi.',
+            'tanggal_lahir.date' => 'Tanggal lahir wajib tanggal.',
             'role.required' => 'Role wajib diisi.',
-            'nis.required' => 'NIS wajib diisi.',
-            'semester.required' => 'Semester wajib diisi.',
             'semester.numeric' => 'Semester harus berupa angka.'
         ]);
 

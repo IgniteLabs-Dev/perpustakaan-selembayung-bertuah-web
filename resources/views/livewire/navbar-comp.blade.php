@@ -73,7 +73,7 @@
                             class="z-10 hidden  font-normal bg-white divide-y  divide-gray-100 rounded-lg shadow-sm  ">
                             <ul class="py-2 px-3 rounded-lg text-sm text-gray-700 "
                                 aria-labelledby="dropdownLargeButton">
-                                @if ($user->role == 'admin')
+                                @if ($user->role == 'admin' || $user->role == 'superadmin')
                                     <li>
                                         <a href="{{ route('dashboard') }}">
 
