@@ -29,7 +29,7 @@ class PengingatPengembalianMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pengingat Pengembalian Mail',
+            subject: 'Pengingat Pengembalian Buku',
         );
     }
 

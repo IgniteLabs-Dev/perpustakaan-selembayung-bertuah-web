@@ -2,21 +2,16 @@
 
 namespace App\Livewire;
 
-use App\Models\ViewPeminjamanHampirJatuhTempo;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PengingatPengembalianMail;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
-
-class Sidebar extends Component
+use App\Models\ViewPeminjamanHampirJatuhTempo;
+class SendEmail extends Component
 {
-   
     public function render()
     {
-
-
-
-        return view('livewire.sidebar');
+        return view('livewire.send-email');
     }
     public function sendEmail()
     {
