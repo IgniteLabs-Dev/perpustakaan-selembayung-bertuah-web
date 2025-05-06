@@ -20,6 +20,7 @@ class AdminUsersComp extends Component
     {
         $user = JWTAuth::parseToken()->authenticate();
         $role = $user->role;
+        $this->role = $role;
         $data = User::when($this->search, function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%')
                 ->orWhere('email', 'like', '%' . $this->search . '%')
@@ -32,7 +33,10 @@ class AdminUsersComp extends Component
                 ->orWhere('semester', 'like', '%' . $this->search . '%');
         })
             ->when($role == 'admin', function ($query) {
-                $query->where('role', 'siswa', 'guru');
+                $query->whereIn('role', ['siswa', 'guru']);
+            })
+            ->when($role == 'superadmin', function ($query) {
+                $query->whereIn('role', ['siswa', 'guru','admin']);
             })
             ->when($this->roleFilter, function ($query) {
                 $query->where('role', $this->roleFilter);
@@ -40,6 +44,7 @@ class AdminUsersComp extends Component
             ->orderby('created_at', 'desc')
             ->paginate('10');
 
+    
         return view('livewire.admin-users-comp', compact('data', 'user'))->extends('layouts.master-admin');
     }
     public function updatedSearch()

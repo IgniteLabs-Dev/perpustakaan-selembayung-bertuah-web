@@ -12,7 +12,6 @@
                     <option value="siswa">Siswa</option>
                     <option value="guru">Guru</option>
                     <option value="admin">Admin</option>
-                    <option value="superadmin">Super Admin</option>
                 </select>
             </div>
             <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
@@ -258,13 +257,20 @@
 
 
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
-                                        wireModel="role" placeholder="Role" :options="[
-                                            'admin' => 'Admin',
-                                            'superadmin' => 'Super Admin',
-                                            'guru' => 'Guru',
-                                            'siswa' => 'Siswa',
-                                        ]" />
+                                    @if ($role == 'superadmin')
+                                        <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
+                                            wireModel="role" placeholder="Role" :options="[
+                                                'admin' => 'Admin',
+                                                'guru' => 'Guru',
+                                                'siswa' => 'Siswa',
+                                            ]" />
+                                    @else
+                                        <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
+                                            wireModel="role" placeholder="Role" :options="[
+                                                'guru' => 'Guru',
+                                                'siswa' => 'Siswa',
+                                            ]" />
+                                    @endif
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start  ">
                                     <x-input symbol="‎" typeWire="defer" inputId="nis" label="NIS/NIP"
