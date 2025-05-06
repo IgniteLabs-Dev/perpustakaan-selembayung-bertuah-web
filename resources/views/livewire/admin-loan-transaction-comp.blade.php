@@ -390,7 +390,7 @@
 
 
                                 @if ($editId != null)
-                                    <div class=" w-1/2 even:ps-2   items-start">
+                                    <div class=" w-1/2 even:pe-2   items-start">
                                         <x-input symbol="*" typeWire="change" inputId="returned_at"
                                             label="Tanggal Pengembalian" type="date" wireModel="returned_at"
                                             placeholder="Masukkan Tanggal Pengembalian" />
@@ -402,7 +402,7 @@
                                                 'returned' => 'Dikembalikan',
                                             ]" />
                                     </div>
-                                    <div class=" w-1/2 even:ps-2   items-start">
+                                    <div class=" w-1/2 even:pe-2   items-start">
                                         <x-select typeWire="change" symbol="*" selectId="condition"
                                             label="Kondisi" wireModel="condition" placeholder="Pilih Kondisi"
                                             :options="[
