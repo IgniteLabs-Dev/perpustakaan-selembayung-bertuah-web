@@ -19,8 +19,8 @@ class AdminUsersComp extends Component
     public function render()
     {
         $user = JWTAuth::parseToken()->authenticate();
-        $role = $user->role;
-        $this->role = $role;
+        $yourRole = $user->role;
+
         $data = User::when($this->search, function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%')
                 ->orWhere('email', 'like', '%' . $this->search . '%')
@@ -32,11 +32,11 @@ class AdminUsersComp extends Component
                 ->orWhere('nis', 'like', '%' . $this->search . '%')
                 ->orWhere('semester', 'like', '%' . $this->search . '%');
         })
-            ->when($role == 'admin', function ($query) {
+            ->when($yourRole == 'admin', function ($query) {
                 $query->whereIn('role', ['siswa', 'guru']);
             })
-            ->when($role == 'superadmin', function ($query) {
-                $query->whereIn('role', ['siswa', 'guru','admin']);
+            ->when($yourRole == 'superadmin', function ($query) {
+                $query->whereIn('role', ['siswa', 'guru', 'admin']);
             })
             ->when($this->roleFilter, function ($query) {
                 $query->where('role', $this->roleFilter);
@@ -44,8 +44,8 @@ class AdminUsersComp extends Component
             ->orderby('created_at', 'desc')
             ->paginate('10');
 
-    
-        return view('livewire.admin-users-comp', compact('data', 'user'))->extends('layouts.master-admin');
+
+        return view('livewire.admin-users-comp', compact('data', 'user', 'yourRole'))->extends('layouts.master-admin');
     }
     public function updatedSearch()
     {
@@ -54,6 +54,20 @@ class AdminUsersComp extends Component
     public function updatedRoleFilter()
     {
         $this->resetPage();
+    }
+    public function updatedRole()
+    {
+
+        if ($this->role == 'guru') {
+            $this->kelas = '';
+            $this->semester = '';
+        } else if ($this->role == 'admin') {
+            $this->kelas = '';
+            $this->semester = '';
+            $this->nis = '';
+            $this->tanggal_lahir = '';
+        }
+        $this->resetValidation();
     }
 
     public function store()
@@ -65,7 +79,7 @@ class AdminUsersComp extends Component
             'role' => 'required',
             'semester' => 'numeric|nullable',
             'password' => 'required',
-            'nis' => 'unique:users,nis',
+            'nis' => 'unique:users,nis|nullable',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'email.required' => 'Email wajib diisi.',

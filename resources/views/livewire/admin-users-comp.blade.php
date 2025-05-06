@@ -236,46 +236,53 @@
                                         type="email" wireModel="email" placeholder="Email" />
                                 </div>
 
-                                <div class=" w-1/2 odd:pe-2 items-start  pe-2">
-                                    <x-input symbol="‎" typeWire="defer" inputId="kelas" label="Kelas"
-                                        type="text" wireModel="kelas" placeholder="Kelas" />
-                                </div>
-                                <div class=" w-1/2 odd:pe-2 items-start  ">
-                                    <x-input symbol="‎" typeWire="defer" inputId="semester" label="Semester"
-                                        type="number" wireModel="semester" placeholder="Semester" />
-                                </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-input symbol="{{ $editId ? '‎' : '*' }}" typeWire="defer" inputId="password"
-                                        label="Password" type="password" wireModel="password"
-                                        placeholder="Password" />
-                                </div>
-                                <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    <x-input symbol="‎" typeWire="defer" inputId="tanggal_lahir"
-                                        label="Tanggal Lahir" type="date" wireModel="tanggal_lahir"
-                                        placeholder="Tanggal Lahir" />
-                                </div>
-
-
-                                <div class=" w-1/2 mt-3 odd:pe-2 items-start">
-                                    @if ($role == 'superadmin')
-                                        <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
+                                    @if ($yourRole == 'superadmin')
+                                        <x-select typeWire="change" symbol="*" selectId="role" label="Role"
                                             wireModel="role" placeholder="Role" :options="[
                                                 'admin' => 'Admin',
                                                 'guru' => 'Guru',
                                                 'siswa' => 'Siswa',
                                             ]" />
                                     @else
-                                        <x-select typeWire="defer" symbol="*" selectId="role" label="Role"
+                                        <x-select typeWire="change" symbol="*" selectId="role" label="Role"
                                             wireModel="role" placeholder="Role" :options="[
                                                 'guru' => 'Guru',
                                                 'siswa' => 'Siswa',
                                             ]" />
                                     @endif
                                 </div>
-                                <div class=" w-1/2 mt-3 odd:pe-2 items-start  ">
-                                    <x-input symbol="‎" typeWire="defer" inputId="nis" label="NIS/NIP"
-                                        type="text" wireModel="nis" placeholder="NIS/NIP" />
+                                @if ($role != 'admin')
+                                    <div class=" w-1/2 mt-3 odd:pe-2 items-start">
+                                        <x-input symbol="‎" typeWire="defer" inputId="tanggal_lahir"
+                                            label="Tanggal Lahir" type="date" wireModel="tanggal_lahir"
+                                            placeholder="Tanggal Lahir" />
+                                    </div>
+                                @endif
+                                @if ($role != 'guru' && $role != 'admin')
+                                    <div class=" w-1/2 odd:pe-2 items-start  pe-2">
+                                        <x-input symbol="‎" typeWire="defer" inputId="kelas" label="Kelas"
+                                            type="text" wireModel="kelas" placeholder="Kelas" />
+                                    </div>
+                                    <div class=" w-1/2 odd:pe-2 items-start  ">
+                                        <x-input symbol="‎" typeWire="defer" inputId="semester" label="Semester"
+                                            type="number" wireModel="semester" placeholder="Semester" />
+                                    </div>
+                                @endif
+
+
+                                <div class=" w-1/2 mt-3 odd:pe-2 items-start">
+                                    <x-input symbol="{{ $editId ? '‎' : '*' }}" typeWire="defer" inputId="password"
+                                        label="Password" type="password" wireModel="password"
+                                        placeholder="Password" />
                                 </div>
+
+                                @if ($role != 'admin')
+                                    <div class=" w-1/2 mt-3 odd:pe-2 items-start  ">
+                                        <x-input symbol="*" typeWire="defer" inputId="nis" label="NIS/NIP"
+                                            type="text" wireModel="nis" placeholder="NIS/NIP" />
+                                    </div>
+                                @endif
                                 <div class=" w-full mt-3  items-center justify-center flex">
                                     @if ($editId == null)
                                         <button type="button" wire:click="store"
