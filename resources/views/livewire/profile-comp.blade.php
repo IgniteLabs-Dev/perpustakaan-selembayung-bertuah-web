@@ -62,8 +62,8 @@
                             placeholder="Masukkan Tanggal Lahir" />
                     </div>
                     <div class="w-full items-start">
-                        <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="nis" label="NIS"
-                            type="text" wireModel="nis" placeholder="Masukkan NIS" />
+                        <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="nis" label="NIS/NIP"
+                            type="text" wireModel="nis" placeholder="Masukkan NIS/NIP" />
                     </div>
                     @if ($editMode != null)
                         <div class="w-full items-start">

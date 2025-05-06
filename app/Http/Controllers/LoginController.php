@@ -62,7 +62,17 @@ class LoginController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'nis' => 'required|unique:users,nis',
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.unique' => 'Nama sudah terdaftar.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'nis.required' => 'NIS wajib diisi.',
+            'nis.unique' => 'NIS sudah terdaftar.',
         ]);
+
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -111,6 +121,13 @@ class LoginController extends Controller
         } catch (JWTException $e) {
 
             return redirect('/login')->with('error', 'Silahkan Ulangi.')->withInput();
+        }
+
+        //jika status user tidak aktif
+
+        $user = User::where('email', $request->email)->first();
+        if ($user->status != 'active') {
+            return redirect('/login')->with('error', 'Akun anda tidak aktif, silahkan hubungi admin.')->withInput();
         }
 
         // Mengatur cookie dengan token JWT

@@ -39,11 +39,11 @@
                                     @enderror
                                 </div>
                                 <div class="w-full mb-2">
-                                    <label class="text-sm text-gray-500">NIS<span
+                                    <label class="text-sm text-gray-500">NIS/NIP<span
                                             class="text-red-500 text-lg">*</span></label>
                                     <input value="{{ old('nis') }}" required
                                         class="border-1 border-gray-200 bg-gray-50  rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        name="nis" type="text" placeholder="Masukkan NIS">
+                                        name="nis" type="text" placeholder="Masukkan NIS/NIP">
                                     @error('nis')
                                         <span class="text-red-500 text-sm">{{ $message }}</span>
                                     @enderror

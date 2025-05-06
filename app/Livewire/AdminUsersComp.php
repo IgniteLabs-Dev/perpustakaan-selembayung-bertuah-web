@@ -32,7 +32,7 @@ class AdminUsersComp extends Component
                 ->orWhere('semester', 'like', '%' . $this->search . '%');
         })
             ->when($role == 'admin', function ($query) {
-                $query->where('role', 'siswa','guru');
+                $query->where('role', 'siswa', 'guru');
             })
             ->when($this->roleFilter, function ($query) {
                 $query->where('role', $this->roleFilter);
@@ -60,6 +60,7 @@ class AdminUsersComp extends Component
             'role' => 'required',
             'semester' => 'numeric|nullable',
             'password' => 'required',
+            'nis' => 'unique:users,nis',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'email.required' => 'Email wajib diisi.',
@@ -69,6 +70,8 @@ class AdminUsersComp extends Component
             'role.required' => 'Role wajib diisi.',
             'semester.numeric' => 'Semester harus berupa angka.',
             'password.required' => 'Password wajib diisi.',
+            'nis.required' => 'NIS wajib diisi.',
+            'nis.unique' => 'NIS sudah terdaftar.',
 
         ]);
 
@@ -145,13 +148,15 @@ class AdminUsersComp extends Component
 
             'role' => 'required',
             'semester' => 'numeric',
+            'nis' => 'unique:users,nis,' . $this->editId,
         ], [
             'name.required' => 'Nama wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'tanggal_lahir.date' => 'Tanggal lahir wajib tanggal.',
             'role.required' => 'Role wajib diisi.',
-            'semester.numeric' => 'Semester harus berupa angka.'
+            'semester.numeric' => 'Semester harus berupa angka.',
+            'nis.unique' => 'NIS sudah terdaftar.',
         ]);
 
 

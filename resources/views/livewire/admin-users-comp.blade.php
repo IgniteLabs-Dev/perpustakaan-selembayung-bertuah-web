@@ -51,7 +51,7 @@
                         Kelas
                     </th>
                     <th scope="col" class="px-6 py-4 text-center">
-                        NIS
+                        NIS/NIP
                     </th>
                     <th scope="col" class="px-6 py-4 text-center">
                         Role
@@ -267,8 +267,8 @@
                                         ]" />
                                 </div>
                                 <div class=" w-1/2 mt-3 odd:pe-2 items-start  ">
-                                    <x-input symbol="‎" typeWire="defer" inputId="nis" label="NIS"
-                                        type="text" wireModel="nis" placeholder="NIS" />
+                                    <x-input symbol="‎" typeWire="defer" inputId="nis" label="NIS/NIP"
+                                        type="text" wireModel="nis" placeholder="NIS/NIP" />
                                 </div>
                                 <div class=" w-full mt-3  items-center justify-center flex">
                                     @if ($editId == null)
