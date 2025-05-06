@@ -31,7 +31,7 @@ class AdminLoanTransactionComp extends Component
 
     public function mount()
     {
-        $this->users = User::all();
+        $this->users = User::whereIn('role', ['siswa', 'guru'])->get();
         $this->books = Book::all();
     }
 

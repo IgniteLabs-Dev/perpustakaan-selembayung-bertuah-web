@@ -282,7 +282,7 @@
 
 
                                 <div class=" w-1/2 even:ps-2   items-start">
-                                    <label class="text-sm text-gray-500">Siswa<span
+                                    <label class="text-sm text-gray-500">Siswa/Guru<span
                                             class="text-red-500 text-lg">*</span></label>
 
                                     <div class="@if ($editUser == true) hidden @endif">
