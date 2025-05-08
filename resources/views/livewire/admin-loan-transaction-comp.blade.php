@@ -382,7 +382,7 @@
                                         placeholder="Masukkan Tanggal Peminjaman" />
                                 </div>
 
-                                <div class=" w-1/2 even:ps-2   items-start " wire:loading.class="hidden">
+                                <div class=" w-1/2 even:ps-2   items-start " >
                                     <x-input symbol="*" typeWire="live" inputId="due_date"
                                         label="Tenggat waktu pengembalian" type="date" wireModel="due_date"
                                         placeholder="Masukkan Tenggah Pengembalian" />
