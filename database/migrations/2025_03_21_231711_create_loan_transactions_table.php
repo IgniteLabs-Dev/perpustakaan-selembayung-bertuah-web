@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('loan_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('book_id')->constrained('books');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('book_id')->constrained('books')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('status', ['borrowed', 'returned']);
             $table->enum('condition', ['baik', 'rusak', 'hilang']);
             $table->date('borrowed_at')->nullable();

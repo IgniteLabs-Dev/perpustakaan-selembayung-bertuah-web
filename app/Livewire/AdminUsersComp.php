@@ -21,28 +21,30 @@ class AdminUsersComp extends Component
         $user = JWTAuth::parseToken()->authenticate();
         $yourRole = $user->role;
 
-        $data = User::when($this->search, function ($query) {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                ->orWhere('email', 'like', '%' . $this->search . '%')
-                ->orWhere('kelas', 'like', '%' . $this->search . '%')
-                ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%d') = ?", [$this->search])
-                ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%M') like ?", ['%' . $this->search . '%'])
-                ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%Y') = ?", [$this->search])
-                ->orWhere('role', 'like', '%' . $this->search . '%')
-                ->orWhere('nis', 'like', '%' . $this->search . '%')
-                ->orWhere('semester', 'like', '%' . $this->search . '%');
+        $data = User::when($yourRole == 'superadmin', function ($query) {
+            return $query->whereIn('role', ['siswa', 'guru', 'admin']);
         })
-            ->when($yourRole == 'admin', function ($query) {
-                $query->whereIn('role', ['siswa', 'guru']);
-            })
-            ->when($yourRole == 'superadmin', function ($query) {
-                $query->whereIn('role', ['siswa', 'guru', 'admin']);
-            })
             ->when($this->roleFilter, function ($query) {
-                $query->where('role', $this->roleFilter);
+                return $query->where('role', $this->roleFilter);
             })
-            ->orderby('created_at', 'desc')
-            ->paginate('10');
+            ->when($yourRole == 'admin', function ($query) {
+                return $query->whereIn('role', ['siswa', 'guru']);
+            })
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')
+                        ->orWhere('email', 'like', '%' . $this->search . '%')
+                        ->orWhere('kelas', 'like', '%' . $this->search . '%')
+                        ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%d') = ?", [$this->search])
+                        ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%M') like ?", ['%' . $this->search . '%'])
+                        ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%Y') = ?", [$this->search])
+                        ->orWhere('role', 'like', '%' . $this->search . '%')
+                        ->orWhere('nis', 'like', '%' . $this->search . '%')
+                        ->orWhere('semester', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
 
         return view('livewire.admin-users-comp', compact('data', 'user', 'yourRole'))->extends('layouts.master-admin');
@@ -75,9 +77,10 @@ class AdminUsersComp extends Component
         $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'tanggal_lahir' => 'date|nullable',
+            'tanggal_lahir' => 'date|required',
             'role' => 'required',
             'semester' => 'numeric|nullable',
+            'kelas' => 'numeric|nullable',
             'password' => 'required',
             'nis' => 'unique:users,nis|nullable',
         ], [
@@ -86,8 +89,10 @@ class AdminUsersComp extends Component
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
             'tanggal_lahir.date' => 'Tanggal lahir wajib tanggal.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'role.required' => 'Role wajib diisi.',
             'semester.numeric' => 'Semester harus berupa angka.',
+            'kelas.numeric' => 'Kelas harus berupa angka.',
             'password.required' => 'Password wajib diisi.',
             'nis.required' => 'NIS wajib diisi.',
             'nis.unique' => 'NIS sudah terdaftar.',
@@ -101,11 +106,12 @@ class AdminUsersComp extends Component
         $data->nis = $this->nis;
         $data->email = $this->email;
         $data->tanggal_lahir = $this->tanggal_lahir;
-        $data->kelas = $this->kelas;
+        $data->kelas = $this->kelas ? $this->kelas : null;
         $data->password = bcrypt($this->password);
         $data->role = $this->role;
         $data->point = 0;
-        $data->semester = $this->semester;
+        $data->status = 'active';
+        $data->semester = $this->semester ? $this->semester : null;
         if ($data->save()) {
             $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Disimpan!')
@@ -166,7 +172,7 @@ class AdminUsersComp extends Component
             'tanggal_lahir' => 'date',
 
             'role' => 'required',
-            'semester' => 'numeric',
+            'semester' => 'numeric||nullable',
             'nis' => 'unique:users,nis,' . $this->editId,
         ], [
             'name.required' => 'Nama wajib diisi.',

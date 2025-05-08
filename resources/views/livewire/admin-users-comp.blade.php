@@ -11,7 +11,9 @@
                     <option value="">Semua Role</option>
                     <option value="siswa">Siswa</option>
                     <option value="guru">Guru</option>
-                    <option value="admin">Admin</option>
+                    @if ($yourRole == 'superadmin')
+                        <option value="admin">Admin</option>
+                    @endif
                 </select>
             </div>
             <div class="md:w-auto w-1/2 sm:w-auto flex justify-end sm:whitespace-nowrap">
