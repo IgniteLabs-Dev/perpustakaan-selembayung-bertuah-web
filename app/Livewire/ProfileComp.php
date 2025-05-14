@@ -33,6 +33,7 @@ class ProfileComp extends Component
         $this->tanggal_lahir = $this->user->tanggal_lahir;
         $this->cover = $this->user->cover;
         $this->nis = $this->user->nis;
+        $this->role = $this->user->role;
     }
     public function render()
     {
@@ -45,8 +46,8 @@ class ProfileComp extends Component
         $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
-            'kelas' => 'required',
-            'semester' => 'required',
+            'kelas' => 'nullable',
+            'semester' => 'nullable',
             'tanggal_lahir' => 'required|date',
             'nis' => 'required|unique:users,nis,' . $this->user->id,
             'image_baru' => 'nullable|mimes:jpeg,png,jpg,webp|max:1024',
@@ -55,8 +56,6 @@ class ProfileComp extends Component
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
-            'kelas.required' => 'Kelas wajib diisi.',
-            'semester.required' => 'Semester wajib diisi.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
             'nis.required' => 'NIS wajib diisi.',

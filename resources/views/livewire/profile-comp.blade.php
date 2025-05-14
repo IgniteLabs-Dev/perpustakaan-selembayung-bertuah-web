@@ -71,6 +71,7 @@
                                 label="Password" type="password" wireModel="password" placeholder="Masukkan Password" />
                         </div>
                     @endif
+                    @if ($role == 'siswa')
                     <div class="w-full flex">
                         <div class="w-1/2 items-start pe-1.5">
                             <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="kelas" label="Kelas"
@@ -81,6 +82,7 @@
                                 label="Semester" type="number" wireModel="semester" placeholder="Masukkan Semester" />
                         </div>
                     </div>
+                    @endif
                     <div class="flex">
                         @if ($editMode == null)
                             <button
