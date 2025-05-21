@@ -14,7 +14,15 @@
                         Reset Filter
                     </button>
                 </div>
-
+                <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
+                    <select wire:model.change="timeFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Waktu</option>
+                        <option value="hari_ini">Hari Ini</option>
+                        <option value="mingguan">Mingguan</option>
+                        <option value="bulanan">Bulanan</option>
+                    </select>
+                </div>
                 <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
                     <select wire:model.change="roleFilter"
                         class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
@@ -23,6 +31,7 @@
                         <option value="siswa">Siswa</option>
                     </select>
                 </div>
+
                 <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
 
 
@@ -110,13 +119,13 @@
                             {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
                         </td>
                         <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->user->name }}
+                          {{ $item->user->name ?? '-' }}
                         </td>
                         <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
                             {{ ucfirst($item->user->role) }}
                         </td>
                         <td class="px-6 py-3 flex text-gray-900 font-normal whitespace-normal">
-                            {{ $item->book->title }}
+                            {{ $item->book->title ?? '-' }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ \Carbon\Carbon::parse($item->borrowed_at)->translatedFormat('d F Y') }}
@@ -382,7 +391,7 @@
                                         placeholder="Masukkan Tanggal Peminjaman" />
                                 </div>
 
-                                <div class=" w-1/2 even:ps-2   items-start " >
+                                <div class=" w-1/2 even:ps-2   items-start ">
                                     <x-input symbol="*" typeWire="live" inputId="due_date"
                                         label="Tenggat waktu pengembalian" type="date" wireModel="due_date"
                                         placeholder="Masukkan Tenggah Pengembalian" />

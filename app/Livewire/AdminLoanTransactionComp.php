@@ -23,6 +23,7 @@ class AdminLoanTransactionComp extends Component
     public $jenis = 'literasi';
     public $books;
     public $roleFilter;
+    public $timeFilter;
     public $finePoint;
     public $conditionFilter;
     public $statusFilter;
@@ -54,6 +55,27 @@ class AdminLoanTransactionComp extends Component
                 $query->whereHas('user', function ($q) {
                     $q->where('role', $this->roleFilter);
                 });
+            })
+            ->when($this->timeFilter, function ($query) {
+                switch ($this->timeFilter) {
+                    case 'hari_ini':
+                        $query->whereDate('borrowed_at', now()->toDateString());
+                        break;
+                    case 'mingguan':
+                        $query->whereBetween('borrowed_at', [
+                            now()->startOfWeek(),
+                            now()->endOfWeek()
+                        ]);
+                        break;
+                    case 'bulanan':
+                        $query->whereBetween('borrowed_at', [
+                            now()->startOfMonth(),
+                            now()->endOfMonth()
+                        ]);
+                        break;
+                    default:
+                        break;
+                }
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
