@@ -112,127 +112,128 @@
                 </tr>
             </thead>
             <tbody>
-
-                @forelse ($data as  $item)
-                    <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
-                        <td class="px-6 py-3  font-normal text-gray-900 whitespace-nowrap">
-                            {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
-                        </td>
-                        <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                          {{ $item->user->name ?? '-' }}
-                        </td>
-                        <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                            {{ ucfirst($item->user->role) }}
-                        </td>
-                        <td class="px-6 py-3 flex text-gray-900 font-normal whitespace-normal">
-                            {{ $item->book->title ?? '-' }}
-                        </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ \Carbon\Carbon::parse($item->borrowed_at)->translatedFormat('d F Y') }}
-                        </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ \Carbon\Carbon::parse($item->due_date)->translatedFormat('d F Y') }}
-                        </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->returned_at ? \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') : '-' }}
-                            <span
-                                class="text-xs {{ $item->returned_at
-                                    ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
-                                        ? 'text-green-600'
-                                        : 'text-red-600')
-                                    : '' }}">
-                                {{ $item->returned_at
-                                    ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
-                                        ? '(Tepat Waktu)'
-                                        : '(' . \Carbon\Carbon::parse($item->returned_at)->diffInDays($item->due_date) . ' Hari Terlambat)')
-                                    : '' }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            <span
-                                class="{{ $item->condition === 'hilang' ? 'text-red-500' : ($item->condition === 'rusak' ? 'text-orange-500' : 'text-[var(--primary)]') }}">
-                                {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            @if ($item->fine > 0 && $item->point == 0)
-                                <div
-                                    class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
-                                    -{{ $item->fine }}
-                                </div>
-                            @elseif ($item->point > 0 && $item->fine == 0)
-                                <div
-                                    class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
-                                    +{{ $item->point }}
-                                </div>
-                            @else
-                                -
-                            @endif
-
-                        </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal ">
-                            <div class="flex justify-center">
-
-                                @if ($item->status == 'borrowed')
+                @if ($data->count() > 0)
+                    @forelse ($data as  $item)
+                        <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
+                            <td class="px-6 py-3  font-normal text-gray-900 whitespace-nowrap">
+                                {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
+                            </td>
+                            <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                                {{ $item->user->name ?? '-' }}
+                            </td>
+                            <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                                {{ ucfirst($item->user->role ?? '-') }}
+                            </td>
+                            <td class="px-6 py-3 flex text-gray-900 font-normal whitespace-normal">
+                                {{ $item->book->title ?? '-' }}
+                            </td>
+                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                {{ \Carbon\Carbon::parse($item->borrowed_at)->translatedFormat('d F Y') }}
+                            </td>
+                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                {{ \Carbon\Carbon::parse($item->due_date)->translatedFormat('d F Y') }}
+                            </td>
+                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                {{ $item->returned_at ? \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') : '-' }}
+                                <span
+                                    class="text-xs {{ $item->returned_at
+                                        ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
+                                            ? 'text-green-600'
+                                            : 'text-red-600')
+                                        : '' }}">
+                                    {{ $item->returned_at
+                                        ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
+                                            ? '(Tepat Waktu)'
+                                            : '(' . \Carbon\Carbon::parse($item->returned_at)->diffInDays($item->due_date) . ' Hari Terlambat)')
+                                        : '' }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                <span
+                                    class="{{ $item->condition === 'hilang' ? 'text-red-500' : ($item->condition === 'rusak' ? 'text-orange-500' : 'text-[var(--primary)]') }}">
+                                    {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                @if ($item->fine > 0 && $item->point == 0)
                                     <div
-                                        class=" text-xs px-3 text-orange-500 bg-red-100 outline-1 outline-orange-500 rounded-full">
-                                        Dipinjam</div>
+                                        class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
+                                        -{{ $item->fine }}
+                                    </div>
+                                @elseif ($item->point > 0 && $item->fine == 0)
+                                    <div
+                                        class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
+                                        +{{ $item->point }}
+                                    </div>
                                 @else
-                                    <div
-                                        class="text-xs px-3 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
-                                        Dikembalikan</div>
+                                    -
                                 @endif
-                            </div>
-                        </td>
 
-                        <td
-                            class="px-6 flex py-3 text-center justify-end items-center text-gray-900 font-normal gap-1 ">
+                            </td>
+                            <td class="px-6 py-3 text-center text-gray-900 font-normal ">
+                                <div class="flex justify-center">
 
-                            @if ($confirmDelete != null && $confirmDelete == $item->id)
-                                <div class="flex flex-col">
+                                    @if ($item->status == 'borrowed')
+                                        <div
+                                            class=" text-xs px-3 text-orange-500 bg-red-100 outline-1 outline-orange-500 rounded-full">
+                                            Dipinjam</div>
+                                    @else
+                                        <div
+                                            class="text-xs px-3 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
+                                            Dikembalikan</div>
+                                    @endif
+                                </div>
+                            </td>
 
-                                    <small class="text-[13px]">Apa anda yakin?</small>
-                                    <div class="div">
-                                        <button wire:click="$set('confirmDelete', null)"
-                                            class=" px-2 text-[10px] text-white  cursor-pointer bg-blue-500 hover:text-white-500 hover:bg-blue-600 rounded-full p-1">
-                                            Batal
+                            <td
+                                class="px-6 flex py-3 text-center justify-end items-center text-gray-900 font-normal gap-1 ">
+
+                                @if ($confirmDelete != null && $confirmDelete == $item->id)
+                                    <div class="flex flex-col">
+
+                                        <small class="text-[13px]">Apa anda yakin?</small>
+                                        <div class="div">
+                                            <button wire:click="$set('confirmDelete', null)"
+                                                class=" px-2 text-[10px] text-white  cursor-pointer bg-blue-500 hover:text-white-500 hover:bg-blue-600 rounded-full p-1">
+                                                Batal
+                                            </button>
+                                            <button wire:click="delete({{ $item->id }})"
+                                                class=" px-2 text-[10px] text-white cursor-pointer bg-red-500 hover:text-white-500 hover:bg-red-600 rounded-full p-1">
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="flex gap-1 justify-end items-end">
+                                        @if ($item->status == 'borrowed')
+                                            <button wire:click="show({{ $item->id }})"
+                                                @click="$dispatch('open-modal2')" type="button"
+                                                class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                        @endif
+                                        <button wire:click="$set('confirmDelete', {{ $item->id }})"
+                                            type="button"
+                                            class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                            <i class="fa-solid fa-trash"></i>
                                         </button>
-                                        <button wire:click="delete({{ $item->id }})"
-                                            class=" px-2 text-[10px] text-white cursor-pointer bg-red-500 hover:text-white-500 hover:bg-red-600 rounded-full p-1">
-                                            Hapus
+
+
+                                        <button wire:click="edit({{ $item->id }})"
+                                            @click="$dispatch('open-modal')" type="button"
+                                            class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                            <i class="fa-solid fa-pencil"></i>
                                         </button>
                                     </div>
-                                </div>
-                            @else
-                                <div class="flex gap-1 justify-end items-end">
-                                    @if ($item->status == 'borrowed')
-                                        <button wire:click="show({{ $item->id }})"
-                                            @click="$dispatch('open-modal2')" type="button"
-                                            class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </button>
-                                    @endif
-                                    <button wire:click="$set('confirmDelete', {{ $item->id }})" type="button"
-                                        class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-
-
-                                    <button wire:click="edit({{ $item->id }})" @click="$dispatch('open-modal')"
-                                        type="button"
-                                        class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
-                                </div>
-                            @endif
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
-                    </tr>
-                @endforelse
-
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
+                        </tr>
+                    @endforelse
+                @endif
 
 
             </tbody>

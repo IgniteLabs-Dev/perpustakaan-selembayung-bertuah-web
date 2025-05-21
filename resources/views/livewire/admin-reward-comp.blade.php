@@ -43,48 +43,50 @@
                 </tr>
             </thead>
             <tbody>
+                @if ($data->count() > 0)
 
-                @forelse ($data as  $item)
-                    <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
-                        <td scope="row" class="px-6 py-3  font-normal text-gray-900 whitespace-nowrap">
-                            {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
-                        </td>
-                        <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->user->name }}
-                        </td>
-                        <td class="px-6 py-3 justify-center text-center  text-gray-900 font-normal ">
-                            <div class="flex justify-center">
-                                @if ($item->final_point > 0)
-                                    <div
-                                        class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
-                                        {{ $item->final_point }}
-                                    </div>
-                                @else
-                                    <div
-                                        class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
-                                        {{ $item->final_point }}
-                                    </div>
-                                @endif
-                            </div>
-                        </td>
+                    @forelse ($data as  $item)
+                        <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
+                            <td scope="row" class="px-6 py-3  font-normal text-gray-900 whitespace-nowrap">
+                                {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
+                            </td>
+                            <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                                {{ $item->user->name }}
+                            </td>
+                            <td class="px-6 py-3 justify-center text-center  text-gray-900 font-normal ">
+                                <div class="flex justify-center">
+                                    @if ($item->final_point > 0)
+                                        <div
+                                            class=" text-xs px-1 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
+                                            {{ $item->final_point }}
+                                        </div>
+                                    @else
+                                        <div
+                                            class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
+                                            {{ $item->final_point }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </td>
 
-                        <td class="px-6 flex py-3 justify-center text-center text-gray-900 font-normal gap-1 ">
-
-
-                            <button @click="$dispatch('open-modal2')" type="button"
-                                wire:click="showHistory({{ $item->user->id }})"
-                                class="cursor-pointer hover:brightness:95 text-blue-500 hover:scale-120 rounded-full">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
+                            <td class="px-6 flex py-3 justify-center text-center text-gray-900 font-normal gap-1 ">
 
 
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
-                    </tr>
-                @endforelse
+                                <button @click="$dispatch('open-modal2')" type="button"
+                                    wire:click="showHistory({{ $item->user->id }})"
+                                    class="cursor-pointer hover:brightness:95 text-blue-500 hover:scale-120 rounded-full">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+
+
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
+                        </tr>
+                    @endforelse
+                @endif
 
 
 
