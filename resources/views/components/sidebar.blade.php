@@ -62,14 +62,44 @@
                         <span class="ms-2" :class="!open && 'hidden'">Kelola Kategori</span>
                     </a>
                 </div>
-                <div class="px-2 py-[1px]">
-                    <a href="{{ route('admin-manajemen-peminjaman') }}"
-                        class="flex items-center px-4 py-2 rounded-lg 
-                        {{ request()->routeIs('admin-manajemen-peminjaman') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
-                        hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+                <div x-data="{ open: false }" class="px-2 py-[1px]">
+                    <button @click="open = !open"
+                        class="flex items-center w-full px-4 py-2 rounded-lg
+        {{ request()->routeIs('admin-manajemen-peminjaman') || request()->routeIs('submenu-dua') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }}
+        hover:brightness-90 hover:bg-[#26537b] hover:text-white focus:outline-none">
                         <i class="fa-solid fa-address-book"></i>
-                        <span class="ms-2" :class="!open && 'hidden'">Kelola Peminjaman</span>
-                    </a>
+                        <span class="ms-2">Kelola Peminjaman</span>
+
+                    </button>
+
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="mt-1 ps-4">
+                        <div class="px-2 py-[1px]">
+                            <a href="{{ route('admin-manajemen-peminjaman') }}"
+                                class="flex items-center px-4 py-2 rounded-lg
+                 {{ request()->routeIs('admin-manajemen-peminjaman') ? 'bg-[#204565] text-white' : 'bg-transparent text-gray-600' }}
+                hover:brightness-90 hover:bg-[#204565] hover:text-white">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span class="ms-2">Peminjaman</span>
+                            </a>
+                        </div>
+
+
+                        <div class="px-2 py-[1px]">
+                            <a href="{{ route('admin-manajemen-pengembalian') }}"
+                                class="flex items-center px-4 py-2 rounded-lg
+                 {{ request()->routeIs('admin-manajemen-pengembalian') ? 'bg-[#204565] text-white' : 'bg-transparent text-gray-600' }}
+                hover:brightness-90 hover:bg-[#204565] hover:text-white">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                <span class="ms-2">Pengembalian</span>
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="px-2 py-[1px]">
                     <a href="{{ route('admin-manajemen-point') }}"

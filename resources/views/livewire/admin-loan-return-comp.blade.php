@@ -1,9 +1,9 @@
 <div>
 
-    @section('title', 'Manajemen Peminjaman')
+    @section('title', 'Manajemen Pengembalian')
     <div class="flex justify-between mb-3 mt-5 flex-col lg:flex-row">
         <div class="w-full lg:w-auto flex items-center justify-center lg:justify-start div mb-2  lg:mb-0">
-            <h1 class="text-2xl font-bold   text-gray-900">Data Peminjaman</h1>
+            <h1 class="text-2xl font-bold   text-gray-900">Data Pengembalian</h1>
 
         </div>
         <div class="w-full lg:w-auto flex items-center flex-col  lg:flex-row justify-end  ">
@@ -66,14 +66,7 @@
                         class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:outline-slate-300"
                         placeholder="Masukkan Nama Siswa atau Judul Buku" />
                 </div>
-                <div class="w-1/2  lg:w-auto   justify-end whitespace-nowrap">
-
-                    <button @click="$dispatch('open-modal')" type="button"
-                        class="flex items-center justify-center w-full cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
-                        <i class="fa-solid fa-plus me-2"></i>
-                        Peminjaman
-                    </button>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -217,7 +210,13 @@
                                     </div>
                                 @else
                                     <div class="flex gap-1 justify-end items-end">
-                                 
+                                        @if ($item->status == 'borrowed')
+                                            <button wire:click="show({{ $item->id }})"
+                                                @click="$dispatch('open-modal2')" type="button"
+                                                class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                        @endif
                                         <button wire:click="$set('confirmDelete', {{ $item->id }})"
                                             type="button"
                                             class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
@@ -440,7 +439,117 @@
             </div>
         </div>
     </div>
-   
+    <div x-data="{ openSecond: false, zoomImage: '' }" x-cloak x-show="openSecond"
+        x-on:open-modal2.window="openSecond = true; zoomImage = $event.detail.image"
+        x-on:close-modal2.window="openSecond = false"
+        class="fixed inset-0 z-20 flex items-center justify-center bg-black/50 ">
+
+        <div class="relative bg-white rounded-xl shadow-sm max-w-xl max-h-full">
+
+            <div class="flex items-center justify-between px-4 py-2 border-b rounded-t-xl bg-primary border-gray-200">
+                <h3 class="text-lg font-semibold text-white">
+                    @if ($editId != null)
+                        Edit Peminjaman
+                    @else
+                        Detail Peminjaman
+                    @endif
+                </h3>
+                <button wire:click="resetInput" type="button" @click="openSecond = false"
+                    class="text-white flex cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto justify-center items-center active:scale-110 transition duration-150 ease-in-out">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <div class="p-4 md:p-5 space-y-4 ">
+                @if ($showId != null && $dataShow != null)
+                    <div class="block flex">
+                        <div class="flex w-1/2">
+                            <img class="rounded-lg object-cover"
+                                src="{{ asset('images/books/' . $dataShow->book->cover) }}" alt="">
+                        </div>
+                        <div class="w-1/2 flex flex-col ps-2 justify-between" x-data="{ returned: false }">
+
+
+                            <div class="mb-2">
+                                <label class="text-xs text-gray-500">Nama Peminjam</label>
+                                <p>{{ $dataShow->user->name }}</p>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-xs text-gray-500">Judul Buku</label>
+                                <p>{{ $dataShow->book->title }}</p>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-xs text-gray-500">Tanggal Peminjaman</label>
+                                <p>{{ \Carbon\Carbon::parse($dataShow->borrowed_at)->translatedFormat('d F Y') }} -
+                                    {{ \Carbon\Carbon::parse($dataShow->due_date)->translatedFormat('d F Y') }}</p>
+                            </div>
+                            <div x-show="!returned">
+                            </div>
+
+
+                            <div x-show="returned">
+                                <div class="mb-1">
+                                    <x-input symbol="*" typeWire="change" inputId="returned_at"
+                                        label="Tanggal Pengembalian" type="date" wireModel="returned_at"
+                                        placeholder="Masukkan Tanggal Pengembalian" />
+                                </div>
+
+                                <div class="mb-1">
+                                    <x-select typeWire="change" symbol="*" selectId="condition" label="Kondisi"
+                                        wireModel="condition" placeholder="Pilih Kondisi" :options="[
+                                            'baik' => 'Baik',
+                                            'rusak' => 'Rusak',
+                                            'hilang' => 'Hilang',
+                                        ]" />
+                                </div>
+                                <div class="w-1/2 even:ps-2 mt-auto">
+                                    <label class="text-sm text-gray-500">Point :<span
+                                            class="text-red-500 text-lg">‎</span></label>
+                                    <input type="text" class="border-0 outline-0 p-0" disabled
+                                        wire:model.defer="finePoint">
+                                </div>
+                            </div>
+
+                            <!-- tombol -->
+                            <div class="mt-auto ">
+                                <template x-if="returned">
+                                    <div class="flex">
+                                        <div class="pe-1 w-1/2">
+
+                                            <button @click="returned = false"
+                                                class="bg-red-500 w-full  cursor-pointer text-white p-2 rounded-lg">
+                                                Batal
+                                            </button>
+                                        </div>
+                                        <div class="ps-1 w-1/2">
+
+                                            <button @click="returned = true" wire:click="storeReturn"
+                                                class="bg-[var(--primary)] w-full cursor-pointer text-white p-2 rounded-lg">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template x-if="!returned">
+                                    <button @click="returned = true"
+                                        class="bg-[var(--primary)] cursor-pointer text-white p-2 w-full rounded-lg">
+                                        Selesaikan Peminjaman
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                    </div>
+                @endif
+
+
+            </div>
+        </div>
+    </div>
     <style>
         .ts-control,
         .ts-wrapper.single.input-active .ts-control,
