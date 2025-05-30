@@ -102,9 +102,9 @@
                     <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
                         Kondisi
                     </th>
-                    <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+                    {{-- <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
                         Poin
-                    </th>
+                    </th> --}}
                     <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
                         Status
                     </th>
@@ -159,7 +159,7 @@
                                     {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                            {{-- <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                                 @if ($item->fine > 0 && $item->point == 0)
                                     <div
                                         class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
@@ -174,7 +174,7 @@
                                     -
                                 @endif
 
-                            </td>
+                            </td> --}}
                             <td class="px-6 py-3 text-center text-gray-900 font-normal ">
                                 <div class="flex justify-center">
 
@@ -407,12 +407,12 @@
                                             ]" />
                                     </div>
 
-                                    <div class=" w-1/2 even:ps-2   mt-auto">
+                                    {{-- <div class=" w-1/2 even:ps-2   mt-auto">
                                         <label class="text-sm text-gray-500">Point :<span
                                                 class="text-red-500 text-lg">‎</span></label> <br>
                                         <input type="text" class="border-0   outline-0 p-0" disabled
                                             wire:model.defer="finePoint">
-                                    </div>
+                                    </div> --}}
                                 @endif
 
 
@@ -506,12 +506,12 @@
                                             'hilang' => 'Hilang',
                                         ]" />
                                 </div>
-                                <div class="w-1/2 even:ps-2 mt-auto">
+                                {{-- <div class="w-1/2 even:ps-2 mt-auto">
                                     <label class="text-sm text-gray-500">Point :<span
                                             class="text-red-500 text-lg">‎</span></label>
                                     <input type="text" class="border-0 outline-0 p-0" disabled
                                         wire:model.defer="finePoint">
-                                </div>
+                                </div> --}}
                             </div>
 
                             <!-- tombol -->

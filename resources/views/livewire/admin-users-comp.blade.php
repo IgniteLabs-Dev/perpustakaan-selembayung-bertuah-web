@@ -57,9 +57,9 @@
                     <th scope="col" class="px-6 py-4 text-center">
                         Role
                     </th>
-                    <th scope="col" class="px-6 py-4 text-center">
+                    {{-- <th scope="col" class="px-6 py-4 text-center">
                         Point
-                    </th>
+                    </th> --}}
                     <th scope="col" class="px-6 py-4 text-center">
                         Semester
                     </th>
@@ -98,9 +98,9 @@
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ ucfirst($item->role) }}
                         </td>
-                        <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                        {{-- <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->point }}
-                        </td>
+                        </td> --}}
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             {{ $item->semester }}
                         </td>

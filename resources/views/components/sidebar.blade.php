@@ -101,7 +101,7 @@
 
                     </div>
                 </div>
-                <div class="px-2 py-[1px]">
+                {{-- <div class="px-2 py-[1px]">
                     <a href="{{ route('admin-manajemen-point') }}"
                         class="flex items-center px-4 py-2 rounded-lg 
                         {{ request()->routeIs('admin-manajemen-point') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
@@ -109,7 +109,7 @@
                         <i class="fa-solid fa-medal"></i>
                         <span class="ms-2" :class="!open && 'hidden'">Kelola Point</span>
                     </a>
-                </div>
+                </div> --}}
                 <div class="px-2 py-[1px]">
                     <a href="{{ route('admin-manajemen-pengunjung') }}"
                         class="flex items-center px-4 py-2 rounded-lg 

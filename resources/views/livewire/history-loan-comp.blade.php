@@ -50,9 +50,9 @@
                         <th scope="col" class="px-6 py-4 text-center">
                             Kondisi
                         </th>
-                        <th scope="col" class="px-6 py-4 text-center">
+                        {{-- <th scope="col" class="px-6 py-4 text-center">
                             Point
-                        </th>
+                        </th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -89,7 +89,7 @@
                                     {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-3 text-center text-gray-900 font-normal ">
+                            {{-- <td class="px-6 py-3 text-center text-gray-900 font-normal ">
                                 <div class="flex justify-center ">
 
                                     @if ($item->fine > 0 && $item->point == 0)
@@ -106,7 +106,7 @@
                                         -
                                     @endif
                                 </div>
-                            </td>
+                            </td> --}}
 
                         </tr>
                     @empty

@@ -92,7 +92,7 @@
                             </a>
                         </a>
                     </div>
-                    <div class="my-0 text-center">
+                    {{-- <div class="my-0 text-center">
 
                         <a href="{{ route('admin-manajemen-point') }}" class="mb-3">
 
@@ -104,7 +104,7 @@
                                 <span class="ms-2">Manajemen Point</span>
                             </a>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="my-0 flex  ">
                         <a href="{{ route('admin-manajemen-pengunjung') }}"
                             class="mb-3 flex items-center ps-5 px-4  py-2 rounded-md w-full 
