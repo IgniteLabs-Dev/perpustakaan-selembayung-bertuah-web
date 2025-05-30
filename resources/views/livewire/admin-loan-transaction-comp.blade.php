@@ -33,8 +33,14 @@
                 </div>
 
                 <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
-
-
+                    <select wire:model.change="typeFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Tipe</option>
+                        <option value="literasi">Literasi</option>
+                        <option value="paketan">Paketan</option>
+                    </select>
+                </div>
+                <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
                     <select wire:model.change="statusFilter"
                         class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
                         <option value="">Semua Status</option>
@@ -86,6 +92,9 @@
                         Role
                     </th>
                     <th scope="col" class="px-6 py-4  whitespace-nowrap">
+                        Jenis Buku
+                    </th>
+                    <th scope="col" class="px-6 py-4  whitespace-nowrap">
                         Buku
                     </th>
                     <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
@@ -123,6 +132,9 @@
                             </td>
                             <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
                                 {{ ucfirst($item->user->role ?? '-') }}
+                            </td>
+                            <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                                {{ ucfirst($item->book->type ?? '-') }}
                             </td>
                             <td class="px-6 py-3 flex text-gray-900 font-normal whitespace-normal">
                                 {{ $item->book->title ?? '-' }}
@@ -363,29 +375,7 @@
                                         <div class="text-red-500 text-sm">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                @if ($editId == null)
-                                    <div class="w-full">
 
-                                        <label class="text-sm  w-full text-gray-500">Pilih Jenis<span
-                                                class="text-red-500 text-lg">*</span></label>
-                                        <div class="flex w-full items-center gap-3 mt-1">
-                                            <div class="flex items-center">
-                                                <input wire:model.change="jenis" id="default-radio-1" type="radio"
-                                                    value="literasi" name="default-radio"
-                                                    class="w-4 h-4 cursor-pointer text-[var(--primary)] bg-gray-100 border-gray-300 focus:ring-[var(--primary)] focus:ring-2">
-                                                <label for="default-radio-1"
-                                                    class="ms-2 text-sm font-medium text-gray-500">Literasi</label>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <input wire:model.change="jenis" id="default-radio-2" type="radio"
-                                                    value="paketan" name="default-radio"
-                                                    class="w-4 h-4 cursor-pointer text-[var(--primary)] bg-gray-100 border-gray-300 focus:ring-[var(--primary)] focus:ring-2">
-                                                <label for="default-radio-2"
-                                                    class="ms-2 text-sm font-medium text-gray-500">Paketan</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
                                 <div class=" w-1/2 even:pe-2   items-start">
                                     <x-input symbol="*" typeWire="change" inputId="borrowed_at"
                                         label="Tanggal Peminjaman" type="date" wireModel="borrowed_at"
@@ -393,7 +383,7 @@
                                 </div>
 
                                 <div class=" w-1/2 even:ps-2   items-start ">
-                                    <x-input symbol="*" typeWire="live" inputId="due_date"
+                                    <x-input symbol="‎" typeWire="live" inputId="due_date"
                                         label="Tenggat waktu pengembalian" type="date" wireModel="due_date"
                                         placeholder="Masukkan Tenggah Pengembalian" />
                                 </div>

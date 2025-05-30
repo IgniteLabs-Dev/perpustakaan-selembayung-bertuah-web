@@ -23,6 +23,7 @@ class AdminLoanTransactionComp extends Component
     public $jenis = 'literasi';
     public $books;
     public $roleFilter;
+    public $typeFilter;
     public $timeFilter;
     public $finePoint;
     public $conditionFilter;
@@ -54,6 +55,11 @@ class AdminLoanTransactionComp extends Component
             ->when($this->roleFilter, function ($query) {
                 $query->whereHas('user', function ($q) {
                     $q->where('role', $this->roleFilter);
+                });
+            })
+            ->when($this->typeFilter, function ($query) {
+                $query->whereHas('book', function ($q) {
+                    $q->where('type', $this->typeFilter);
                 });
             })
             ->when($this->timeFilter, function ($query) {
@@ -297,12 +303,11 @@ class AdminLoanTransactionComp extends Component
             'user_id' => 'required',
             'book_id' => 'required',
             'borrowed_at' => 'required',
-            'due_date' => 'required|date|after_or_equal:borrowed_at',
+            'due_date' => 'nullable|date|after_or_equal:borrowed_at',
         ], [
             'user_id.required' => 'User harus dipilih.',
             'book_id.required' => 'Buku harus dipilih.',
             'borrowed_at.required' => 'Tanggal peminjaman harus diisi.',
-            'due_date.required' => 'Tanggal jatuh tempo harus diisi.',
             'due_date.after_or_equal' => 'Tanggal jatuh tempo harus setelah tanggal peminjaman.',
         ]);
 
@@ -320,11 +325,15 @@ class AdminLoanTransactionComp extends Component
             ]);
         }
 
+
+
         $data = new LoanTransaction();
         $data->user_id = $this->user_id;
         $data->book_id = $this->book_id;
         $data->borrowed_at = $this->borrowed_at;
-        $data->due_date = $this->due_date;
+        if ($this->due_date == null) {
+            $data->due_date = Carbon::now()->addYears(2)->format('Y-m-d');
+        }
         $data->book->stock = 'borrowed';
 
         if ($data->save()) {
