@@ -8,11 +8,10 @@
 
                 <div class="md:w-2/5 w-full flex justify-center flex-wrap md:flex-col ">
                     <div class="w-full  justify-center flex">
-                        <p>{{ public_path('images/profile/' . $user->cover) }}</p>
                         @if ($image_baru == null)
-                            @if ($user->cover == null || !file_exists(public_path('images/profile/' . $user->cover)))
+                            @if ($user->cover == null)
                                 <img class="rounded-4xl mb-3  h-70 w-70  object-cover aspect-square"
-                                    src="{{ asset('images/profile/profile-blank.png') }}" alt="">
+                                    src="{{ asset('images/profile/profile-blank.png') }}" alt="photo">
                             @else
                                 <img class="rounded-4xl mb-3  h-70 w-70  object-cover aspect-square"
                                     src="{{ asset('images/profile/' . $user->cover) }}" alt="">
