@@ -84,7 +84,7 @@
 
                             <a href="{{ route('admin-manajemen-peminjaman') }}"
                                 class="flex items-center px-4 py-2 rounded-lg
-                        {{ request()->routeIs('admin-manajemen-peminjaman') ? 'bg-[#204565] text-white' : 'bg-transparent text-gray-600' }}
+                        {{ request()->routeIs('admin-manajemen-peminjaman') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-600' }}
                         hover:brightness-90 hover:bg-[#26537b] hover:text-white">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 <span class="ms-2" :class="!open && 'hidden'">Peminjaman</span>
@@ -96,7 +96,7 @@
 
                             <a href="{{ route('admin-manajemen-pengembalian') }}"
                                 class="flex items-center px-4 py-2 rounded-lg
-                            {{ request()->routeIs('admin-manajemen-pengembalian') ? 'bg-[#204565] text-white' : 'bg-transparent text-gray-600' }}
+                            {{ request()->routeIs('admin-manajemen-pengembalian') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-600' }}
                             hover:brightness-90 hover:bg-[#26537b] hover:text-white">
                                 <i class="fa-solid fa-right-to-bracket"></i>
                                 <span class="ms-2" :class="!open && 'hidden'">Pengembalian</span>
