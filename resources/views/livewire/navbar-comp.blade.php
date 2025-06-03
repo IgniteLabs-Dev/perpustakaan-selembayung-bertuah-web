@@ -62,7 +62,7 @@
                                     </span> --}}
 
                             </div>
-                            @if ($user->cover == null || !file_exists(public_path('images/profile/' . $user->cover)))
+                            @if ($user->cover == null)
                                 <img class="rounded-lg h-9 w-9 aspect-square object-cover"
                                     src="{{ asset('images/profile/profile-blank.png') }}" alt="">
                             @else
