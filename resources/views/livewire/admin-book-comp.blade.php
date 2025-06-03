@@ -115,7 +115,7 @@
                             {{ $item->categories }}
                         </td>
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
-                            {{ \Carbon\Carbon::parse($item->realese_date)->translatedFormat('d F Y') }}
+                            {{ $item->realese_date ? \Carbon\Carbon::parse($item->realese_date)->translatedFormat('d F Y') : '-' }}
                         </td>
                         <td class="px-6 py-3 align-top  text-center text-gray-900 font-normal ">
                             {{ $item->stock }}

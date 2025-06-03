@@ -315,7 +315,6 @@ class AdminBookComp extends Component
             'title' => 'required',
             'deskripsi' => 'required',
             'publisher' => 'required',
-            'realese_date' => 'date',
             'stock' => 'required|numeric',
             'status' => 'required',
             'type' => 'required',
@@ -323,7 +322,6 @@ class AdminBookComp extends Component
             'title.required' => 'Judul buku wajib diisi.',
             'deskripsi.required' => 'Deskripsi buku wajib diisi.',
             'publisher.required' => 'Penerbit buku wajib diisi.',
-            'realese_date.date' => 'Tanggal rilis harus berupa format tanggal yang valid.',
             'stock.required' => 'Stok buku wajib diisi.',
             'stock.numeric' => 'Stok buku harus berupa angka.',
             'status.required' => 'Status buku wajib diisi.',
@@ -335,7 +333,7 @@ class AdminBookComp extends Component
         $data->title = $this->title;
         $data->deskripsi = $this->deskripsi;
         $data->publisher = $this->publisher;
-        $data->realese_date = $this->realese_date;
+        $data->realese_date = $this->realese_date ? $this->realese_date : null;
         $data->stock = $this->stock;
         $data->status = $this->status;
         $data->type = $this->type;
