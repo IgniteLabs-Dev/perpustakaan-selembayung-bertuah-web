@@ -8,6 +8,7 @@
 
                 <div class="md:w-2/5 w-full flex justify-center flex-wrap md:flex-col ">
                     <div class="w-full  justify-center flex">
+                        <p>{{ public_path('images/profile/' . $user->cover) }}</p>
                         @if ($image_baru == null)
                             @if ($user->cover == null || !file_exists(public_path('images/profile/' . $user->cover)))
                                 <img class="rounded-4xl mb-3  h-70 w-70  object-cover aspect-square"
@@ -72,16 +73,17 @@
                         </div>
                     @endif
                     @if ($role == 'siswa')
-                    <div class="w-full flex">
-                        <div class="w-1/2 items-start pe-1.5">
-                            <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="kelas" label="Kelas"
-                                type="number" wireModel="kelas" placeholder="Masukkan Kelas" />
+                        <div class="w-full flex">
+                            <div class="w-1/2 items-start pe-1.5">
+                                <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="kelas"
+                                    label="Kelas" type="number" wireModel="kelas" placeholder="Masukkan Kelas" />
+                            </div>
+                            <div class="w-1/2 items-start ps-1.5">
+                                <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="semester"
+                                    label="Semester" type="number" wireModel="semester"
+                                    placeholder="Masukkan Semester" />
+                            </div>
                         </div>
-                        <div class="w-1/2 items-start ps-1.5">
-                            <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="semester"
-                                label="Semester" type="number" wireModel="semester" placeholder="Masukkan Semester" />
-                        </div>
-                    </div>
                     @endif
                     <div class="flex">
                         @if ($editMode == null)
