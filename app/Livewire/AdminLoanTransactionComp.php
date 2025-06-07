@@ -79,6 +79,12 @@ class AdminLoanTransactionComp extends Component
                             now()->endOfMonth()
                         ]);
                         break;
+                    case 'tahunan':
+                        $query->whereBetween('borrowed_at', [
+                            now()->startOfYear(),
+                            now()->endOfYear()
+                        ]);
+                        break;
                     default:
                         break;
                 }

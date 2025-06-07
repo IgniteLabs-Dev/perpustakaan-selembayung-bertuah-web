@@ -21,6 +21,7 @@
                         <option value="hari_ini">Hari Ini</option>
                         <option value="mingguan">Mingguan</option>
                         <option value="bulanan">Bulanan</option>
+                        <option value="tahunan">Tahunan</option>
                     </select>
                 </div>
                 <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
@@ -66,7 +67,7 @@
                         class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:outline-slate-300"
                         placeholder="Masukkan Nama Siswa atau Judul Buku" />
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -193,43 +194,12 @@
                             <td
                                 class="px-6 flex py-3 text-center justify-end items-center text-gray-900 font-normal gap-1 ">
 
-                                @if ($confirmDelete != null && $confirmDelete == $item->id)
-                                    <div class="flex flex-col">
-
-                                        <small class="text-[13px]">Apa anda yakin?</small>
-                                        <div class="div">
-                                            <button wire:click="$set('confirmDelete', null)"
-                                                class=" px-2 text-[10px] text-white  cursor-pointer bg-blue-500 hover:text-white-500 hover:bg-blue-600 rounded-full p-1">
-                                                Batal
-                                            </button>
-                                            <button wire:click="delete({{ $item->id }})"
-                                                class=" px-2 text-[10px] text-white cursor-pointer bg-red-500 hover:text-white-500 hover:bg-red-600 rounded-full p-1">
-                                                Hapus
-                                            </button>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="flex gap-1 justify-end items-end">
-                                        @if ($item->status == 'borrowed')
-                                            <button wire:click="show({{ $item->id }})"
-                                                @click="$dispatch('open-modal2')" type="button"
-                                                class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                        @endif
-                                        <button wire:click="$set('confirmDelete', {{ $item->id }})"
-                                            type="button"
-                                            class="border-1 bg-red-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-
-
-                                        <button wire:click="edit({{ $item->id }})"
-                                            @click="$dispatch('open-modal')" type="button"
-                                            class="border-1 bg-blue-500  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </button>
-                                    </div>
+                                @if ($item->status == 'borrowed')
+                                    <button wire:click="show({{ $item->id }})" @click="$dispatch('open-modal2')"
+                                        type="button"
+                                        class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
                                 @endif
                             </td>
                         </tr>

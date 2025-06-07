@@ -21,6 +21,7 @@
                         <option value="hari_ini">Hari Ini</option>
                         <option value="mingguan">Mingguan</option>
                         <option value="bulanan">Bulanan</option>
+                        <option value="tahunan">Tahunan</option>
                     </select>
                 </div>
                 <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
