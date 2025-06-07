@@ -314,6 +314,9 @@ class AdminLoanTransactionComp extends Component
 
 
         $book = Book::find($this->book_id);
+        $userLoan = LoanTransaction::where('user_id', $this->user_id)
+            ->where('status', 'borrowed')
+            ->count();
         $loaned = LoanTransaction::where('status', 'borrowed')
             ->where('book_id', $this->book_id)
             ->count();
@@ -322,6 +325,12 @@ class AdminLoanTransactionComp extends Component
         if ($book->stock - $loaned <= 0) {
             throw ValidationException::withMessages([
                 'book_id' => 'Semua buku ini sedang dipinjam.'
+            ]);
+        }
+
+        if ($userLoan > 3) {
+            throw ValidationException::withMessages([
+                'user_id' => 'Siswa/Guru ini telah mencapai batas maksimum peminjaman 3 buku.'
             ]);
         }
 
