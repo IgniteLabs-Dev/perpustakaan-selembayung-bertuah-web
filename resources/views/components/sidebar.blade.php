@@ -80,6 +80,15 @@
                         <span class="ms-2" :class="!open && 'hidden'">Kelola Pengembalian</span>
                     </a>
                 </div>
+                <div class="px-2 py-[1px]">
+                    <a href="{{ route('admin-manajemen-history') }}"
+                        class="flex items-center px-4 py-2 rounded-lg 
+                        {{ request()->routeIs('admin-manajemen-history') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
+                        hover:brightness-90 hover:bg-[#26537b] hover:text-white">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span class="ms-2" :class="!open && 'hidden'">Kelola Riwayat</span>
+                    </a>
+                </div>
                 {{-- <div x-data="{ openSub: false }" class="px-2 py-[1px]">
                     <button @click="openSub = !openSub"
                         class="flex items-center w-full px-4 py-2 rounded-lg

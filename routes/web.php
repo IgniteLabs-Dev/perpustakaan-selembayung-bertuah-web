@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Livewire\AdminAuthorComp;
 use App\Livewire\AdminBookComp;
 use App\Livewire\AdminCategoryComp;
+use App\Livewire\AdminHistoryUser;
 use App\Livewire\AdminLoanReturnComp;
 use App\Livewire\AdminLoanTransactionComp;
 use App\Livewire\AdminRewardComp;
@@ -60,4 +61,5 @@ Route::middleware(['auth-jwt'])->prefix('admin')->group(function () {
     Route::get('/manajemen-pengunjung', AdminVisitorComp::class)->name('admin-manajemen-pengunjung');
     Route::get('/manajemen-peminjaman', AdminLoanTransactionComp::class)->name('admin-manajemen-peminjaman');
     Route::get('/manajemen-pengembalian', AdminLoanReturnComp::class)->name('admin-manajemen-pengembalian');
+    Route::get('/manajemen-history', AdminHistoryUser::class)->name('admin-manajemen-history');
 });

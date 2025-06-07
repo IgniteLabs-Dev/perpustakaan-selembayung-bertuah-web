@@ -213,6 +213,10 @@ class AdminLoanTransactionComp extends Component
         $id = $this->editId;
         $data = LoanTransaction::find($id);
         $book = Book::find($this->book_id);
+        $userLoan = LoanTransaction::where('user_id', $this->user_id)
+            ->where('status', 'borrowed')
+            ->count();
+
         $loaned = LoanTransaction::where('status', 'borrowed')
             ->where('book_id', $this->book_id)
             ->count();
@@ -223,7 +227,11 @@ class AdminLoanTransactionComp extends Component
                 'book_id' => 'Semua buku ini sedang dipinjam.'
             ]);
         }
-
+        if ($userLoan > 3) {
+            throw ValidationException::withMessages([
+                'user_id' => 'Siswa/Guru ini telah mencapai batas maksimum peminjaman 3 buku.'
+            ]);
+        }
 
 
         $data->user_id = $this->user_id;
