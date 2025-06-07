@@ -505,7 +505,7 @@
                                     </div>
                                 </template>
                                 <template x-if="!returned">
-                                    <button @click="returned = true"
+                                    <button wire:click="endLoan" @click="returned = true"
                                         class="bg-[var(--primary)] cursor-pointer text-white p-2 w-full rounded-lg">
                                         Selesaikan Peminjaman
                                     </button>

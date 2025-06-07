@@ -69,7 +69,7 @@
                 </div>
                 <div class="w-1/2  lg:w-auto   justify-end whitespace-nowrap">
 
-                    <button @click="$dispatch('open-modal')" type="button"
+                    <button wire:click="newForm" @click="$dispatch('open-modal')" type="button"
                         class="flex items-center justify-center w-full cursor-pointer px-4 py-2 text-sm font-medium bg-[var(--primary)] border-2 text-white border-[var(--primary)] rounded-lg hover:brightness-95 hover:scale-105 hover:bg-[var(--primary)] hover:text-white hover:shadow-md transition duration-150 ease-in-out">
                         <i class="fa-solid fa-plus me-2"></i>
                         Peminjaman

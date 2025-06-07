@@ -20,7 +20,7 @@ class AdminLoanTransactionComp extends Component
     public $editId;
     public $dataShow, $showId;
     public $users;
-    public $jenis = 'literasi';
+
     public $books;
     public $roleFilter;
     public $typeFilter;
@@ -103,14 +103,8 @@ class AdminLoanTransactionComp extends Component
     {
         $this->resetPage();
     }
-    public function updatedJenis()
-    {
-        if ($this->jenis == 'paketan') {
-            $this->due_date = Carbon::now()->addYears(2)->format('Y-m-d');
-        } else {
-            $this->due_date = null;
-        }
-    }
+
+
     public function resetInput()
     {
 
@@ -124,7 +118,7 @@ class AdminLoanTransactionComp extends Component
         $this->condition = '';
         $this->fine = '';
         $this->point = '';
-        $this->jenis = '';
+
         $this->dataShow = null;
         $this->userName = '';
         $this->bookTitle = '';
@@ -337,7 +331,7 @@ class AdminLoanTransactionComp extends Component
         $data->user_id = $this->user_id;
         $data->book_id = $this->book_id;
         $data->borrowed_at = $this->borrowed_at;
-        if ($this->due_date == null) {
+        if ($book->type == 'paketan') {
             $data->due_date = Carbon::now()->addYears(2)->format('Y-m-d');
         }
         $data->book->stock = 'borrowed';
@@ -378,5 +372,10 @@ class AdminLoanTransactionComp extends Component
                 ->error()
                 ->show();
         }
+    }
+    public function newForm()
+    {
+        $this->borrowed_at = Carbon::now()->format('Y-m-d');
+        $this->due_date = Carbon::now()->addDays(3)->format('Y-m-d');
     }
 }

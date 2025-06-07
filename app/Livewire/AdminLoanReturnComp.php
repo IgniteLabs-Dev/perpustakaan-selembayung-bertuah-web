@@ -379,4 +379,7 @@ class AdminLoanReturnComp extends Component
                 ->show();
         }
     }
+    public function endLoan(){
+        $this->returned_at = Carbon::now()->format('Y-m-d');
+    }
 }
