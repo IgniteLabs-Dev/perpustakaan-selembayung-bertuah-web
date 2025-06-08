@@ -350,6 +350,8 @@ class AdminLoanTransactionComp extends Component
         $data->borrowed_at = $this->borrowed_at;
         if ($book->type == 'paketan') {
             $data->due_date = Carbon::now()->addYears(2)->format('Y-m-d');
+        } else {
+            $data->due_date = $this->due_date;
         }
         $data->book->stock = 'borrowed';
 
