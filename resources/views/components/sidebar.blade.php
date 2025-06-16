@@ -67,7 +67,7 @@
                         class="flex items-center px-4 py-2 rounded-lg 
                         {{ request()->routeIs('admin-manajemen-peminjaman') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
                         hover:brightness-90 hover:bg-[#26537b] hover:text-white">
-                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <i class="fa-solid fa-book-open-reader"></i>
                         <span class="ms-2" :class="!open && 'hidden'">Kelola Peminjaman</span>
                     </a>
                 </div>
@@ -76,7 +76,7 @@
                         class="flex items-center px-4 py-2 rounded-lg 
                         {{ request()->routeIs('admin-manajemen-pengembalian') ? 'bg-[#26537b] text-white' : 'bg-transparent text-gray-700' }} 
                         hover:brightness-90 hover:bg-[#26537b] hover:text-white">
-                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <i class="fa-solid fa-book-open                                                                                                                               "></i>
                         <span class="ms-2" :class="!open && 'hidden'">Kelola Pengembalian</span>
                     </a>
                 </div>

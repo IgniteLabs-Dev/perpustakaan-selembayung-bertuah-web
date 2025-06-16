@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Models\Visitor;
+use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase
@@ -11,6 +13,7 @@ class ExampleTest extends TestCase
      */
     public function test_that_true_is_true(): void
     {
-        $this->assertTrue(true);
+        $visitorDay = Visitor::whereDate('created_at', Carbon::today())->count();
+        $this->assertTrue($visitorDay);
     }
 }
