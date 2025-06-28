@@ -79,7 +79,7 @@
                             </div>
                             <div class="w-1/2 items-start ps-1.5">
                                 <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="penjurusan"
-                                    label="Penjurusan" type="number" wireModel="penjurusan"
+                                    label="Penjurusan" type="text" wireModel="penjurusan"
                                     placeholder="Masukkan Penjurusan" />
                             </div>
                         </div>

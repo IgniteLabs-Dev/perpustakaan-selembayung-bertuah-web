@@ -268,7 +268,7 @@
                                     </div>
                                     <div class=" w-1/2 odd:pe-2 items-start  ">
                                         <x-input symbol="‎" typeWire="defer" inputId="penjurusan"
-                                            label="Penjurusan" type="number" wireModel="penjurusan"
+                                            label="Penjurusan" type="text" wireModel="penjurusan"
                                             placeholder="Penjurusan" />
                                     </div>
                                 @endif
