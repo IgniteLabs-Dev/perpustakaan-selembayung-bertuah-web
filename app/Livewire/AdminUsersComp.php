@@ -11,7 +11,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AdminUsersComp extends Component
 {
     use WithPagination;
-    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $editId, $nis;
+    public $name, $email, $password, $kelas, $role, $penjurusan, $tanggal_lahir, $editId, $nis;
     public $search;
     public $roleFilter;
     public $confirmDelete;
@@ -40,7 +40,7 @@ class AdminUsersComp extends Component
                         ->orWhereRaw("DATE_FORMAT(tanggal_lahir, '%Y') = ?", [$this->search])
                         ->orWhere('role', 'like', '%' . $this->search . '%')
                         ->orWhere('nis', 'like', '%' . $this->search . '%')
-                        ->orWhere('semester', 'like', '%' . $this->search . '%');
+                        ->orWhere('penjurusan', 'like', '%' . $this->search . '%');
                 });
             })
             ->orderBy('created_at', 'desc')
@@ -62,10 +62,10 @@ class AdminUsersComp extends Component
 
         if ($this->role == 'guru') {
             $this->kelas = '';
-            $this->semester = '';
+            $this->penjurusan = '';
         } else if ($this->role == 'admin') {
             $this->kelas = '';
-            $this->semester = '';
+            $this->penjurusan = '';
             $this->nis = '';
             $this->tanggal_lahir = '';
         }
@@ -79,7 +79,7 @@ class AdminUsersComp extends Component
             'email' => 'required|email|unique:users,email',
             'tanggal_lahir' => 'date|required',
             'role' => 'required',
-            'semester' => 'numeric|nullable',
+            'penjurusan' => 'nullable',
             'kelas' => 'numeric|nullable',
             'password' => 'required',
             'nis' => 'unique:users,nis|nullable',
@@ -91,7 +91,6 @@ class AdminUsersComp extends Component
             'tanggal_lahir.date' => 'Tanggal lahir wajib tanggal.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'role.required' => 'Role wajib diisi.',
-            'semester.numeric' => 'Semester harus berupa angka.',
             'kelas.numeric' => 'Kelas harus berupa angka.',
             'password.required' => 'Password wajib diisi.',
             'nis.required' => 'NIS wajib diisi.',
@@ -111,7 +110,7 @@ class AdminUsersComp extends Component
         $data->role = $this->role;
         $data->point = 0;
         $data->status = 'active';
-        $data->semester = $this->semester ? $this->semester : null;
+        $data->penjurusan = $this->penjurusan ? $this->penjurusan : null;
         if ($data->save()) {
             $this->dispatch('close-modal');
             LivewireAlert::title('Data Berhasil Disimpan!')
@@ -161,7 +160,7 @@ class AdminUsersComp extends Component
         $this->kelas = $data->kelas;
         $this->role = $data->role;
         $this->nis = $data->nis;
-        $this->semester = $data->semester;
+        $this->penjurusan = $data->penjurusan;
         $this->tanggal_lahir = $data->tanggal_lahir;
     }
     public function storeEdit()
@@ -172,7 +171,7 @@ class AdminUsersComp extends Component
             'tanggal_lahir' => 'date',
 
             'role' => 'required',
-            'semester' => 'numeric||nullable',
+            'penjurusan' => 'nullable',
             'nis' => 'unique:users,nis,' . $this->editId,
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -180,7 +179,6 @@ class AdminUsersComp extends Component
             'email.email' => 'Format email tidak valid.',
             'tanggal_lahir.date' => 'Tanggal lahir wajib tanggal.',
             'role.required' => 'Role wajib diisi.',
-            'semester.numeric' => 'Semester harus berupa angka.',
             'nis.unique' => 'NIS sudah terdaftar.',
         ]);
 
@@ -193,7 +191,7 @@ class AdminUsersComp extends Component
         $data->kelas = $this->kelas;
         $data->role = $this->role;
         $data->nis = $this->nis;
-        $data->semester = $this->semester;
+        $data->penjurusan = $this->penjurusan;
         if ($this->password) {
             $data->password = bcrypt($this->password);
         }
@@ -224,7 +222,7 @@ class AdminUsersComp extends Component
         $this->nis = '';
         $this->kelas = '';
         $this->role = '';
-        $this->semester = '';
+        $this->penjurusan = '';
         $this->tanggal_lahir = '';
         $this->editId = '';
         $this->resetValidation();

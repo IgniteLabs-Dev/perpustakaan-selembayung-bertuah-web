@@ -61,7 +61,7 @@
                         Point
                     </th> --}}
                     <th scope="col" class="px-6 py-4 text-center">
-                        Semester
+                        Penjurusan
                     </th>
                     <th scope="col" class="px-6 py-4 text-center">
                         Status
@@ -102,7 +102,7 @@
                             {{ $item->point }}
                         </td> --}}
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                            {{ $item->semester }}
+                            {{ $item->penjurusan }}
                         </td>
                         <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                             @if ($item->status == 'active')
@@ -267,8 +267,9 @@
                                             type="text" wireModel="kelas" placeholder="Kelas" />
                                     </div>
                                     <div class=" w-1/2 odd:pe-2 items-start  ">
-                                        <x-input symbol="‎" typeWire="defer" inputId="semester" label="Semester"
-                                            type="number" wireModel="semester" placeholder="Semester" />
+                                        <x-input symbol="‎" typeWire="defer" inputId="penjurusan"
+                                            label="Penjurusan" type="number" wireModel="penjurusan"
+                                            placeholder="Penjurusan" />
                                     </div>
                                 @endif
 

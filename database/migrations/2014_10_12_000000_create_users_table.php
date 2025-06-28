@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('role', ['admin', 'siswa', 'superadmin', 'guru'])->default('siswa');
             $table->enum('status', ['active', 'nonactive'])->default('active');
             $table->bigInteger('point')->nullable();
-            $table->integer('semester')->nullable();
+            $table->string('penjurusan')->nullable();
             $table->timestamps();
         });
     }

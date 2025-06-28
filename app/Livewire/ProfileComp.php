@@ -16,7 +16,7 @@ class ProfileComp extends Component
     public $image_baru;
     public $nis;
     public $editMode = '';
-    public $name, $email, $password, $kelas, $role, $semester, $tanggal_lahir, $cover;
+    public $name, $email, $password, $kelas, $role, $penjurusan, $tanggal_lahir, $cover;
 
     public function mount()
     {
@@ -29,7 +29,7 @@ class ProfileComp extends Component
         $this->name = $this->user->name;
         $this->email = $this->user->email;
         $this->kelas = $this->user->kelas;
-        $this->semester = $this->user->semester;
+        $this->penjurusan = $this->user->penjurusan;
         $this->tanggal_lahir = $this->user->tanggal_lahir;
         $this->cover = $this->user->cover;
         $this->nis = $this->user->nis;
@@ -47,7 +47,7 @@ class ProfileComp extends Component
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
             'kelas' => 'nullable',
-            'semester' => 'nullable',
+            'penjurusan' => 'nullable',
             'tanggal_lahir' => 'required|date',
             'nis' => 'required|unique:users,nis,' . $this->user->id,
             'image_baru' => 'nullable|mimes:jpeg,png,jpg,webp|max:1024',
@@ -68,7 +68,7 @@ class ProfileComp extends Component
         $data->email = $this->email;
         $data->kelas = $this->kelas;
         $data->nis = $this->nis;
-        $data->semester = $this->semester;
+        $data->penjurusan = $this->penjurusan;
         $data->tanggal_lahir = $this->tanggal_lahir;
         if ($this->password) {
             $data->password = bcrypt($this->password);

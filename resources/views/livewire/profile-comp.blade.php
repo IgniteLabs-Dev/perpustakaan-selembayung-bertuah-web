@@ -78,9 +78,9 @@
                                     label="Kelas" type="number" wireModel="kelas" placeholder="Masukkan Kelas" />
                             </div>
                             <div class="w-1/2 items-start ps-1.5">
-                                <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="semester"
-                                    label="Semester" type="number" wireModel="semester"
-                                    placeholder="Masukkan Semester" />
+                                <x-input :attribute="$editMode ? '' : 'readonly'" symbol="*" typeWire="defer" inputId="penjurusan"
+                                    label="Penjurusan" type="number" wireModel="penjurusan"
+                                    placeholder="Masukkan Penjurusan" />
                             </div>
                         </div>
                     @endif
