@@ -28,6 +28,7 @@ class AdminLoanTransactionComp extends Component
     public $finePoint;
     public $conditionFilter;
     public $statusFilter;
+    public $weekFilter;
     public $editUser = false;
     public $editBook = false;
 
@@ -88,6 +89,22 @@ class AdminLoanTransactionComp extends Component
                     default:
                         break;
                 }
+            })
+            ->when($this->weekFilter, function ($query) {
+                $now = now();
+
+                $startOfMonth = $now->copy()->startOfMonth();
+                $week = (int) $this->weekFilter;
+
+                $startDate = $startOfMonth->copy()->addWeeks($week - 1)->startOfWeek();
+                $endDate = $startOfMonth->copy()->addWeeks($week - 1)->endOfWeek();
+
+                $endOfMonth = $now->copy()->endOfMonth();
+                if ($endDate->gt($endOfMonth)) {
+                    $endDate = $endOfMonth;
+                }
+
+                $query->whereBetween('borrowed_at', [$startDate, $endDate]);
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);

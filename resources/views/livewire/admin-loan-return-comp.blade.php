@@ -1,10 +1,9 @@
 <div>
 
     @section('title', 'Manajemen Pengembalian')
-    <div class="flex justify-between mb-3 mt-5 flex-col lg:flex-row">
+    <div class="justify-between mb-3 mt-5 flex-col lg:flex-row block lg:hidden">
         <div class="w-full lg:w-auto flex items-center justify-center lg:justify-start div mb-2  lg:mb-0">
             <h1 class="text-2xl font-bold   text-gray-900">Data Pengembalian</h1>
-
         </div>
         <div class="w-full lg:w-auto flex items-center flex-col  lg:flex-row justify-end  ">
             <div class="flex w-full lg:w-auto mb-3 lg:mb-0">
@@ -22,6 +21,16 @@
                         <option value="mingguan">Mingguan</option>
                         <option value="bulanan">Bulanan</option>
                         <option value="tahunan">Tahunan</option>
+                    </select>
+                </div>
+                <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
+                    <select wire:model.change="weekFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Minggu</option>
+                        <option value="1">Minggu 1</option>
+                        <option value="2">Minggu 2</option>
+                        <option value="3">Minggu 3</option>
+                        <option value="4">Minggu 4</option>
                     </select>
                 </div>
                 <div class="w-1/2 pe-2 lg:w-auto    flex justify-end whitespace-nowrap">
@@ -72,95 +81,97 @@
         </div>
     </div>
 
-    <div class="relative overflow-x-auto shadow-md rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-            <thead class="text-xs text-white uppercase bg-[#164f81]  ">
-                <tr>
-                    <th scope="col" class="px-6 py-4  whitespace-nowrap">
-                        No
-                    </th>
-                    <th scope="col" class="px-6 py-4  whitespace-nowrap">
-                        Nama
-                    </th>
-                    <th scope="col" class="px-6 py-4  whitespace-nowrap">
-                        Role
-                    </th>
-                    <th scope="col" class="px-6 py-4  whitespace-nowrap">
-                        Jenis Buku
-                    </th>
-                    <th scope="col" class="px-6 py-4  whitespace-nowrap">
-                        Buku
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
-                        Tanggal Peminjaman
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
-                        Batas Pengembalian
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
-                        Tanggal Pengembalian
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
-                        Kondisi
-                    </th>
-                    {{-- <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+    <div class="flex mt-5">
+        <div class="w-full lg:w-4/5 lg:pe-3">
+            <div class="relative overflow-x-auto shadow-md rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                    <thead class="text-xs text-white uppercase bg-[#164f81]  ">
+                        <tr>
+                            <th scope="col" class="px-6 py-4  whitespace-nowrap">
+                                No
+                            </th>
+                            <th scope="col" class="px-6 py-4  whitespace-nowrap">
+                                Nama
+                            </th>
+                            <th scope="col" class="px-6 py-4  whitespace-nowrap">
+                                Role
+                            </th>
+                            <th scope="col" class="px-6 py-4  whitespace-nowrap">
+                                Jenis Buku
+                            </th>
+                            <th scope="col" class="px-6 py-4  whitespace-nowrap">
+                                Buku
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+                                Tanggal Peminjaman
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+                                Batas Pengembalian
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+                                Tanggal Pengembalian
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+                                Kondisi
+                            </th>
+                            {{-- <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
                         Poin
                     </th> --}}
-                    <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
-                        Status
-                    </th>
-                    <th scope="col" class="px-6 py-4 text-center">
-                        Aksi
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if ($data->count() > 0)
-                    @forelse ($data as  $item)
-                        <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
-                            <td class="px-6 py-3  font-normal text-gray-900 whitespace-nowrap">
-                                {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
-                            </td>
-                            <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                                {{ $item->user->name ?? '-' }}
-                            </td>
-                            <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                                {{ ucfirst($item->user->role ?? '-') }}
-                            </td>
-                            <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
-                                {{ ucfirst($item->book->type ?? '-') }}
-                            </td>
-                            <td class="px-6 py-3 flex text-gray-900 font-normal whitespace-normal">
-                                {{ $item->book->title ?? '-' }}
-                            </td>
-                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                                {{ \Carbon\Carbon::parse($item->borrowed_at)->translatedFormat('d F Y') }}
-                            </td>
-                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                                {{ \Carbon\Carbon::parse($item->due_date)->translatedFormat('d F Y') }}
-                            </td>
-                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                                {{ $item->returned_at ? \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') : '-' }}
-                                <span
-                                    class="text-xs {{ $item->returned_at
-                                        ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
-                                            ? 'text-green-600'
-                                            : 'text-red-600')
-                                        : '' }}">
-                                    {{ $item->returned_at
-                                        ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
-                                            ? '(Tepat Waktu)'
-                                            : '(' . \Carbon\Carbon::parse($item->returned_at)->diffInDays($item->due_date) . ' Hari Terlambat)')
-                                        : '' }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
-                                <span
-                                    class="{{ $item->condition === 'hilang' ? 'text-red-500' : ($item->condition === 'rusak' ? 'text-orange-500' : 'text-[var(--primary)]') }}">
-                                    {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
-                                </span>
-                            </td>
-                            {{-- <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                            <th scope="col" class="px-6 py-4 text-center whitespace-nowrap">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-center">
+                                Aksi
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($data->count() > 0)
+                            @forelse ($data as  $item)
+                                <tr class="odd:bg-white even:bg-gray-100 border-b border-gray-200">
+                                    <td class="px-6 py-3  font-normal text-gray-900 whitespace-nowrap">
+                                        {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
+                                    </td>
+                                    <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                                        {{ $item->user->name ?? '-' }}
+                                    </td>
+                                    <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                                        {{ ucfirst($item->user->role ?? '-') }}
+                                    </td>
+                                    <td class="px-6 py-3  text-gray-900 font-normal whitespace-nowrap">
+                                        {{ ucfirst($item->book->type ?? '-') }}
+                                    </td>
+                                    <td class="px-6 py-3 flex text-gray-900 font-normal whitespace-normal">
+                                        {{ $item->book->title ?? '-' }}
+                                    </td>
+                                    <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                        {{ \Carbon\Carbon::parse($item->borrowed_at)->translatedFormat('d F Y') }}
+                                    </td>
+                                    <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                        {{ \Carbon\Carbon::parse($item->due_date)->translatedFormat('d F Y') }}
+                                    </td>
+                                    <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                        {{ $item->returned_at ? \Carbon\Carbon::parse($item->returned_at)->translatedFormat('d F Y') : '-' }}
+                                        <span
+                                            class="text-xs {{ $item->returned_at
+                                                ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
+                                                    ? 'text-green-600'
+                                                    : 'text-red-600')
+                                                : '' }}">
+                                            {{ $item->returned_at
+                                                ? (\Carbon\Carbon::parse($item->returned_at)->lessThanOrEqualTo($item->due_date)
+                                                    ? '(Tepat Waktu)'
+                                                    : '(' . \Carbon\Carbon::parse($item->returned_at)->diffInDays($item->due_date) . ' Hari Terlambat)')
+                                                : '' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
+                                        <span
+                                            class="{{ $item->condition === 'hilang' ? 'text-red-500' : ($item->condition === 'rusak' ? 'text-orange-500' : 'text-[var(--primary)]') }}">
+                                            {{ Str::title($item->condition) ? Str::title($item->condition) : '-' }}
+                                        </span>
+                                    </td>
+                                    {{-- <td class="px-6 py-3 text-center text-gray-900 font-normal whitespace-nowrap">
                                 @if ($item->fine > 0 && $item->point == 0)
                                     <div
                                         class=" text-xs px-1 text-red-600 bg-red-100 outline-1 outline-red-600 rounded-full">
@@ -176,43 +187,121 @@
                                 @endif
 
                             </td> --}}
-                            <td class="px-6 py-3 text-center text-gray-900 font-normal ">
-                                <div class="flex justify-center">
+                                    <td class="px-6 py-3 text-center text-gray-900 font-normal ">
+                                        <div class="flex justify-center">
 
-                                    @if ($item->status == 'borrowed')
-                                        <div
-                                            class=" text-xs px-3 text-orange-500 bg-red-100 outline-1 outline-orange-500 rounded-full">
-                                            Dipinjam</div>
-                                    @else
-                                        <div
-                                            class="text-xs px-3 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
-                                            Dikembalikan</div>
-                                    @endif
-                                </div>
-                            </td>
+                                            @if ($item->status == 'borrowed')
+                                                <div
+                                                    class=" text-xs px-3 text-orange-500 bg-red-100 outline-1 outline-orange-500 rounded-full">
+                                                    Dipinjam</div>
+                                            @else
+                                                <div
+                                                    class="text-xs px-3 text-green-600 bg-green-100 outline-1 outline-green-600 rounded-full">
+                                                    Dikembalikan</div>
+                                            @endif
+                                        </div>
+                                    </td>
 
-                            <td
-                                class="px-6 flex py-3 text-center justify-end items-center text-gray-900 font-normal gap-1 ">
+                                    <td
+                                        class="px-6 flex py-3 text-center justify-end items-center text-gray-900 font-normal gap-1 ">
 
-                                @if ($item->status == 'borrowed')
-                                    <button wire:click="show({{ $item->id }})" @click="$dispatch('open-modal2')"
-                                        type="button"
-                                        class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan</td>
-                        </tr>
-                    @endforelse
-                @endif
+                                        @if ($item->status == 'borrowed')
+                                            <button wire:click="show({{ $item->id }})"
+                                                @click="$dispatch('open-modal2')" type="button"
+                                                class="border-1 bg-[var(--primary)]  text-white cursor-pointer rounded-md p-1.5  hover:brightness-95 hover:scale-120  aspect-square  transition duration-100 ease-in-out">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="9" class="text-center py-4 text-gray-900">Data Tidak Ditemukan
+                                    </td>
+                                </tr>
+                            @endforelse
+                        @endif
 
 
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="w-1/5 lg:block hidden">
+            <div class="w-full flex-col bg-white shadow-md rounded-lg p-3">
+                <h3 class="text-center font-bold text-xl mb-2">
+                    Filter Peminjaman
+                </h3>
+                <div class="w-full mb-2 lg:w-auto flex-col   flex justify-end whitespace-nowrap">
+                    <label class="text-sm text-gray-500">Pilih Waktu</label>
+                    <select wire:model.change="timeFilter"
+                        class="py-2.5 text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Waktu</option>
+                        <option value="hari_ini">Hari Ini</option>
+                        <option value="mingguan">Mingguan</option>
+                        <option value="bulanan">Bulanan</option>
+                        <option value="tahunan">Tahunan</option>
+                    </select>
+                </div>
+                <div class="w-full mb-2 lg:w-auto flex-col   flex justify-end whitespace-nowrap">
+                    <label class="text-sm text-gray-500">Pilih Minggu</label>
+                    <select wire:model.change="weekFilter"
+                        class="py-2.5 text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Minggu</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div class="w-full mb-2 lg:w-auto flex-col   flex justify-end whitespace-nowrap">
+                    <label class="text-sm text-gray-500">Pilih Role</label>
+                    <select wire:model.change="roleFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Role</option>
+                        <option value="guru">Guru</option>
+                        <option value="siswa">Siswa</option>
+                    </select>
+                </div>
+
+                <div class="w-full mb-2 lg:w-auto  flex-col  flex justify-end whitespace-nowrap">
+                    <label class="text-sm text-gray-500">Pilih Tipe</label>
+                    <select wire:model.change="typeFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Tipe</option>
+                        <option value="literasi">Literasi</option>
+                        <option value="paketan">Paketan</option>
+                    </select>
+                </div>
+                <div class="w-full mb-2 lg:w-auto flex-col flex justify-end whitespace-nowrap">
+                    <label class="text-sm text-gray-500">Pilih Status</label>
+                    <select wire:model.change="statusFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Status</option>
+                        <option value="returned">Dikembalikan</option>
+                        <option value="borrowed">Belum Dikembalikan</option>
+                    </select>
+                </div>
+                <div class="w-full lg:w-auto  mb-2  flex-col flex justify-end whitespace-nowrap">
+                    <label class="text-sm text-gray-500">Pilih Kondisi</label>
+                    <select wire:model.change="conditionFilter"
+                        class="  py-2.5    text-sm w-full bg-white border border-gray-300  rounded-lg focus:outline-gray-300  ">
+                        <option value="">Semua Kondisi</option>
+                        <option value="baik">Baik</option>
+                        <option value="rusak">Rusak</option>
+                        <option value="hilang">Hilang</option>
+                    </select>
+                </div>
+
+                <div class="w-full lg:w-auto flex-col  mb-2  flex justify-end whitespace-nowrap">
+                    <label class="text-sm text-gray-500">Pencarian</label>
+                    <input wire:model.live="search" type="text"
+                        class="bg-white w-full  p-2 placeholder:italic  border-1  border-slate-300  rounded-lg focus:outline-slate-300"
+                        placeholder="Masukkan Nama Siswa atau Judul Buku" />
+                </div>
+  
+            </div>
+        </div>
     </div>
 
     <div class="mt-3 ">

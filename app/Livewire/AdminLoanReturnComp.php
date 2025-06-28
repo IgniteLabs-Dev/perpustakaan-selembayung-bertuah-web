@@ -29,6 +29,7 @@ class AdminLoanReturnComp extends Component
     public $conditionFilter;
     public $statusFilter;
     public $editUser = false;
+    public $weekFilter;
     public $editBook = false;
 
     public function mount()
@@ -88,6 +89,22 @@ class AdminLoanReturnComp extends Component
                     default:
                         break;
                 }
+            })
+            ->when($this->weekFilter, function ($query) {
+                $now = now();
+
+                $startOfMonth = $now->copy()->startOfMonth();
+                $week = (int) $this->weekFilter;
+
+                $startDate = $startOfMonth->copy()->addWeeks($week - 1)->startOfWeek();
+                $endDate = $startOfMonth->copy()->addWeeks($week - 1)->endOfWeek();
+
+                $endOfMonth = $now->copy()->endOfMonth();
+                if ($endDate->gt($endOfMonth)) {
+                    $endDate = $endOfMonth;
+                }
+
+                $query->whereBetween('borrowed_at', [$startDate, $endDate]);
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -379,7 +396,8 @@ class AdminLoanReturnComp extends Component
                 ->show();
         }
     }
-    public function endLoan(){
+    public function endLoan()
+    {
         $this->returned_at = Carbon::now()->format('Y-m-d');
     }
 }
